@@ -22,6 +22,7 @@
     "You aren't faking it",
     "Don't use Duct Tape for that!",
     ">:3",
-    { "text": "\uE000", "color": "white", "font": "estrogen:flags" }
+    { "text": "\uE000", "color": "white", "font": "estrogen:flags" },
+    { "text": "\uE001", "color": "white", "font": "estrogen:flags" }
   ]
 }
