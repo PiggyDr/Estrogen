@@ -107,6 +107,12 @@ public class EstrogenTagsGen {
             getOrCreateTagBuilder(AllTags.AllFluidTags.FAN_PROCESSING_CATALYSTS_BLASTING.tag)
                     .add(EstrogenFluids.MOLTEN_SLIME.get());
 
+            getOrCreateTagBuilder(EstrogenTags.Fluids.BURNING)
+                    .add(EstrogenFluids.MOLTEN_SLIME.get())
+                    .add(EstrogenFluids.MOLTEN_AMETHYST.get());
+            getOrCreateTagBuilder(EstrogenTags.Fluids.MOISTURIZING)
+                    .addTag(EstrogenTags.Fluids.URINE);
+
             if (t instanceof EstrogenTagsFabricImpl) {
                 getOrCreateTagBuilder(EstrogenTags.Fluids.WATER)
                         .add(EstrogenFluids.LIQUID_ESTROGEN.get())
