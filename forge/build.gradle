@@ -14,7 +14,9 @@ configurations {
     developmentForge.extendsFrom common
 }
 
-repositories {}
+repositories {
+    maven { name = "kotlinforforge"; url = "https://thedarkcolour.github.io/KotlinForForge/" }
+}
 
 dependencies {
     //Forge
@@ -49,11 +51,20 @@ dependencies {
     // Resourceful Lib (This is needed because it does not unpackage correctly on forge)
     forgeRuntimeLibrary("com.teamresourceful:yabn:1.0.3")
     forgeRuntimeLibrary("com.teamresourceful:bytecodecs:1.0.2")
-    
+
+    // Create: Slice & Dice (compat)
+    compileOnly("thedarkcolour:kotlinforforge:${rootProject.kotlin_for_forge_version}") // i dont know how gradle works so this could be the wrong way to do things
+    modCompileOnly("maven.modrinth:slice-and-dice:${rootProject.slice_and_dice_version_forge}")
+
     // Ad Astra Testing
     if (rootProject.ad_astra_testing == "true") {
         modRuntimeOnly("maven.modrinth:ad-astra:${rootProject.ad_astra_version_forge}")
         modRuntimeOnly("maven.modrinth:resourceful-config:${rootProject.resourceful_config_version_forge}")
+    }
+    // Slice & Dice Testing
+    if (rootProject.slice_and_dice_testing = "true") {
+        runtimeOnly("thedarkcolour:kotlinforforge:${rootProject.kotlin_for_forge_version}")
+        modRuntimeOnly("maven.modrinth:slice-and-dice:${rootProject.slice_and_dice_version_forge}")
     }
     
     //Forge stuff

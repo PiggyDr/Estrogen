@@ -64,6 +64,11 @@ dependencies {
         modRuntimeOnly("maven.modrinth:ad-astra:${rootProject.ad_astra_version_fabric}")
         modRuntimeOnly("maven.modrinth:resourceful-config:${rootProject.resourceful_config_version_fabric}")
     }
+    // Slice & Dice Testing
+    if (rootProject.slice_and_dice_testing = "true") {
+        modImplementation("maven.modrinth:slice-and-dice:${rootProject.slice_and_dice_version_fabric}")
+        modImplementation("maven.modrinth:fabric-language-kotlin:${rootProject.fabric_language_kotlin_version}")
+    }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
