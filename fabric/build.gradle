@@ -47,6 +47,10 @@ dependencies {
     //Mod Menu
     modImplementation("com.terraformersmc:modmenu:${rootProject.modmenu_version}")
 
+    // Create: Slice & Dice (compat)
+    modCompileOnly("maven.modrinth:slice-and-dice:${rootProject.slice_and_dice_version_fabric}")
+    compileOnly("maven.modrinth:fabric-language-kotlin:${rootProject.fabric_language_kotlin_version}")
+
     //Mixin Extras
     implementation(include(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${rootProject.mixin_extras_version}")))
 
@@ -66,8 +70,8 @@ dependencies {
     }
     // Slice & Dice Testing
     if (rootProject.slice_and_dice_testing = "true") {
-        modImplementation("maven.modrinth:slice-and-dice:${rootProject.slice_and_dice_version_fabric}")
-        modImplementation("maven.modrinth:fabric-language-kotlin:${rootProject.fabric_language_kotlin_version}")
+        modRuntimeOnly("maven.modrinth:slice-and-dice:${rootProject.slice_and_dice_version_fabric}")
+        runtimeOnly("maven.modrinth:fabric-language-kotlin:${rootProject.fabric_language_kotlin_version}")
     }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
