@@ -12,21 +12,12 @@ import net.minecraft.network.chat.Component;
 public class EstrogenClientCommands {
     public static <T> void register(CommandDispatcher<T> dispatcher, ClientCommandManager<T> manager) {
         LiteralCommandNode<T> estrogen = dispatcher.register(manager.literal("estrogen").executes(context -> {return 1;}));
-        LiteralCommandNode<T> debug = dispatcher.register(manager.literal("debug").executes(context -> {return 1;}));
-        LiteralCommandNode<T> dataFormat = dispatcher.register(manager.literal("dataFormat").executes(context -> {return 1;}));
-        LiteralCommandNode<T> dump = dispatcher.register(manager.literal("dump").executes(EstrogenCommand::dataFormatDump));
 
-        LiteralCommandNode<T> openCosmetics = dispatcher.register(manager.literal("openCosmetics").executes(context -> {
-            CosmeticUI.open(null);
-            return 1;
-        }));
+        LiteralCommandNode<T> cosmetics = dispatcher.register(manager.literal("cosmetics").executes(CosmeticUI::open));
 
         RootCommandNode<T> root = dispatcher.getRoot();
 
-        dataFormat.addChild(dump);
-        debug.addChild(dataFormat);
-        estrogen.addChild(debug);
-        estrogen.addChild(openCosmetics);
+        estrogen.addChild(cosmetics);
         root.addChild(estrogen);
     }
 

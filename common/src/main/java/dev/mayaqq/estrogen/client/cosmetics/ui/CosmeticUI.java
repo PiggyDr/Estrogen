@@ -1,5 +1,6 @@
 package dev.mayaqq.estrogen.client.cosmetics.ui;
 
+import com.mojang.brigadier.context.CommandContext;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import dev.mayaqq.estrogen.client.cosmetics.service.CosmeticsApi;
 import net.minecraft.client.gui.screens.Screen;
@@ -70,5 +71,10 @@ public class CosmeticUI {
         } else {
             ScreenOpener.open(new CosmeticsLoginScreen(parent));
         }
+    }
+
+    public static <T> int open(CommandContext<T> tCommandContext) {
+        open((Screen) null);
+        return 1;
     }
 }
