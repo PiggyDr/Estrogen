@@ -55,6 +55,6 @@ public class EstrogenSplashLoader extends SimpleJsonResourceReloadListener {
 
     private static String replaceVariable(String input, String name, String value) {
         String variable = "%" + name + "%";
-        return input.replaceAll("(?:^|[^\\\\])" + variable, value).replaceAll("\\\\" + variable, variable);
+        return input.replaceAll("(^|[^\\\\])" + variable, "$1" + value).replaceAll("\\\\" + variable, variable);
     }
 }
