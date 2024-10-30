@@ -1,7 +1,9 @@
 package dev.mayaqq.estrogen;
 
+import dev.mayaqq.estrogen.integrations.sliceanddice.CreateSliceAndDiceCompat;
 import dev.mayaqq.estrogen.networking.EstrogenNetworkManager;
 import dev.mayaqq.estrogen.registry.*;
+import earth.terrarium.botarium.util.CommonHooks;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,7 @@ public class Estrogen {
         EstrogenProcessingRecipes.register();
         EstrogenItems.registerTooltips();
         EstrogenBlocks.registerExtraProperties();
+        if (CommonHooks.isModLoaded("sliceanddice")) CreateSliceAndDiceCompat.init();
 
         LOGGER.info("Injecting Estrogen into your veins!");
     }
