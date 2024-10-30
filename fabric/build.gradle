@@ -77,6 +77,12 @@ dependencies {
         modRuntimeOnly("maven.modrinth:resourceful-config:${rootProject.resourceful_config_version_fabric}")
     }
 
+    if (System.getenv("XDG_BACKEND") == "wayland") {
+        modRuntimeOnly("maven.modrinth:waygl:${rootProject.waygl_version}")
+        modRuntimeOnly("maven.modrinth:fabric-language-kotlin:${rootProject.fabric_language_kotlin_version}")
+        modRuntimeOnly("dev.isxander:yet-another-config-lib:${rootProject.yacl_version}")
+    }
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
