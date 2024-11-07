@@ -54,15 +54,15 @@ public class UwUfy {
             input = input.toUpperCase();
         }
 
-        input = Pattern.compile("%([A-Za-z])").matcher(input).replaceAll(m -> "%" + m.group(1).toLowerCase());
-        input = Pattern.compile("\\$([A-Za-z])").matcher(input).replaceAll(m -> "\\$" + m.group(1).toLowerCase());
+        input = Pattern.compile("%(\\p{L})").matcher(input).replaceAll(m -> "%" + m.group(1).toLowerCase());
+        input = Pattern.compile("\\$(\\p{L})").matcher(input).replaceAll(m -> "\\$" + m.group(1).toLowerCase());
 
         if (stringLength % 2 == 0) {
             // Add more letters to the end of words (Not numbers!)
-            input = input.replaceAll("([a-zA-Z])(\\b)", "$1$1$1$1$2");
+            input = input.replaceAll("([\\p{L}])(\\b)", "$1$1$1$1$2");
         } else {
             // 50% chance to duplicate the first letter and add '-'
-            input = input.replaceAll("\\b([a-zA-Z])([a-zA-Z]*)\\b", "$1-$1$2");
+            input = input.replaceAll("\\b([\\p{L}])(\\p{L}*)\\b", "$1-$1$2");
         }
 
         return input + " " + PHRASES[stringLength % PHRASES.length];
