@@ -33,7 +33,7 @@ public class EstrogenTranslations extends FabricLanguageProvider {
         tb.add(EstrogenItems.TESTOSTERONE_CHUNK.get(), "Testosterone Chunk");
         tb.add(EstrogenItems.TESTOSTERONE_POWDER.get(), "Testosterone Powder");
         tb.add(EstrogenItems.USED_FILTER.get(), "Used Filter");
-        tb.add(EstrogenItems.UWU.get(), ":3");
+        tb.add(EstrogenItems.COLONTHREE.get(), ":3");
         tb.add("item.estrogen.uwu.tooltip", "§r§dUwU");
         tb.add(EstrogenItems.INCOMPLETE_UWU.get(), "Incomplete UwU");
         tb.add(EstrogenItems.DREAM_BOTTLE.get(), "Bottle of Dreams");

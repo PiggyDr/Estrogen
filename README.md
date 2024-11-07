@@ -63,7 +63,7 @@ This mod adds a lot of other features related to Estrogen and its production. Th
 - A new type of [(musical?)](https://erora.bandcamp.com/track/g03c) cookie 😋 🍪<br>
   <img src="https://i.imgur.com/lrPWwPT.png" alt="Estrogen Chip Cookie" width="256"/>
 - And many more (including some easter eggs)! 🥚<br>
-  <img src="https://i.imgur.com/mkVcXQA.png" alt=":3" width="256"/>
+  <img src="https://mayaqq.dev/media/colonthree_big.png" alt=":3" width="256"/>
 
 ### `Extra information`
 

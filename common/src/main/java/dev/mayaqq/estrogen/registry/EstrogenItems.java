@@ -76,7 +76,7 @@ public class EstrogenItems {
     public static final ItemEntry<SequencedAssemblyItem> INCOMPLETE_ESTROGEN_PATCH = ITEMS.entry("incomplete_estrogen_patches", SequencedAssemblyItem::new)
         .properties(p -> p.stacksTo(1))
         .register();
-    public static final ItemEntry<UwUItem> UWU = ITEMS.entry("uwu", UwUItem::new)
+    public static final ItemEntry<ColonThree> COLONTHREE = ITEMS.entry("uwu", ColonThree::new)
         .properties(p -> p.stacksTo(1))
         .register();
     public static final ItemEntry<SequencedAssemblyItem> INCOMPLETE_UWU = ITEMS.entry("incomplete_uwu", SequencedAssemblyItem::new)

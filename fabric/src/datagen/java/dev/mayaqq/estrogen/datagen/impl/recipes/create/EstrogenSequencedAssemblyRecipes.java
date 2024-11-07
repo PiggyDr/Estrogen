@@ -42,7 +42,7 @@ public class EstrogenSequencedAssemblyRecipes extends BaseRecipeProvider {
         create("uwu", builder -> builder
                 .require(Items.NETHERITE_INGOT)
                 .transitionTo(EstrogenItems.INCOMPLETE_UWU)
-                .addOutput(EstrogenItems.UWU.get(), 1)
+                .addOutput(EstrogenItems.COLONTHREE.get(), 1)
                 .loops(10)
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(Items.NETHER_STAR))
                 .addStep(PressingRecipe::new, rb -> rb)

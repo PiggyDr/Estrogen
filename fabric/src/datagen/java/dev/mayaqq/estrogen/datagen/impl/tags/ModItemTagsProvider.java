@@ -25,7 +25,7 @@ public class ModItemTagsProvider extends BaseTagProvider.ItemProvider {
                 .add(EstrogenItems.ESTROGEN_PATCHES.get())
                 .add(EstrogenItems.THIGH_HIGHS.get());
         getOrCreateTagBuilder(EstrogenTags.Items.UWUFYING)
-                .add(EstrogenItems.UWU.get());
+                .add(EstrogenItems.COLONTHREE.get());
         getOrCreateTagBuilder(EstrogenTags.Items.CURIOS_THIGHS)
                 .add(EstrogenItems.ESTROGEN_PATCHES.get())
                 .add(EstrogenItems.THIGH_HIGHS.get());

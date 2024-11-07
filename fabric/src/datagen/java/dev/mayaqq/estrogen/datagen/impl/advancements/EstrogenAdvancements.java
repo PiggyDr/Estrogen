@@ -111,7 +111,7 @@ public class EstrogenAdvancements extends FabricAdvancementProvider {
 
         Advancement uwu = Advancement.Builder.advancement()
                 .parent(root)
-                .display(EstrogenItems.UWU,
+                .display(EstrogenItems.COLONTHREE,
                         Component.translatable("advancement.estrogen.uwu.title"),
                         Component.translatable("advancement.estrogen.uwu.description"),
                         null,
@@ -119,7 +119,7 @@ public class EstrogenAdvancements extends FabricAdvancementProvider {
                         true,
                         true,
                         true
-                ).addCriterion("uwu", hasItems(EstrogenItems.UWU))
+                ).addCriterion("uwu", hasItems(EstrogenItems.COLONTHREE))
                 .build(Estrogen.id("uwu"));
 
         Advancement balls = Advancement.Builder.advancement()

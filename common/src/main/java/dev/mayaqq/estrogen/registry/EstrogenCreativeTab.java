@@ -38,7 +38,7 @@ public class EstrogenCreativeTab {
         output.accept(ESTROGEN_PATCHES);
         output.accept(THIGH_HIGHS);
         output.accept(MOTH_ELYTRA);
-        output.accept(UWU);
+        output.accept(COLONTHREE);
         output.accept(CENTRIFUGE);
         output.accept(COOKIE_JAR);
         output.accept(DREAM_BLOCK);
