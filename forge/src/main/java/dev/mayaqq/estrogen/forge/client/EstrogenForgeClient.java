@@ -3,6 +3,7 @@ package dev.mayaqq.estrogen.forge.client;
 import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.client.EstrogenClient;
 import dev.mayaqq.estrogen.client.config.EstrogenConfigScreen;
+import dev.mayaqq.estrogen.client.registry.EstrogenItemProperties;
 import dev.mayaqq.estrogen.client.registry.EstrogenShaders;
 import dev.mayaqq.estrogen.resources.BreastArmorDataLoader;
 import dev.mayaqq.estrogen.resources.EstrogenSplashLoader;
@@ -22,6 +23,7 @@ import static dev.mayaqq.estrogen.Estrogen.MOD_ID;
 public class EstrogenForgeClient {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(EstrogenItemProperties::register);
         // Config Button
         ModLoadingContext.get().getActiveContainer().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
                 () -> new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new EstrogenConfigScreen(screen, MOD_ID)));

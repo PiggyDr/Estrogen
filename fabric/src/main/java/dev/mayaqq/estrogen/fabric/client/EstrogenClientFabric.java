@@ -2,6 +2,7 @@ package dev.mayaqq.estrogen.fabric.client;
 
 import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.client.EstrogenClient;
+import dev.mayaqq.estrogen.client.registry.EstrogenItemProperties;
 import dev.mayaqq.estrogen.client.registry.EstrogenRenderer;
 import dev.mayaqq.estrogen.client.registry.EstrogenShaders;
 import dev.mayaqq.estrogen.fabric.client.models.EstrogenModelLoadingPlugin;
@@ -29,6 +30,7 @@ public class EstrogenClientFabric implements ClientModInitializer {
         EstrogenFabricClientEvents.register();
         CoreShaderRegistrationCallback.EVENT.register(context -> EstrogenShaders.register(context::register));
         EntityAddedLayerCallback.EVENT.register((renderers, skinMap) -> EstrogenRenderer.registerEntityLayers(skinMap::get));
+        EstrogenItemProperties.register();
 
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new BreastListener());
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SplashListener());

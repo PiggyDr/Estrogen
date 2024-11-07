@@ -27,13 +27,6 @@ public class EstrogenClient {
         EstrogenPonderScenes.register();
         EstrogenKeybinds.register();
 
-        ItemProperties.register(EstrogenItems.GENDER_CHANGE_POTION.get(), Estrogen.id("gender"), (itemStack, clientLevel, livingEntity, i) -> {
-            Attribute boobs = EstrogenAttributes.SHOW_BOOBS.get();
-            if(livingEntity != null && livingEntity.getAttributes().hasAttribute(boobs) && livingEntity.getAttributeValue(boobs) != 0) {
-                return 1.0f;
-            } else return 0.0f;
-        });
-
         // mod compat
         if (CommonHooks.isModLoaded("ears")) {
             EarsCompat.boob();
