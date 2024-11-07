@@ -3,6 +3,7 @@ package dev.mayaqq.estrogen.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.mayaqq.estrogen.client.features.EstrogenSplashRenderer;
 import dev.mayaqq.estrogen.config.EstrogenConfig;
+import dev.mayaqq.estrogen.resources.EstrogenSplashLoader;
 import net.minecraft.client.gui.components.SplashRenderer;
 import net.minecraft.client.resources.SplashManager;
 import net.minecraft.util.RandomSource;
@@ -24,8 +25,9 @@ public class SplashManagerMixin {
     )
     private List<String> modifySplashList(List<String> list) {
         if (EstrogenConfig.client().estrogenSplashes.get()) {
-            list.clear();
-            list.add("estrogen:splashes"); // marker for EstrogenSplashRenderer
+            for (int i = 0; i < 30; i++) {
+                list.add("estrogen:splashes");
+            }
         }
         return list;
     }
