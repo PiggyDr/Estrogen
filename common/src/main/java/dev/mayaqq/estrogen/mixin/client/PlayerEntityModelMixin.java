@@ -160,7 +160,7 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
     private Optional<TextureData> estrogen$getArmorTexture(AbstractClientPlayer player, boolean overlay) {
         String string;
         ItemStack itemStack = player.getItemBySlot(EquipmentSlot.CHEST);
-        ArmorItem item = (ArmorItem) itemStack.getItem();
+        if (!(itemStack.getItem() instanceof ArmorItem item)) return Optional.empty();
         BreastArmorData data;
         if ((data = BreastArmorDataLoader.INSTANCE.getData(BuiltInRegistries.ITEM.getKey(item))) != null) {
             if (overlay) {
