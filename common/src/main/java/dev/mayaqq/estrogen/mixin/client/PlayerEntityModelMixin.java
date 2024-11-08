@@ -101,6 +101,9 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
     public void estrogen$renderBoobs(PoseStack matrices, VertexConsumer vertices, int light, int overlay, AbstractClientPlayer player, float size, float yOffset) {
         if (ModInfoUtils.isModLoaded("figura") && !FiguraCompat.renderBoobs(player)) return;
         if (this.estrogen$boobs == null) return;
+        if (!player.getItemBySlot(EquipmentSlot.CHEST).isEmpty()) {
+            if (estrogen$getArmorTexture(player, false).isEmpty()) return;
+        }
 
         this.estrogen$boobs.copyFrom(this.body);
         this.estrogen$boobs.xRot = this.body.xRot + 1.0F;
