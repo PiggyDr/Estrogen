@@ -6,6 +6,7 @@ plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
     id "me.modmuss50.mod-publish-plugin" version "0.4.5"
+    id "maven-publish"
 }
 
 // A task to build both, Forge and Fabric
@@ -20,6 +21,10 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
+    apply plugin: "maven-publish"
+
+    String modLoader = project.name
+    String modId = rootProject.name
 
     loom {
         silentMojangMappingsLicense()
@@ -42,6 +47,43 @@ subprojects {
         modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
 
         include implementation("com.teamresourceful:resourceful-cosmetics-4j:${rootProject.resourceful_cosmetics_version}")
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = "Estrogen-${modLoader}"
+                from components.java
+
+                pom {
+                    name = "Estrogen ${modLoader}"
+                    url = "https://github.com/MayaqqDev/Estrogen"
+
+                    scm {
+                        connection = "git:https://github.com/MayaqqDev/Estrogen.git"
+                        developerConnection = "git:https://github.com/MayaqqDev/Estrogen.git"
+                        url = "https://github.com/MayaqqDev/Estrogen"
+                    }
+
+                    licenses {
+                        license {
+                            name = "LGPL-3.0"
+                            url = "https://www.gnu.org/licenses/lgpl-3.0.en.html"
+                        }
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                name "sapphoCompany"
+                url "https://maven.is-immensely.gay/releases"
+                credentials(org.gradle.api.credentials.PasswordCredentials)
+                authentication {
+                    basic(BasicAuthentication)
+                }
+            }
+        }
     }
 }
 
