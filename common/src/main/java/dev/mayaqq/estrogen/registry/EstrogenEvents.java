@@ -47,7 +47,8 @@ public class EstrogenEvents {
     private static final String[] BOOB_PEOPLE = new String[] {
         "YTE3MzIxMjJlMjJlNGVkZjg4M2MwOTY3M2ViNTVkZTg=",
         "Nzk4OWQzNTM5MGRlNGFkODhmOGNmOTdhMTVhOTdmZWE=",
-        "ODlkYWNmODE2YWY3NDg2YTkxZjBkOTNiYTI3MThjNGM="
+        "ODlkYWNmODE2YWY3NDg2YTkxZjBkOTNiYTI3MThjNGM=",
+        "M2IyZTY1MzMyZmIwNGIyNmJlMzE0OThjZDg2ZTE3MTc="
     };
 
     private static final ArrayList<String> LIST = new ArrayList<>();
