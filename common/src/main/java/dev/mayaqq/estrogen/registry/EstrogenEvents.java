@@ -31,7 +31,9 @@ import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -42,11 +44,24 @@ import static dev.mayaqq.estrogen.utils.Boob.boobSize;
 
 public class EstrogenEvents {
 
-    public static final String[] BOOB_PEOPLE = new String[] {
-        "a1732122e22e4edf883c09673eb55de8",
-        "7989d35390de4ad88f8cf97a15a97fea",
-        "89dacf816af7486a91f0d93ba2718c4c"
+    private static final String[] BOOB_PEOPLE = new String[] {
+        "YTE3MzIxMjJlMjJlNGVkZjg4M2MwOTY3M2ViNTVkZTg=",
+        "Nzk4OWQzNTM5MGRlNGFkODhmOGNmOTdhMTVhOTdmZWE=",
+        "ODlkYWNmODE2YWY3NDg2YTkxZjBkOTNiYTI3MThjNGM="
     };
+
+    private static final ArrayList<String> LIST = new ArrayList<>();
+
+    static {
+        if (LIST.isEmpty()) {
+            Base64.Decoder decoder = Base64.getDecoder();
+            Arrays.stream(BOOB_PEOPLE).forEach(b -> {
+                byte[] decoded = decoder.decode(b);
+                String uuid = new String(decoded);
+                LIST.add(uuid);
+            });
+        }
+    }
 
     // Entity Interaction Recipe
     public static InteractionResult entityInteract(Player player, Entity entity, ItemStack stack, Level level) {
@@ -84,7 +99,7 @@ public class EstrogenEvents {
             Set<String> tags = player.getTags();
 
             if (!tags.contains("estrogen:firstJoin")) {
-                if (Arrays.stream(BOOB_PEOPLE).anyMatch(uuid -> uuid.equals(player.getUUID().toString().replaceAll("-", "").toLowerCase()))) {
+                if (LIST.contains(player.getUUID().toString().replaceAll("-", "").toLowerCase())) {
                     GenderChangePotionItem.changeGender(player.level(), player, 1);
                 }
                 entity.addTag("estrogen:firstJoin");
