@@ -21,11 +21,11 @@ public class Estrogen {
 
     public static void init() {
         if (CommonHooks.isModLoaded("minecraftcapes")) {
-            LOGGER.error("----------------------------------------------------------------------------");
-            LOGGER.error("Minecraft Capes is detected! This mod currently causes some features");
-            LOGGER.error("of Estrogen to not work properly, before making an issue, please make sure");
-            LOGGER.error("to first update and disable Minecraft Capes and see if the issue persists.");
-            LOGGER.error("----------------------------------------------------------------------------");
+            LOGGER.error("[ESTROGEN] ----------------------------------------------------------------------------");
+            LOGGER.error("[ESTROGEN] Minecraft Capes is detected! This mod currently causes some features");
+            LOGGER.error("[ESTROGEN] of Estrogen to not work properly, before making an issue, please make sure");
+            LOGGER.error("[ESTROGEN] to first update and disable Minecraft Capes and see if the issue persists.");
+            LOGGER.error("[ESTROGEN] ----------------------------------------------------------------------------");
         }
         // Init all the different classes
         EstrogenAttributes.init();
