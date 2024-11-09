@@ -1,5 +1,6 @@
 package dev.mayaqq.estrogen.client.registry.entityRenderers.mothElytra;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -14,8 +15,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.function.Supplier;
+
 public class MothElytraModel<T extends LivingEntity> extends AgeableListModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Estrogen.id("moth_elytra"), "main");
+    public static final Supplier<LayerDefinition> LAYER = Suppliers.memoize(MothElytraModel::createBodyLayer);
     private final ModelPart root;
     private final ModelPart WingR;
     private final ModelPart WingL;

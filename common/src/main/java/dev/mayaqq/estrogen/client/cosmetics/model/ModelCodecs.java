@@ -21,7 +21,7 @@ public class ModelCodecs {
     public static final Codec<float[]> BASIC_UVS = Codec.FLOAT.listOf()
         .xmap(list -> new float[] {list.get(0), list.get(1), list.get(2), list.get(3)}, FloatList::of);
 
-    public static final Codec<Integer> UV_ROTATION = INT.comapFlatMap(ModelCodecs::validateUVRot, Function.identity());
+    public static final Codec<Integer> UV_ROTATION = INT.flatXmap(ModelCodecs::validateUVRot, ModelCodecs::validateUVRot);
 
     public static final Codec<BlockElementRotation> ROTATION = RecordCodecBuilder.create(instance -> instance.group(
         FLOAT.fieldOf("angle").forGetter(BlockElementRotation::angle),

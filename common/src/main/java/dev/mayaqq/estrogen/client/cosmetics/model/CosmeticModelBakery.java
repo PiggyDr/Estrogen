@@ -65,7 +65,8 @@ public final class CosmeticModelBakery {
             builder.addChild(
                 rootGroup.name(),
                 compileGroup(rootGroup, index -> {
-                    ungrouped.remove(index);
+                    if(!ungrouped.remove(index))
+                        throw new IllegalStateException("Element #%d referenced in multiple groups".formatted(index));
                     return elements.get(index);
                 })
             );
@@ -127,7 +128,7 @@ public final class CosmeticModelBakery {
                     position.set(shape[vertex.xFace], shape[vertex.yFace], shape[vertex.zFace], 1f);
                     modelMat.transform(position);
 
-                    // UV
+                    // UVm
                     float u = uv.getU(i) / 16f;
                     float v = uv.getV(i) / 16f;
 
