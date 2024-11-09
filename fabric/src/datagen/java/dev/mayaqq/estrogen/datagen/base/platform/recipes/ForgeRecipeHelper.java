@@ -3,7 +3,6 @@ package dev.mayaqq.estrogen.datagen.base.platform.recipes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.mayaqq.estrogen.datagen.base.platform.ModPlatform;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;

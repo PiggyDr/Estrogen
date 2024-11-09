@@ -23,13 +23,11 @@ import uwu.serenity.critter.stdlib.items.ItemBuilder;
 import uwu.serenity.critter.stdlib.items.ItemEntry;
 import uwu.serenity.critter.stdlib.items.ItemRegistrar;
 import uwu.serenity.critter.utils.SafeSupplier;
-import uwu.serenity.critter.utils.environment.EnvExecutor;
 import uwu.serenity.critter.utils.environment.Environment;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class EstrogenFluidBuilder<F extends BotariumSourceFluid, F2 extends BotariumFlowingFluid, P> extends AbstractBuilder<Fluid, F, P, EstrogenFluidBuilder<F, F2, P>> {
 

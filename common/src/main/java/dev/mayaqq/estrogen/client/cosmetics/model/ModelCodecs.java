@@ -14,7 +14,7 @@ import net.minecraft.core.Direction;
 import java.util.function.Function;
 
 import static com.mojang.serialization.Codec.*;
-import static net.minecraft.util.ExtraCodecs.*;
+import static net.minecraft.util.ExtraCodecs.VECTOR3F;
 
 public class ModelCodecs {
 

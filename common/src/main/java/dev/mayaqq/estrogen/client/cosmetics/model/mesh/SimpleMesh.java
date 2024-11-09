@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import static dev.mayaqq.estrogen.client.cosmetics.model.CosmeticModelBakery.*;
+import static dev.mayaqq.estrogen.client.cosmetics.model.CosmeticModelBakery.unpackNormal;
 
 public record SimpleMesh(int[] data, int vertexCount) implements Mesh {
 

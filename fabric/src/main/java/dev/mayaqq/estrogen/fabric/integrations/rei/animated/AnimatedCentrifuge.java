@@ -6,9 +6,6 @@ import com.simibubi.create.foundation.gui.AllGuiTextures;
 import dev.mayaqq.estrogen.client.registry.EstrogenRenderer;
 import dev.mayaqq.estrogen.registry.EstrogenBlocks;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-
-import java.util.List;
 
 public class AnimatedCentrifuge extends AnimatedKinetics {
 

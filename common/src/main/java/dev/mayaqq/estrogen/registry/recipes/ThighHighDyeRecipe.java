@@ -1,7 +1,6 @@
 package dev.mayaqq.estrogen.registry.recipes;
 
 import com.simibubi.create.foundation.utility.Color;
-import dev.mayaqq.estrogen.registry.EstrogenItems;
 import dev.mayaqq.estrogen.registry.EstrogenRecipes;
 import dev.mayaqq.estrogen.registry.items.ThighHighsItem;
 import net.minecraft.core.RegistryAccess;

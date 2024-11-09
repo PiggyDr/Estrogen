@@ -1,9 +1,9 @@
 package dev.mayaqq.estrogen.datagen.impl.recipes.estrogen;
 
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
+import dev.mayaqq.estrogen.datagen.base.platform.recipes.PlatformRecipeHelper;
 import dev.mayaqq.estrogen.datagen.base.recipes.BaseRecipeProvider;
 import dev.mayaqq.estrogen.datagen.base.recipes.EstrogenEntityInteractionRecipeBuilder;
-import dev.mayaqq.estrogen.datagen.base.platform.recipes.PlatformRecipeHelper;
 import dev.mayaqq.estrogen.registry.EstrogenItems;
 import dev.mayaqq.estrogen.registry.EstrogenTags;
 import dev.mayaqq.estrogen.registry.recipes.EntityInteractionRecipe;

@@ -5,15 +5,9 @@ import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.config.EstrogenConfig;
 import dev.mayaqq.estrogen.registry.EstrogenEvents;
 import dev.mayaqq.estrogen.resources.thighhighs.ThighHighStyleLoader;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.PathPackResources;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.TickEvent;
@@ -24,7 +18,6 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
@@ -68,7 +61,7 @@ public class EstrogenForgeEvents {
     // Boob Growing
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinLevelEvent event) {
-        EstrogenEvents.onPlayerJoin(event.getEntity());
+        EstrogenEvents.onPlayerJoin(event.getEntity(), event.getLevel());
     }
 
     @SubscribeEvent

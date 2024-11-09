@@ -5,8 +5,8 @@ import dev.mayaqq.estrogen.registry.blocks.ModelBedBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootTable;
 

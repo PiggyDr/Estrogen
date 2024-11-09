@@ -34,24 +34,7 @@ public class GenderChangePotionItem extends Item {
             serverPlayer.awardStat(Stats.ITEM_USED.get(this));
         }
 
-        if (!level.isClientSide && livingEntity instanceof Player player) {
-            AttributeInstance showBoobs = player.getAttribute(SHOW_BOOBS.get());
-            AttributeInstance startTime = player.getAttribute(BOOB_GROWING_START_TIME.get());
-            AttributeInstance initialSize = player.getAttribute(BOOB_INITIAL_SIZE.get());
-            if (showBoobs != null && startTime != null && initialSize != null) {
-                if (showBoobs.getBaseValue() > 0.0) {
-                    showBoobs.setBaseValue(0.0);
-                    startTime.setBaseValue(-1.0);
-                    initialSize.setBaseValue(0.0);
-                } else {
-                    showBoobs.setBaseValue(1.0);
-                    if (startTime.getBaseValue() < 0.0) {
-                        double currentTime = Time.currentTime(player.level());
-                        startTime.setBaseValue(currentTime);
-                    }
-                }
-            }
-        }
+        changeGender(level, livingEntity);
 
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
@@ -93,6 +76,48 @@ public class GenderChangePotionItem extends Item {
         }
 
         return stack;
+    }
+
+    public static void changeGender(Level level, LivingEntity livingEntity) {
+        if (!level.isClientSide && livingEntity instanceof Player player) {
+            AttributeInstance showBoobs = player.getAttribute(SHOW_BOOBS.get());
+            AttributeInstance startTime = player.getAttribute(BOOB_GROWING_START_TIME.get());
+            AttributeInstance initialSize = player.getAttribute(BOOB_INITIAL_SIZE.get());
+            if (showBoobs != null && startTime != null && initialSize != null) {
+                if (showBoobs.getBaseValue() > 0.0) {
+                    showBoobs.setBaseValue(0.0);
+                    startTime.setBaseValue(-1.0);
+                    initialSize.setBaseValue(0.0);
+                } else {
+                    showBoobs.setBaseValue(1.0);
+                    if (startTime.getBaseValue() < 0.0) {
+                        double currentTime = Time.currentTime(player.level());
+                        startTime.setBaseValue(currentTime);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void changeGender(Level level, LivingEntity livingEntity, int gender) {
+        if (!level.isClientSide && livingEntity instanceof Player player) {
+            AttributeInstance showBoobs = player.getAttribute(SHOW_BOOBS.get());
+            AttributeInstance startTime = player.getAttribute(BOOB_GROWING_START_TIME.get());
+            AttributeInstance initialSize = player.getAttribute(BOOB_INITIAL_SIZE.get());
+            if (showBoobs != null && startTime != null && initialSize != null) {
+                if (gender == 0) {
+                    showBoobs.setBaseValue(0.0);
+                    startTime.setBaseValue(-1.0);
+                    initialSize.setBaseValue(0.0);
+                } else {
+                    showBoobs.setBaseValue(1.0);
+                    if (startTime.getBaseValue() < 0.0) {
+                        double currentTime = Time.currentTime(player.level());
+                        startTime.setBaseValue(currentTime);
+                    }
+                }
+            }
+        }
     }
 
     @Override

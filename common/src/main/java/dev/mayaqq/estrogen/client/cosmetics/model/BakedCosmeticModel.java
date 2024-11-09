@@ -2,11 +2,14 @@ package dev.mayaqq.estrogen.client.cosmetics.model;
 
 import com.jozufozu.flywheel.core.model.BlockModel;
 import com.jozufozu.flywheel.core.model.Model;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.mayaqq.estrogen.client.cosmetics.model.animation.AnimationDefinition;
 import dev.mayaqq.estrogen.client.cosmetics.model.animation.Animations;
-import dev.mayaqq.estrogen.client.cosmetics.model.mesh.MeshTree;
 import dev.mayaqq.estrogen.client.cosmetics.model.mesh.Mesh;
+import dev.mayaqq.estrogen.client.cosmetics.model.mesh.MeshTree;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import org.joml.Math;
 import org.joml.Vector3f;

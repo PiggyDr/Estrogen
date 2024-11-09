@@ -18,7 +18,6 @@ import dev.mayaqq.estrogen.fabric.integrations.rei.categories.CentrifugingCatego
 import dev.mayaqq.estrogen.fabric.integrations.rei.categories.EntityInteractionCategory;
 import dev.mayaqq.estrogen.fabric.integrations.rei.displays.EstrogenDisplays;
 import dev.mayaqq.estrogen.registry.EstrogenBlocks;
-import dev.mayaqq.estrogen.registry.EstrogenRecipes;
 import dev.mayaqq.estrogen.registry.recipes.CentrifugingRecipe;
 import dev.mayaqq.estrogen.registry.recipes.EntityInteractionRecipe;
 import io.github.fabricators_of_create.porting_lib.mixin.accessors.common.accessor.RecipeManagerAccessor;

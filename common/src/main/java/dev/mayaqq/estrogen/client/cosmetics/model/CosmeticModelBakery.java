@@ -1,18 +1,21 @@
 package dev.mayaqq.estrogen.client.cosmetics.model;
 
 import com.mojang.math.Axis;
-import dev.mayaqq.estrogen.client.cosmetics.model.mesh.MeshTree;
 import dev.mayaqq.estrogen.client.cosmetics.model.mesh.Mesh;
+import dev.mayaqq.estrogen.client.cosmetics.model.mesh.MeshTree;
 import dev.mayaqq.estrogen.client.cosmetics.model.mesh.SimpleMesh;
 import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.client.renderer.FaceInfo;
-import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.model.BlockElement;
+import net.minecraft.client.renderer.block.model.BlockElementFace;
+import net.minecraft.client.renderer.block.model.BlockElementRotation;
+import net.minecraft.client.renderer.block.model.BlockFaceUV;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import org.joml.*;
 import org.joml.Math;
+import org.joml.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;

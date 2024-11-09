@@ -28,7 +28,7 @@ public class EstrogenFabricEvents {
 
         // Boob Growing
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
-                EstrogenEvents.onPlayerJoin(handler.player));
+                EstrogenEvents.onPlayerJoin(handler.player, handler.player.level()));
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             EstrogenEvents.onPlayerQuit(handler.player);
         });

@@ -1,8 +1,6 @@
 package dev.mayaqq.estrogen.client.cosmetics;
 
 import com.google.gson.JsonObject;
-
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.mayaqq.estrogen.client.cosmetics.model.animation.AnimationDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;

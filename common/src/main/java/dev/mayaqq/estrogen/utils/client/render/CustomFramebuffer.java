@@ -5,14 +5,11 @@ import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import dev.mayaqq.estrogen.client.registry.EstrogenShaders;
-import io.github.fabricators_of_create.porting_lib.mixin.client.RenderTargetMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-
-import java.util.function.Supplier;
 
 /**
  * Code from Figura

@@ -4,11 +4,7 @@ import com.teamresourceful.resourcefullib.common.exceptions.NotImplementedExcept
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.mayaqq.estrogen.registry.tooltip.ThighHighsToolTipModifier;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
-
-import java.util.function.Supplier;
 
 public class CommonPlatform {
 

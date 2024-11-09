@@ -1,12 +1,10 @@
 package dev.mayaqq.estrogen.client.cosmetics;
 
 import com.google.gson.JsonParser;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.teamresourceful.resourcefullib.common.utils.files.GlobalStorage;
 import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.client.cosmetics.model.animation.AnimationDefinition;
-import io.netty.buffer.ByteBuf;
 
 import java.io.File;
 import java.io.Reader;

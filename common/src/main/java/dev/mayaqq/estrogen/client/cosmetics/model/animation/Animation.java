@@ -2,7 +2,6 @@ package dev.mayaqq.estrogen.client.cosmetics.model.animation;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.mayaqq.estrogen.Estrogen;
 import net.minecraft.util.StringRepresentable;
 import org.joml.Vector3fc;
 

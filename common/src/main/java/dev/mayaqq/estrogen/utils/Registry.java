@@ -4,8 +4,9 @@ import com.google.common.collect.HashBiMap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import net.minecraft.resources.ResourceLocation;
+
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**

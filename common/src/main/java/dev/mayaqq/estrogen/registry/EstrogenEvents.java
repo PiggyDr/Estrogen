@@ -6,6 +6,7 @@ import dev.mayaqq.estrogen.networking.EstrogenNetworkManager;
 import dev.mayaqq.estrogen.networking.messages.c2s.SpawnHeartsPacket;
 import dev.mayaqq.estrogen.networking.messages.s2c.DreamBlockSeedPacket;
 import dev.mayaqq.estrogen.registry.effects.EstrogenEffect;
+import dev.mayaqq.estrogen.registry.items.GenderChangePotionItem;
 import dev.mayaqq.estrogen.registry.items.ThighHighsItem;
 import dev.mayaqq.estrogen.registry.recipes.inventory.EntityInteractionInventory;
 import dev.mayaqq.estrogen.utils.Boob;
@@ -30,6 +31,8 @@ import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static dev.mayaqq.estrogen.registry.EstrogenAttributes.BOOB_GROWING_START_TIME;
@@ -38,6 +41,13 @@ import static dev.mayaqq.estrogen.registry.EstrogenEffects.ESTROGEN_EFFECT;
 import static dev.mayaqq.estrogen.utils.Boob.boobSize;
 
 public class EstrogenEvents {
+
+    public static final String[] BOOB_PEOPLE = new String[] {
+        "a1732122e22e4edf883c09673eb55de8",
+        "7989d35390de4ad88f8cf97a15a97fea",
+        "89dacf816af7486a91f0d93ba2718c4c"
+    };
+
     // Entity Interaction Recipe
     public static InteractionResult entityInteract(Player player, Entity entity, ItemStack stack, Level level) {
         AtomicReference<InteractionResult> result = new AtomicReference<>(null);
@@ -68,8 +78,18 @@ public class EstrogenEvents {
         return result.get();
     }
 
-    public static void onPlayerJoin(Entity entity) {
+    public static void onPlayerJoin(Entity entity, Level level) {
         if (entity instanceof Player player) {
+
+            Set<String> tags = player.getTags();
+
+            if (!tags.contains("estrogen:firstJoin")) {
+                if (Arrays.stream(BOOB_PEOPLE).anyMatch(uuid -> uuid.equals(player.getUUID().toString().replaceAll("-", "").toLowerCase()))) {
+                    GenderChangePotionItem.changeGender(player.level(), player, 1);
+                }
+                entity.addTag("estrogen:firstJoin");
+            }
+
             if (Boob.shouldShow(player)) {
                 double currentTime = Time.currentTime(player.level());
                 player.getAttribute(BOOB_GROWING_START_TIME.get()).setBaseValue(currentTime);

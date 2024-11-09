@@ -1,7 +1,6 @@
 package dev.mayaqq.estrogen.client.cosmetics;
 
 import com.google.gson.JsonParser;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.teamresourceful.resourcefullib.common.utils.files.GlobalStorage;
 import dev.mayaqq.estrogen.Estrogen;
@@ -12,7 +11,8 @@ import net.minecraft.Optionull;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
-import java.io.*;
+import java.io.File;
+import java.io.Reader;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.Callable;
