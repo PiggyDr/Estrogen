@@ -61,5 +61,7 @@ public class ModItemTagsProvider extends BaseTagProvider.ItemProvider {
         getOrCreateTagBuilder(net.minecraft.tags.ItemTags.BEDS)
                 .add(EstrogenBlocks.MOTH_BED.asItem())
                 .add(EstrogenBlocks.QUILTED_MOTH_BED.asItem());
+        getOrCreateTagBuilder(AllTags.AllItemTags.UPRIGHT_ON_BELT.tag)
+                .add(EstrogenItems.GENDER_CHANGE_POTION.get());
     }
 }
