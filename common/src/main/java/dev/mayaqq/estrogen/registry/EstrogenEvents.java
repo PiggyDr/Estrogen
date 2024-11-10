@@ -31,10 +31,7 @@ import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static dev.mayaqq.estrogen.registry.EstrogenAttributes.BOOB_GROWING_START_TIME;
@@ -44,24 +41,23 @@ import static dev.mayaqq.estrogen.utils.Boob.boobSize;
 
 public class EstrogenEvents {
 
-    private static final String[] BOOB_PEOPLE = new String[] {
-        "YTE3MzIxMjJlMjJlNGVkZjg4M2MwOTY3M2ViNTVkZTg=",
-        "Nzk4OWQzNTM5MGRlNGFkODhmOGNmOTdhMTVhOTdmZWE=",
-        "ODlkYWNmODE2YWY3NDg2YTkxZjBkOTNiYTI3MThjNGM=",
-        "M2IyZTY1MzMyZmIwNGIyNmJlMzE0OThjZDg2ZTE3MTc="
+    private static final long[] BOOB_PEOPLE = new long[] {
+            0xa1732122e22e4edfL, 0x883c09673eb55de8L, // Mayaqq
+            0x7989d35390de4ad8L, 0x8f8cf97a15a97feaL, // serenitiee
+            0x89dacf816af7486aL, 0x91f0d93ba2718c4cL, // puppydogcitrus
+            0x3b2e65332fb04b26L, 0xbe31498cd86e1717L, // TheRobbie72
     };
 
-    private static final ArrayList<String> LIST = new ArrayList<>();
+    private static boolean isBoobPerson(UUID uuid) {
+        if (uuid == null) return false;
 
-    static {
-        if (LIST.isEmpty()) {
-            Base64.Decoder decoder = Base64.getDecoder();
-            Arrays.stream(BOOB_PEOPLE).forEach(b -> {
-                byte[] decoded = decoder.decode(b);
-                String uuid = new String(decoded);
-                LIST.add(uuid);
-            });
-        }
+        final long msb = uuid.getMostSignificantBits();
+        final long lsb = uuid.getLeastSignificantBits();
+        for (int i = 0; i < BOOB_PEOPLE.length; i += 2)
+            if (msb == BOOB_PEOPLE[i] && lsb == BOOB_PEOPLE[i + 1])
+                return true;
+
+	    return false;
     }
 
     // Entity Interaction Recipe
@@ -95,72 +91,61 @@ public class EstrogenEvents {
     }
 
     public static void onPlayerJoin(Entity entity, Level level) {
-        if (entity instanceof Player player) {
+	    if (!(entity instanceof Player player)) return;
 
-            Set<String> tags = player.getTags();
+	    Set<String> tags = player.getTags();
 
-            if (!tags.contains("estrogen:firstJoin")) {
-                if (LIST.contains(player.getUUID().toString().replaceAll("-", "").toLowerCase())) {
-                    GenderChangePotionItem.changeGender(player.level(), player, 1);
-                }
-                entity.addTag("estrogen:firstJoin");
-            }
+	    if (!tags.contains("estrogen:firstJoin")) {
+	        if (isBoobPerson(player.getUUID()))
+                GenderChangePotionItem.changeGender(player.level(), player, 1);
+	        entity.addTag("estrogen:firstJoin");
+	    }
 
-            if (Boob.shouldShow(player)) {
-                double currentTime = Time.currentTime(player.level());
-                player.getAttribute(BOOB_GROWING_START_TIME.get()).setBaseValue(currentTime);
-            }
+	    if (Boob.shouldShow(player))
+            player.getAttribute(BOOB_GROWING_START_TIME.get()).setBaseValue(Time.currentTime(player.level()));
 
-            if(!player.level().isClientSide) {
-                ServerLevel serverLevel = (ServerLevel) player.level();
-                String seedAsString = String.valueOf(serverLevel.getSeed());
+	    if (player.level().isClientSide) return;
 
-                try {
-                    MessageDigest md5 = MessageDigest.getInstance(MessageDigestAlgorithms.MD5);
-                    byte[] digest = md5.digest(seedAsString.getBytes());
+	    ServerLevel serverLevel = (ServerLevel) player.level();
+	    String seedAsString = String.valueOf(serverLevel.getSeed());
 
-                    long newSeed = WorldOptions.parseSeed(new String(digest)).getAsLong();
+	    try {
+	        MessageDigest md5 = MessageDigest.getInstance(MessageDigestAlgorithms.MD5);
+	        byte[] digest = md5.digest(seedAsString.getBytes());
 
-                    EstrogenNetworkManager.CHANNEL.sendToPlayer(new DreamBlockSeedPacket(newSeed), player);
+	        long newSeed = WorldOptions.parseSeed(new String(digest)).getAsLong();
 
-                } catch (NoSuchAlgorithmException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
+	        EstrogenNetworkManager.CHANNEL.sendToPlayer(new DreamBlockSeedPacket(newSeed), player);
 
-        }
+	    } catch (NoSuchAlgorithmException ex) {
+	        throw new RuntimeException(ex);
+	    }
+
     }
 
     public static void onPlayerQuit(Entity entity) {
-        if (entity instanceof Player player) {
-            if (Boob.shouldShow(player)) {
-                double startTime = player.getAttributeValue(BOOB_GROWING_START_TIME.get());
-                double currentTime = Time.currentTime(player.level());
-                float initialSize = (float) player.getAttributeValue(BOOB_INITIAL_SIZE.get());
-                float size = boobSize(startTime, currentTime, initialSize, 0.0F);
-                player.getAttribute(BOOB_INITIAL_SIZE.get()).setBaseValue(size);
-            }
+        if (entity instanceof Player player && Boob.shouldShow(player)) {
+            double startTime = player.getAttributeValue(BOOB_GROWING_START_TIME.get());
+            double currentTime = Time.currentTime(player.level());
+            float initialSize = (float) player.getAttributeValue(BOOB_INITIAL_SIZE.get());
+            float size = boobSize(startTime, currentTime, initialSize, 0.0F);
+            player.getAttribute(BOOB_INITIAL_SIZE.get()).setBaseValue(size);
         }
     }
 
     public static void playerTickEnd(Player player) {
-        if (EstrogenConfig.common().minigameEnabled.get()) {
-            if (EstrogenConfig.common().permaDash.get()) {
-                player.addEffect(new MobEffectInstance(ESTROGEN_EFFECT.get(), 20, EstrogenConfig.common().girlPowerLevel.get(), false, false, false));
-            }
-        }
+        if (EstrogenConfig.common().minigameEnabled.get() && EstrogenConfig.common().permaDash.get())
+			player.addEffect(new MobEffectInstance(ESTROGEN_EFFECT.get(), 20, EstrogenConfig.common().girlPowerLevel.get(), false, false, false));
     }
 
     public static void playerTracking(Entity trackedEntity, Player player) {
-        if (trackedEntity instanceof ServerPlayer trackedPlayer && player instanceof ServerPlayer trackingPlayer) {
-            EstrogenEffect.sendPlayerStatusEffect(trackedPlayer, EstrogenEffects.ESTROGEN_EFFECT.get(), trackingPlayer);
-        }
+        if (trackedEntity instanceof ServerPlayer trackedPlayer && player instanceof ServerPlayer trackingPlayer)
+			EstrogenEffect.sendPlayerStatusEffect(trackedPlayer, EstrogenEffects.ESTROGEN_EFFECT.get(), trackingPlayer);
     }
 
     public static void onEntityDeath(LivingEntity entity, DamageSource source) {
-        if (source.getEntity() instanceof ServerPlayer player) {
-            EstrogenAdvancementCriteria.KILLED_WITH_EFFECT.trigger(player, entity);
-        }
+        if (source.getEntity() instanceof ServerPlayer player)
+			EstrogenAdvancementCriteria.KILLED_WITH_EFFECT.trigger(player, entity);
     }
 
     // Not using the provided player as it is always null on forge (wtf)
