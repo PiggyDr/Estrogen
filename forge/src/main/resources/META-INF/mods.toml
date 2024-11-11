@@ -1,12 +1,15 @@
 modLoader = "javafml"
 loaderVersion = "[47,)"
 license = "LGPL-3.0"
-issueTrackerURL = "https://github.com/MayaqqDev/Estrogen/issues"
+
 [[mods]]
 modId = "estrogen"
 version = "${version}-forge"
 displayName = "Create: Estrogen"
-logoFile = "assets/estrogen/icon.png"
+logoFile = "icon.png"
+logoBlur = false
+displayURL = "https://modrinth.com/mod/estrogen"
+issueTrackerURL = "https://github.com/MayaqqDev/Estrogen/issues"
 credits = "https://github.com/MayaqqDev/Estrogen/wiki/Credits"
 authors = "Mayaqq"
 
@@ -23,6 +26,8 @@ Ko-fi: https://ko-fi.com/mayaqq
 'resourcefullib:resourcepack' = [
     { name="estrogenprogrammerart", description="Estrogen Programmer Art" }
 ]
+catalogueItemIcon = "estrogen:estrogen_pill"
+catalogueBackground = "estrogen_background.png"
 
 # forge
 [[dependencies.estrogen]]
