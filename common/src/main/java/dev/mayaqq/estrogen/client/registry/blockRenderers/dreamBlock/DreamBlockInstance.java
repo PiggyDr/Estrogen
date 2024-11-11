@@ -20,6 +20,7 @@ import net.minecraft.core.Direction;
 public class DreamBlockInstance extends BlockEntityInstance<DreamBlockEntity> implements TickableInstance {
 
     public static final BlockEntityInstancingController<DreamBlockEntity> CONTROLLER = new Controller();
+    private static final ThreadLocal<BufferBuilder> LOCAL_BUILDER = ThreadLocal.withInitial(() -> new BufferBuilder(256));
 
     protected DreamData data;
 
@@ -39,12 +40,12 @@ public class DreamBlockInstance extends BlockEntityInstance<DreamBlockEntity> im
             .createInstance();
 
         data.setPosition(this.getInstancePosition())
-            .setBlockLight(255)
-            .setSkyLight(255);
+            .setBlockLight(15)
+            .setSkyLight(15);
     }
 
     protected Model buildModel() {
-        BufferBuilder builder = new BufferBuilder(6 * 4 * DefaultVertexFormat.BLOCK.getVertexSize());
+        BufferBuilder builder = LOCAL_BUILDER.get();
 
         builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.BLOCK);
         this.face(builder, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, Direction.SOUTH);
@@ -55,7 +56,7 @@ public class DreamBlockInstance extends BlockEntityInstance<DreamBlockEntity> im
         this.face(builder, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, Direction.UP);
 
         BufferBuilder.RenderedBuffer buffer = builder.end();
-        BlockModel model = new BlockModel(buffer.vertexBuffer(), buffer.indexBuffer(), buffer.drawState(), 0, "dream_block");
+        BlockModel model = new BlockModel(buffer.vertexBuffer(), buffer.indexBuffer(), buffer.drawState(), -1, "dream_block");
         buffer.release();
         return model;
     }

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.simibubi.create.content.equipment.armor.BaseArmorItem;
 import com.teamresourceful.resourcefullib.common.utils.modinfo.ModInfoUtils;
+import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.client.entity.player.features.boobs.BoobArmorRenderer;
 import dev.mayaqq.estrogen.client.entity.player.features.boobs.PlayerEntityModelExtension;
 import dev.mayaqq.estrogen.client.entity.player.features.boobs.TextureData;
@@ -13,6 +14,7 @@ import dev.mayaqq.estrogen.integrations.figura.FiguraCompat;
 import dev.mayaqq.estrogen.registry.EstrogenEffects;
 import dev.mayaqq.estrogen.resources.BreastArmorData;
 import dev.mayaqq.estrogen.resources.BreastArmorDataLoader;
+import net.minecraft.Optionull;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -31,6 +33,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.PlayerModelPart;
@@ -48,6 +51,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 import java.util.Optional;
+
+import static dev.mayaqq.estrogen.utils.EstrogenMath.boobFunc;
 
 @Mixin(PlayerModel.class)
 public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidModel<T> implements PlayerEntityModelExtension {
@@ -84,8 +89,10 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void estrogen$init(ModelPart root, boolean thinArms, CallbackInfo ci) {
-        estrogen$boobs = root.getChild("boobs");
-        estrogen$boobJacket = root.getChild("boobs_jacket");
+        if (root.hasChild("boobs")) estrogen$boobs = root.getChild("boobs");
+        else Estrogen.LOGGER.warn("An error occured while trying to get the Estrogen Chest.");
+        if (root.hasChild("boobs_jacket")) estrogen$boobJacket = root.getChild("boobs_jacket");
+        else Estrogen.LOGGER.warn("An error occured while trying to get the Estrogen Chest Jacket.");
         estrogen$boobArmor = new BoobArmorRenderer();
         estrogen$boobArmorTrim = new BoobArmorRenderer();
     }
@@ -93,20 +100,25 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
     @Override
     public void estrogen$renderBoobs(PoseStack matrices, VertexConsumer vertices, int light, int overlay, AbstractClientPlayer player, float size, float yOffset) {
         if (ModInfoUtils.isModLoaded("figura") && !FiguraCompat.renderBoobs(player)) return;
+        if (this.estrogen$boobs == null) return;
+        if (!player.getItemBySlot(EquipmentSlot.CHEST).isEmpty()) {
+            if (estrogen$getArmorTexture(player, false).isEmpty()) return;
+        }
 
         this.estrogen$boobs.copyFrom(this.body);
         this.estrogen$boobs.xRot = this.body.xRot + 1.0F;
-        float amplifier = player.getEffect(EstrogenEffects.ESTROGEN_EFFECT.get()).getAmplifier() / 10.0F;
+        float amplifier = Optionull.mapOrDefault(player.getEffect(EstrogenEffects.ESTROGEN_EFFECT.get()), MobEffectInstance::getAmplifier, 2);
         Quaternionf bodyRotation = (new Quaternionf()).rotationZYX(this.body.zRot, this.body.yRot, this.body.xRot);
-        this.estrogen$boobs.offsetPos(new Vector3f(0.0F, 4.0F + size * 0.864F * (1 + amplifier) + yOffset, -1.9F + size * -1.944F * (1 + amplifier)).rotate(bodyRotation));
-        this.estrogen$boobs.yScale = (1 + size * 2.0F * (1 + amplifier)) / 2.0F;
-        this.estrogen$boobs.zScale = (1 + size * 2.5F * (1 + amplifier)) / 2.0F;
+        this.estrogen$boobs.offsetPos(new Vector3f(0.0F, 4.0F + size * 0.864F * boobFunc(1 + amplifier) + yOffset, -1.9F + size * -1.944F * boobFunc(1 + amplifier)).rotate(bodyRotation));
+        this.estrogen$boobs.yScale = (1 + size * 2.0F * boobFunc(1 + amplifier)) / 2.0F;
+        this.estrogen$boobs.zScale = (1 + size * 2.5F * boobFunc(1 + amplifier)) / 2.0F;
         this.estrogen$boobs.render(matrices, vertices, light, overlay);
 
+        if (this.estrogen$boobJacket == null) return;
         this.estrogen$boobJacket.visible = player.isModelPartShown(PlayerModelPart.JACKET);
         this.estrogen$boobJacket.copyFrom(this.body);
         this.estrogen$boobJacket.xRot = this.estrogen$boobs.xRot;
-        this.estrogen$boobJacket.offsetPos(new Vector3f(0.0F, 4.0F + size * 0.864F * (1 + amplifier) + yOffset, -1.9F + size * -1.944F * (1 + amplifier)).rotate(bodyRotation));
+        this.estrogen$boobJacket.offsetPos(new Vector3f(0.0F, 4.0F + size * 0.864F * boobFunc(1 + amplifier) + yOffset, -1.9F + size * -1.944F * boobFunc(1 + amplifier)).rotate(bodyRotation));
         this.estrogen$boobJacket.yScale = this.estrogen$boobs.yScale;
         this.estrogen$boobJacket.zScale = this.estrogen$boobs.zScale;
         this.estrogen$boobJacket.render(matrices, vertices, light, overlay);
@@ -116,6 +128,7 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
     @Override
     public void estrogen$renderBoobArmor(PoseStack matrices, MultiBufferSource vertexConsumers, int light, boolean glint, float red, float green, float blue, boolean overlay, AbstractClientPlayer player, float size, float yOffset) {
         if (ModInfoUtils.isModLoaded("figura") && !FiguraCompat.renderBoobArmor(player)) return;
+        if (this.estrogen$boobArmor == null) return;
 
         Optional<TextureData> opt = this.estrogen$getArmorTexture(player, overlay);
         if (opt.isEmpty()) {
@@ -125,17 +138,18 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
         VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumers, RenderType.armorCutoutNoCull(textureData.location()), false, glint);
         this.estrogen$boobArmor.copyTransform(this.body);
         this.estrogen$boobArmor.pitch = this.body.xRot;
-        float amplifier = player.getEffect(EstrogenEffects.ESTROGEN_EFFECT.get()).getAmplifier() / 10.0F;
+        float amplifier = Optionull.mapOrDefault(player.getEffect(EstrogenEffects.ESTROGEN_EFFECT.get()), MobEffectInstance::getAmplifier, 2);
         Quaternionf bodyRotation = (new Quaternionf()).rotationZYX(this.body.zRot, this.body.yRot, this.body.xRot);
-        this.estrogen$boobArmor.translate((new Vector3f(0.0F, 4.0F + size * 0.864F * (1 + amplifier) + yOffset, -4.0F + size * (-1.944F - 0.24F*3.0F) * (1 + amplifier))).rotate(bodyRotation));
-        this.estrogen$boobArmor.scaleY = (1 + size * 2.0F * (1 + amplifier)) / 2.0F;
-        this.estrogen$boobArmor.scaleZ = (1 + size * 2.5F * (1 + amplifier)) / 2.0F;
+        this.estrogen$boobArmor.translate((new Vector3f(0.0F, 4.0F + size * 0.864F * boobFunc(1 + amplifier) + yOffset, -4.0F + size * (-1.944F - 0.24F*3.0F) * boobFunc(1 + amplifier))).rotate(bodyRotation));
+        this.estrogen$boobArmor.scaleY = (1 + size * 2.0F * boobFunc(1 + amplifier)) / 2.0F;
+        this.estrogen$boobArmor.scaleZ = (1 + size * 2.5F * boobFunc(1 + amplifier)) / 2.0F;
         this.estrogen$boobArmor.render(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F, textureData.u(), textureData.v(), textureData.leftU(), textureData.leftV(), textureData.rightU(), textureData.rightV(), textureData.textureWidth(), textureData.textureHeight());
     }
 
     @Override
     public void estrogen$renderBoobArmorTrim(PoseStack matrices, MultiBufferSource vertexConsumers, int light, boolean bl, ArmorTrim armorTrim, ArmorMaterial armorMaterial, TextureAtlas armorTrimAtlas, AbstractClientPlayer player) {
         if (ModInfoUtils.isModLoaded("figura") && !FiguraCompat.renderBoobArmor(player)) return;
+        if (this.estrogen$boobArmorTrim == null) return;
 
         TextureAtlasSprite textureAtlasSprite = armorTrimAtlas.getSprite(bl ? armorTrim.innerTexture(armorMaterial) : armorTrim.outerTexture(armorMaterial));
         VertexConsumer vertexConsumer = textureAtlasSprite.wrap(vertexConsumers.getBuffer(Sheets.armorTrimsSheet()));
@@ -146,7 +160,7 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
     private Optional<TextureData> estrogen$getArmorTexture(AbstractClientPlayer player, boolean overlay) {
         String string;
         ItemStack itemStack = player.getItemBySlot(EquipmentSlot.CHEST);
-        ArmorItem item = (ArmorItem) itemStack.getItem();
+        if (!(itemStack.getItem() instanceof ArmorItem item)) return Optional.empty();
         BreastArmorData data;
         if ((data = BreastArmorDataLoader.INSTANCE.getData(BuiltInRegistries.ITEM.getKey(item))) != null) {
             if (overlay) {
@@ -178,8 +192,8 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
 
     @Inject(method = "setAllVisible", at = @At("RETURN"))
     private void estrogen$setVisible(boolean visible, CallbackInfo ci) {
-        this.estrogen$boobs.visible = visible;
-        this.estrogen$boobJacket.visible = visible;
-        this.estrogen$boobArmor.visible = visible;
+        if (this.estrogen$boobs != null)this.estrogen$boobs.visible = visible;
+        if (this.estrogen$boobJacket != null) this.estrogen$boobJacket.visible = visible;
+        if (this.estrogen$boobArmor != null) this.estrogen$boobArmor.visible = visible;
     }
 }

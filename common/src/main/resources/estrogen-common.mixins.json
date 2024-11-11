@@ -5,9 +5,12 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BottleItemMixin",
-    "PlayerEntityMixin"
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "ServerPlayerMixin"
   ],
   "client": [
+    "client.ArmorStandRendererMixin",
     "client.ClientPacketListenerMixin",
     "client.ClientPlayNetworkHandlerMixin",
     "client.GameOptionsMixin",
@@ -15,8 +18,12 @@
     "client.PlayerEntityModelMixin",
     "client.PlayerEntityRendererMixin",
     "client.ReceivingLevelScreenMixin",
-    "client.TextRendererMixin"
+    "client.SplashManagerMixin",
+    "client.SplashRendererAccessor",
+    "client.TextRendererMixin",
+    "client.HumanoidMobRendererMixin"
   ],
+  "plugin": "dev.mayaqq.estrogen.utils.EstrogenMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   }

@@ -5,7 +5,6 @@ import dev.mayaqq.estrogen.config.EstrogenConfig;
 import dev.mayaqq.estrogen.registry.EstrogenEffects;
 import dev.mayaqq.estrogen.registry.EstrogenFluids;
 import dev.mayaqq.estrogen.utils.EstrogenColors;
-import earth.terrarium.baubly.Baubly;
 import earth.terrarium.baubly.common.Bauble;
 import earth.terrarium.baubly.common.SlotInfo;
 import earth.terrarium.botarium.common.fluid.FluidConstants;
@@ -38,7 +37,6 @@ public class EstrogenPatchesItem extends Item implements Bauble, BotariumFluidIt
 
     public EstrogenPatchesItem(Properties properties) {
         super(properties);
-        Baubly.registerBauble(this);
     }
 
     @Override

@@ -51,7 +51,7 @@ To hear it, make sure you have your music sound category turned up!
 
 This mod adds a lot of other features related to Estrogen and its production. This includes but is not limited to:
 
-- a new block called the Centrifuge, with a new mechanic for fluid processing which is used to make the Estrogen fluid.
+- A new block called the Centrifuge, with a new mechanic for fluid processing which is used to make the Estrogen fluid.
   🌀 <br>
   <img src="https://i.imgur.com/cqXBcVw.png" alt="centrifuge" width="256"/>
 - Estrogen Patches with their own slots, allowing you to have the Estrogen Effect active for long amounts of time. 🩹<br>
@@ -60,10 +60,10 @@ This mod adds a lot of other features related to Estrogen and its production. Th
   <img src="https://static.miraheze.org/celestewiki/thumb/6/67/Wavedashing.gif/240px-Wavedashing.gif" alt="dashing" width="256"/>
 - New Model Features for the player when Estrogen effect is active 👀<br>
   <img src="https://i.imgur.com/MFRFoFN.png" alt="me :3" width="256"/>
-- A new type of cookie A new type of [(musical?)](https://erora.bandcamp.com/track/g03c) cookie 😋 🍪<br>
+- A new type of [(musical?)](https://erora.bandcamp.com/track/g03c) cookie 😋 🍪<br>
   <img src="https://i.imgur.com/lrPWwPT.png" alt="Estrogen Chip Cookie" width="256"/>
 - And many more (including some easter eggs)! 🥚<br>
-  <img src="https://i.imgur.com/mkVcXQA.png" alt=":3" width="256"/>
+  <img src="https://mayaqq.dev/media/colonthree_big.png" alt=":3" width="256"/>
 
 ### `Extra information`
 

@@ -23,7 +23,7 @@ public class MothElytraLayer<T extends LivingEntity, M extends EntityModel<T>> e
 
     public MothElytraLayer(RenderLayerParent<T, M> renderer, EntityModelSet modelSet) {
         super(renderer);
-        this.elytraModel = new MothElytraModel<>(modelSet.bakeLayer(MothElytraModel.LAYER_LOCATION));
+        this.elytraModel = new MothElytraModel<>(MothElytraModel.LAYER.get().bakeRoot());
     }
 
     @Override

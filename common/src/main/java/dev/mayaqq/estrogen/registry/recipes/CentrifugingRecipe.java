@@ -3,9 +3,11 @@ package dev.mayaqq.estrogen.registry.recipes;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
+import dev.mayaqq.estrogen.config.EstrogenConfig;
 import dev.mayaqq.estrogen.platform.IngredientUtils;
-import dev.mayaqq.estrogen.registry.EstrogenProcessingRecipes;
+import dev.mayaqq.estrogen.registry.EstrogenRecipes;
 import dev.mayaqq.estrogen.registry.blockEntities.CentrifugeBlockEntity;
+import dev.mayaqq.estrogen.utils.recipe.RecipeTypeInfo;
 import earth.terrarium.botarium.common.fluid.base.FluidContainer;
 import earth.terrarium.botarium.common.fluid.base.FluidHolder;
 import net.minecraft.core.Direction;
@@ -28,7 +30,7 @@ public class CentrifugingRecipe extends ProcessingRecipe<Inventory> {
     }
 
     public CentrifugingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {
-        this(EstrogenProcessingRecipes.CENTRIFUGING, params);
+        this(getRecipeTypeInfo(), params);
     }
 
     public void setBlockEntity(CentrifugeBlockEntity blockEntity) {
@@ -47,8 +49,9 @@ public class CentrifugingRecipe extends ProcessingRecipe<Inventory> {
         if (fluidUp == null || fluidDown == null) return false;
 
         float speed = blockEntity.getSpeed();
+        double speedRequired = EstrogenConfig.server().centrifugeSpeedRequired.get();
 
-        if (speed != 256 && speed != -256) return false;
+        if (!(speed >= speedRequired || speed <= -speedRequired)) return false;
 
 
         FluidHolder input = IngredientUtils.getFluidIngredients(this).get(0);
@@ -121,5 +124,9 @@ public class CentrifugingRecipe extends ProcessingRecipe<Inventory> {
     @Override
     protected int getMaxFluidOutputCount() {
         return 1;
+    }
+
+    public static RecipeTypeInfo getRecipeTypeInfo() {
+        return new RecipeTypeInfo(new ResourceLocation("estrogen", "centrifuging"), EstrogenRecipes.CENTRIFUGING.get(), EstrogenRecipes.CENTRIFUGING_SERIALIZER.get());
     }
 }

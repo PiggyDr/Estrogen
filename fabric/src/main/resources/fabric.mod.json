@@ -25,9 +25,6 @@
     "client": [
       "dev.mayaqq.estrogen.fabric.client.EstrogenClientFabric"
     ],
-    "fabric-datagen": [
-      "dev.mayaqq.estrogen.fabric.datagen.EstrogenDatagen"
-    ],
     "emi": [
       "dev.mayaqq.estrogen.fabric.integrations.emi.EmiCompat"
     ],
@@ -42,20 +39,23 @@
     ]
   },
   "mixins": [
-    "estrogen.mixins.json",
     "estrogen-common.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.15.3",
+    "fabric-api": ">=0.92.2",
     "minecraft": "${minecraft_version}",
     "create": ">=0.5.1-f-build.1224",
     "trinkets": "*",
     "botarium": "*",
-    "resourcefullib": ">=2.1.28"
+    "resourcefullib": ">=2.1.29"
   },
   "suggests": {
     "emi": "*",
     "modmenu": "*"
+  },
+  "conflicts": {
+    "minecraftcapes": "<=12.3.7"
   },
   "custom": {
     "modmenu": {
@@ -67,6 +67,12 @@
         "modmenu.modrinth": "https://modrinth.com/mod/estrogen",
         "modmenu.wiki": "https://github.com/MayaqqDev/Estrogen/wiki"
       }
-    }
+    },
+    "resourcefullib:resourcepack": [
+      {
+        "name": "estrogenprogrammerart",
+        "description": "Estrogen Programmer Art"
+      }
+    ]
   }
 }

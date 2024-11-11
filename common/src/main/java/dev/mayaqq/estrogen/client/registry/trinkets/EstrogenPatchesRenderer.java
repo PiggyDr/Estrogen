@@ -3,9 +3,7 @@ package dev.mayaqq.estrogen.client.registry.trinkets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.mayaqq.estrogen.config.EstrogenConfig;
-import dev.mayaqq.estrogen.registry.EstrogenItems;
 import earth.terrarium.baubly.client.BaubleRenderer;
-import earth.terrarium.baubly.client.BaublyClient;
 import earth.terrarium.baubly.common.SlotInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -20,10 +18,6 @@ import net.minecraft.world.item.ItemStack;
 public class EstrogenPatchesRenderer implements BaubleRenderer {
 
     public EstrogenPatchesRenderer() {}
-
-    public static void register() {
-        BaublyClient.registerBaubleRenderer(EstrogenItems.ESTROGEN_PATCHES.get(), new EstrogenPatchesRenderer());
-    }
 
     @Override
     public void render(

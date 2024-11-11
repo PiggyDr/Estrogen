@@ -1,24 +1,18 @@
 package dev.mayaqq.estrogen.client.registry;
 
-import com.jozufozu.flywheel.backend.Backend;
 import dev.mayaqq.estrogen.client.features.UwUfy;
 import dev.mayaqq.estrogen.client.registry.blockRenderers.dreamBlock.texture.advanced.DynamicDreamTexture;
 import dev.mayaqq.estrogen.client.registry.entityRenderers.moth.MothModel;
 import dev.mayaqq.estrogen.client.registry.entityRenderers.mothElytra.MothElytraModel;
 import dev.mayaqq.estrogen.client.registry.particles.DashParticle;
 import dev.mayaqq.estrogen.client.registry.particles.MothFuzzParticle;
-import dev.mayaqq.estrogen.registry.EstrogenItems;
 import dev.mayaqq.estrogen.registry.EstrogenParticles;
-import dev.mayaqq.estrogen.registry.items.ThighHighsItem;
 import dev.mayaqq.estrogen.utils.EstrogenParticleRegistrator;
-import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.item.Item;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -37,17 +31,6 @@ public class EstrogenClientEvents {
     public static void registerModelLayer(LayerDefinitionRegistry consumer) {
         consumer.register(MothModel.LAYER_LOCATION, MothModel::createBodyLayer);
         consumer.register(MothElytraModel.LAYER_LOCATION, MothElytraModel::createBodyLayer);
-    }
-    public static void registerItemColorProviders(BiConsumer<ItemColor, Item[]> consumer) {
-        consumer.accept((stack, tintIndex) -> {
-            ThighHighsItem thighHighsItem = (ThighHighsItem) stack.getItem();
-            if(thighHighsItem.getStyle(stack).isPresent()) return -1;
-            return thighHighsItem.getColor(stack, tintIndex);
-        }, new Item[]{EstrogenItems.THIGH_HIGHS.get()});
-    }
-
-    public static void onReloadRenderer(ClientLevel world) {
-        if(!Backend.canUseInstancing(world)) DynamicDreamTexture.resetActive();
     }
 
     @FunctionalInterface

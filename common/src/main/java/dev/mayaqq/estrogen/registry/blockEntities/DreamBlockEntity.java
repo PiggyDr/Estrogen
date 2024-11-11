@@ -1,14 +1,13 @@
 package dev.mayaqq.estrogen.registry.blockEntities;
 
 import dev.mayaqq.estrogen.client.registry.blockRenderers.dreamBlock.texture.DreamBlockTexture;
-import dev.mayaqq.estrogen.registry.EstrogenBlockEntities;
 import dev.mayaqq.estrogen.registry.blocks.DreamBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.TagLoader;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,8 +15,8 @@ public class DreamBlockEntity extends BlockEntity {
     @Environment(EnvType.CLIENT)
     DreamBlockTexture texture;
 
-    public DreamBlockEntity(BlockPos pos, BlockState state) {
-        super(EstrogenBlockEntities.DREAM_BLOCK.get(), pos, state);
+    public DreamBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     @Environment(EnvType.CLIENT)

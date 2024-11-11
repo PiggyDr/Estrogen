@@ -2,7 +2,6 @@ package dev.mayaqq.estrogen.forge.loot;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.registry.EstrogenItems;
 import dev.mayaqq.estrogen.registry.items.ThighHighsItem;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -11,12 +10,21 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+
+import static dev.mayaqq.estrogen.Estrogen.MOD_ID;
 
 public class AddSpecialThighHigh extends LootModifier {
 
-    public static final Codec<AddSpecialThighHigh> CODEC = RecordCodecBuilder.create(instance ->
-        codecStart(instance).apply(instance, AddSpecialThighHigh::new)
+    public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> REGISTER =
+        DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MOD_ID);
+
+
+    public static final RegistryObject<Codec<AddSpecialThighHigh>> CODEC = REGISTER.register("special_thigh_highs", () ->
+        RecordCodecBuilder.create(instance -> codecStart(instance).apply(instance, AddSpecialThighHigh::new))
     );
 
     protected AddSpecialThighHigh(LootItemCondition[] conditionsIn) {
@@ -34,6 +42,6 @@ public class AddSpecialThighHigh extends LootModifier {
 
     @Override
     public Codec<? extends IGlobalLootModifier> codec() {
-        return CODEC;
+        return CODEC.get();
     }
 }

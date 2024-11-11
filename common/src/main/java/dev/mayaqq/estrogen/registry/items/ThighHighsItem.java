@@ -4,13 +4,15 @@ import com.google.common.collect.Multimap;
 import dev.mayaqq.estrogen.networking.EstrogenNetworkManager;
 import dev.mayaqq.estrogen.networking.messages.s2c.ThighHighStylesPacket;
 import dev.mayaqq.estrogen.registry.EstrogenAttributes;
-import earth.terrarium.baubly.Baubly;
 import earth.terrarium.baubly.common.Bauble;
 import earth.terrarium.baubly.common.SlotInfo;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
@@ -23,6 +25,7 @@ import net.minecraft.world.level.block.LayeredCauldronBlock;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public class ThighHighsItem extends Item implements Bauble {
     private final int primaryColorDefault;
@@ -36,7 +39,12 @@ public class ThighHighsItem extends Item implements Bauble {
         super(properties);
         this.primaryColorDefault = primaryColor;
         this.secondaryColorDefault = secondaryColor;
-        Baubly.registerBauble(this);
+    }
+
+    public static int getItemColor(ItemStack stack, int tintIndex) {
+        ThighHighsItem thighHighsItem = (ThighHighsItem) stack.getItem();
+        if(thighHighsItem.getStyle(stack).isPresent()) return -1;
+        return thighHighsItem.getColor(stack, tintIndex);
     }
 
     public void loadStyles(List<ResourceLocation> newStyles) {
@@ -89,6 +97,14 @@ public class ThighHighsItem extends Item implements Bauble {
         setStyle(stack, styles.get(randomSource.nextInt(styles.size())));
     }
 
+    public Stream<ItemStack> streamStyleItems() {
+        return styles.stream().map(s -> {
+            ItemStack stack = getDefaultInstance();
+            setStyle(stack, s);
+            return stack;
+        });
+    }
+
     public Optional<ResourceLocation> getStyle(ItemStack stack) {
         if(styles == null) return Optional.empty();
         CompoundTag tag = stack.getTag();
@@ -125,6 +141,19 @@ public class ThighHighsItem extends Item implements Bauble {
             player.awardStat(Stats.CLEAN_ARMOR);
             LayeredCauldronBlock.lowerFillLevel(blockState, level, blockPos);
         }
+
+        level.playLocalSound(blockPos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.5f, 1.8f, true);
+
+        if(level.isClientSide) {
+            float fillHeight = blockState.getValue(LayeredCauldronBlock.LEVEL) / 3f;
+            for (int i = 0; i < 8; i++) {
+                double xOff = level.random.nextGaussian() / 5 + 0.5;
+                double zOff = level.random.nextGaussian() / 5 + 0.5;
+
+                level.addParticle(ParticleTypes.BUBBLE_POP, blockPos.getX() + xOff, blockPos.getY() + fillHeight * 0.8, blockPos.getZ() + zOff, 0, 0.05, 0);
+            }
+        }
+
         return InteractionResult.sidedSuccess(level.isClientSide);
     };
 }

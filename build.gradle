@@ -4,8 +4,9 @@ import java.nio.file.StandardOpenOption
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.5-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
     id "me.modmuss50.mod-publish-plugin" version "0.4.5"
+    id "maven-publish"
 }
 
 // A task to build both, Forge and Fabric
@@ -20,6 +21,10 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
+    apply plugin: "maven-publish"
+
+    String modLoader = project.name
+    String modId = rootProject.name
 
     loom {
         silentMojangMappingsLicense()
@@ -34,11 +39,51 @@ subprojects {
 
         modApi("com.teamresourceful.resourcefullib:resourcefullib-${project.name}-${rootProject.minecraft_version}:${rootProject.resourcefullib_version}")
         modApi("earth.terrarium.botarium:botarium-${project.name}-${rootProject.minecraft_version}:${rootProject.botarium_version}")
+        modApi include("uwu.serenity.critter:critter-${project.name}:${rootProject.critter_version}")
 
         modImplementation include("maven.modrinth:jukeboxfix:${rootProject.jukeboxfix_version}-${rootProject.minecraft_version}")
 
         // JEI
         modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
+
+        include implementation("com.teamresourceful:resourceful-cosmetics-4j:${rootProject.resourceful_cosmetics_version}")
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = "Estrogen-${modLoader}"
+                from components.java
+
+                pom {
+                    name = "Estrogen ${modLoader}"
+                    url = "https://github.com/MayaqqDev/Estrogen"
+
+                    scm {
+                        connection = "git:https://github.com/MayaqqDev/Estrogen.git"
+                        developerConnection = "git:https://github.com/MayaqqDev/Estrogen.git"
+                        url = "https://github.com/MayaqqDev/Estrogen"
+                    }
+
+                    licenses {
+                        license {
+                            name = "LGPL-3.0"
+                            url = "https://www.gnu.org/licenses/lgpl-3.0.en.html"
+                        }
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                name "sapphoCompany"
+                url "https://maven.is-immensely.gay/releases"
+                credentials(org.gradle.api.credentials.PasswordCredentials)
+                authentication {
+                    basic(BasicAuthentication)
+                }
+            }
+        }
     }
 }
 
@@ -68,6 +113,9 @@ allprojects {
         maven { name = "Modrinth Maven"; description = "Jukeboxfix, Ad Astra"; url = "https://api.modrinth.com/maven" }
         maven { name = "Resourceful Maven"; description = "Baubly, Botarium & ResourcefulLib"; url = "https://maven.teamresourceful.com/repository/maven-public/" }
         maven { name = "Figura Maven"; description = "Figura"; url = "https://maven.figuramc.org/releases" }
+        maven { name = "Sappho Company"; description = "Critter"; url = "https://maven.is-immensely.gay/nightly"}
+        maven { name = "DevAuth maven"; description = "DevAuth"; url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
+        maven { name = "Xander maven"; description = "YACL"; url = "https://maven.isxander.dev/releases" }
         maven { name = "Jitpack maven"; description = "Mixin Extras & Fabric ASM"; url = "https://jitpack.io/" } //NOTE: LEAVE THIS AS LAST
     }
 
@@ -77,6 +125,8 @@ allprojects {
     }
 
     java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
         withSourcesJar()
     }
 }
@@ -195,34 +245,5 @@ publishMods {
         optional {
             slug = "jei"
         }
-    }
-
-    tasks.register("genDescriptions") {
-        String readmePath = "README.md"
-        String outputPathModrinth = "descriptions/modrinth.md"
-        String outputPathCurseforge = "descriptions/curseforge.md"
-         // Read the file content
-        File file = new File(readmePath)
-        String content = file.text
-
-        // Replace elements as needed
-        content = content.replace("> [!TIP]\n", "")
-        String modrinth = content.replace("<div align=\"center\">", "<center>").replace("</div>", "</center>")
-        String curseforge = content
-                .replace("align=\"center\"", "style=\"text-align:center;\"")
-                .replaceAll("<iframe\\b[^>]*>(.*?)<\\/iframe>", "<iframe src=\"https://www.youtube.com/embed/kdn3qYwzMDQ?si=6so3WtHV2DH4cmnt\" width=\"560\" height=\"314\" allowfullscreen=\"allowfullscreen\"></iframe>")
-
-        // Regex to find elements between <div align="center"> and </div>
-        curseforge = curseforge.replaceAll(/<div style="text-align:center;">([\s\S]*?)<\/div>/) { match ->
-            def innerContent = match[1]
-            // Remove all spaces and line breaks that are not within < and >
-            innerContent = innerContent.replaceAll(/(?<=^|>)[^<]+(?=<|$)/) { it.replaceAll(/\s+/, "") }
-            return "<div align=\"center\">${innerContent}</div>"
-        }
-
-        Files.write(Paths.get(outputPathModrinth), modrinth.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
-        Files.write(Paths.get(outputPathCurseforge), curseforge.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
-
-        // do not forget to convert the curseforge markdown to html at https://markdowntohtml.com/
     }
 }

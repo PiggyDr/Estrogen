@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.WeightedEntry;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -41,13 +40,21 @@ public class DynamicDreamTexture {
     }
 
     // I'll leave this here unused cs it might be useful in the future
-    public void release() {
+    private void _release() {
         if(!init) return;
         Minecraft.getInstance().getTextureManager().release(texID);
         texture = null;
         texID = null;
         renderType = null;
         init = false;
+    }
+
+    public void release() {
+        if(RenderSystem.isOnRenderThread()) {
+            this._release();
+        } else {
+            RenderSystem.recordRenderCall(this::_release);
+        }
     }
 
     public RenderType getRenderType() {
@@ -128,6 +135,7 @@ public class DynamicDreamTexture {
     }
 
     public void redraw() {
+        if(!init) return;
         if(RenderSystem.isOnRenderThread()) {
             this.draw();
         } else {

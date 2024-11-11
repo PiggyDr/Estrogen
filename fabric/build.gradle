@@ -17,6 +17,13 @@ configurations {
 
 repositories {}
 
+sourceSets {
+    create("datagen") {
+        runtimeClasspath += sourceSets["main"].runtimeClasspath
+        compileClasspath += sourceSets["main"].compileClasspath
+    }
+}
+
 dependencies {
     // Fabric
     modImplementation("net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}")
@@ -59,10 +66,21 @@ dependencies {
         default: println("Invalid item viewer: ${item_viewer} must be REI, EMI or disabled"); break
     }
 
+    //DevAuth
+    if (rootProject.devauth_enabled == "true") {
+        modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${rootProject.devauth_version}")
+    }
+
     // Ad Astra Testing
     if (rootProject.ad_astra_testing == "true") {
         modRuntimeOnly("maven.modrinth:ad-astra:${rootProject.ad_astra_version_fabric}")
         modRuntimeOnly("maven.modrinth:resourceful-config:${rootProject.resourceful_config_version_fabric}")
+    }
+
+    if (System.getenv("XDG_BACKEND") == "wayland") {
+        modRuntimeOnly("maven.modrinth:waygl:${rootProject.waygl_version}")
+        modRuntimeOnly("maven.modrinth:fabric-language-kotlin:${rootProject.fabric_language_kotlin_version}")
+        modRuntimeOnly("dev.isxander:yet-another-config-lib:${rootProject.yacl_version}")
     }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
@@ -141,10 +159,12 @@ loom {
             vmArg "-Dfabric-api.datagen.output-dir=${common.file("src/main/generated")}"
             vmArg "-Destrogen.datagen.fabric-output-dir=${file("src/main/generated")}"
             vmArg "-Destrogen.datagen.forge-output-dir=${forge.file("src/main/generated")}"
-            vmArg "-Dfabric-api.datagen.modid=estrogen"
+            vmArg "-Dfabric-api.datagen.modid=estrogen-datagen"
             vmArg "-Dporting_lib.datagen.existing_resources=${common.file("src/main/resources")}"
 
             runDir "build/datagen"
+
+            source(sourceSets.getByName("datagen"))
         }
     }
     runs {
