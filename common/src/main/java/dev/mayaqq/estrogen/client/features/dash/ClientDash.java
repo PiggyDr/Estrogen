@@ -11,8 +11,10 @@ import dev.mayaqq.estrogen.registry.blocks.DreamBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class ClientDash {
@@ -23,6 +25,8 @@ public class ClientDash {
     private static final double HYPER_V_SPEED = 0.5;
     private static final double SUPER_H_SPEED = 0.8;
     private static final double SUPER_V_SPEED = 1.0;
+    private static final double BOUNCE_H_SPEED = 0.8;
+    private static final double BOUNCE_V_SPEED = 1.5;
 
     private static boolean isOnCooldown = false;
 
@@ -36,6 +40,8 @@ public class ClientDash {
 
     private static boolean willHyper = false;
     private static boolean willSuper = false;
+    private static boolean willBounce = false;
+    private static Direction bounceDirection = null;
 
     private static BlockPos lastPos = null;
 
@@ -78,6 +84,16 @@ public class ClientDash {
             player.setDeltaMovement(superMotion);
             dashCooldown = 0;
         }
+        // Wall Bounce
+        if (willBounce) {
+            willBounce = false;
+            if (bounceDirection != null) {
+                player.setDeltaMovement(bounceDirection.getStepX() * BOUNCE_H_SPEED, BOUNCE_V_SPEED, bounceDirection.getStepZ() * BOUNCE_H_SPEED);
+            } else {
+                player.setDeltaMovement(0, BOUNCE_V_SPEED, 0);
+            }
+            dashCooldown = 0;
+        }
 
         // During Dash
         Dash:
@@ -96,9 +112,24 @@ public class ClientDash {
             player.setDeltaMovement(dashDirection.scale(DASH_SPEED).scale(dashDeltaModifier));
 
             // Hyper and Super Detection
-            if (Minecraft.getInstance().options.keyJump.isDown() && player.onGround()) {
-                if (dashXRot > 15 && dashXRot < 60) willHyper = true;
-                else if (dashXRot > 0 && dashXRot < 15) willSuper = true;
+            Detect:
+            if (Minecraft.getInstance().options.keyJump.isDown()) {
+                if (player.onGround()) {
+                    if (dashXRot > 15 && dashXRot < 60) willHyper = true;
+                    else if (dashXRot > 0 && dashXRot < 15) willSuper = true;
+                    break Detect;
+                }
+                if (dashXRot < -60) {
+                    for (Direction direction : Direction.Plane.HORIZONTAL) {
+                        // change required distance from wall here
+                        Vec3 vector = Vec3.atLowerCornerOf(direction.getNormal()).scale(0.25);
+                        AABB aabb = player.getBoundingBox().expandTowards(vector);
+                        if (player.level().noCollision(player, aabb)) continue;
+                        bounceDirection = direction.getOpposite();
+                        willBounce = true;
+                        break Detect;
+                    }
+                }
             }
 
             // Dash particles
