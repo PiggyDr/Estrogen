@@ -129,6 +129,12 @@ public class EstrogenConfig {
         public final ConfigBool permaDash = b(true, "permaDash", "Gives you permanent, unremovable Girl Power Effect");
         public final ConfigInt girlPowerLevel = i(0, 0, 255, "permaDashAmount", "The level of Girl Power Effect when Perma-Dash is enabled");
 
+        // Durations Group
+        public final ConfigGroup durations = group(1, "durations", "Settings for the durations of effects");
+        public final ConfigInt estrogenPillDuration = i(6000, 0, 100000, "estrogenPillDuration", "How long does Girl Power from the Estrogen Pill last in ticks");
+        public final ConfigInt crystalEstrogenPillDuration = i(6000, 0, 100000, "crystalEstrogenPillDuration", "How long does Girl Power from the Crystal Estrogen Pill last in ticks");
+        public final ConfigInt estrogenChipCookieDuration = i(6000, 0, 100000, "estrogenChipCookieDuration", "How long does Girl Power from the Crystal Estrogen Pill last in ticks");
+
         @Override
         public String getName() {
             return "common";

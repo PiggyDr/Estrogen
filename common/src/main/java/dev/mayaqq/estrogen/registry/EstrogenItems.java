@@ -5,10 +5,13 @@ import com.teamresourceful.resourcefullib.common.color.Color;
 import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.client.registry.trinkets.EstrogenPatchesRenderer;
 import dev.mayaqq.estrogen.client.registry.trinkets.ThighHighRenderer;
+import dev.mayaqq.estrogen.config.EstrogenConfig;
 import dev.mayaqq.estrogen.registry.items.*;
 import dev.mayaqq.estrogen.registry.tooltip.ThighHighsToolTipModifier;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -25,8 +28,20 @@ public class EstrogenItems {
     public static final ItemEntry<Item>
         ESTROGEN_PILL = ITEMS.entry("estrogen_pill", Item::new)
             .properties(p -> p.stacksTo(16)
-                .food(EstrogenFoodComponents.ESTROGEN_PILL)
-                .rarity(Rarity.RARE))
+                .food(
+                    new FoodProperties.Builder().effect(
+                        new MobEffectInstance(
+                                EstrogenEffects.ESTROGEN_EFFECT.get(),
+                                EstrogenConfig.common().estrogenPillDuration.get(),
+                                0,
+                                false,
+                                false,
+                                true
+                        ), 1)
+                    .fast().alwaysEat().build()
+                )
+                .rarity(Rarity.RARE)
+            )
             .transform(potatoProjectile(b -> b.damage(3)
                 .reloadTicks(8)
                 .velocity(1.5f)
@@ -37,8 +52,20 @@ public class EstrogenItems {
             .register(),
         CRYSTAL_ESTROGEN_PILL = ITEMS.entry("crystal_estrogen_pill", Item::new)
             .properties(p -> p.stacksTo(16)
-                .food(EstrogenFoodComponents.CRYTAL_ESTROGEN_PILL)
-                .rarity(Rarity.EPIC))
+                .food(
+                    new FoodProperties.Builder().effect(
+                                new MobEffectInstance(
+                                        EstrogenEffects.ESTROGEN_EFFECT.get(),
+                                        EstrogenConfig.common().crystalEstrogenPillDuration.get(),
+                                        1,
+                                        false,
+                                        false,
+                                        true
+                                ), 1)
+                        .fast().alwaysEat().build()
+                )
+                .rarity(Rarity.EPIC)
+            )
             .transform(potatoProjectile(b -> b.damage(3)
                 .reloadTicks(8)
                 .velocity(1.5f)
@@ -61,15 +88,36 @@ public class EstrogenItems {
         MOTH_FUZZ = ITEMS.entry("moth_fuzz", Item::new).creativeTab(CreativeModeTabs.INGREDIENTS, TabPlacement.before(Items.INK_SAC)).register();
 
     public static final ItemEntry<EstrogenCookieItem> ESTROGEN_CHIP_COOKIE = ITEMS.entry("estrogen_chip_cookie", EstrogenCookieItem::new)
-        .properties(p -> p.food(EstrogenFoodComponents.ESTROGEN_CHIP_COOKIE)
+        .properties(p -> p.rarity(Rarity.RARE)
+            .food(
+                new FoodProperties.Builder().effect(
+                            new MobEffectInstance(
+                                    EstrogenEffects.ESTROGEN_EFFECT.get(),
+                                    EstrogenConfig.common().estrogenChipCookieDuration.get(),
+                                    0,
+                                    false,
+                                    false,
+                                    true
+                            ), 1)
+                        .nutrition(8).saturationMod(1.5F).fast().alwaysEat().build()
+            )
             .stacksTo(64)
-            .rarity(Rarity.RARE))
+        )
         .creativeTab(CreativeModeTabs.FOOD_AND_DRINKS, TabPlacement.after(Items.COOKIE))
         .register();
     public static final ItemEntry<HorseUrineBottleItem> HORSE_URINE_BOTTLE = ITEMS.entry("horse_urine_bottle", HorseUrineBottleItem::new)
-        .properties(p -> p.food(EstrogenFoodComponents.HORSE_URINE_BOTTLE)
+        .properties(p -> p.stacksTo(16)
+            .food(
+                new FoodProperties.Builder().effect(
+                            new MobEffectInstance(
+                                    MobEffects.POISON,
+                                    100,
+                                    0
+                            ), 1)
+                        .nutrition(1).saturationMod(0.1F).build()
+            )
             .craftRemainder(Items.GLASS_BOTTLE)
-            .stacksTo(16))
+        )
         .register();
     public static final ItemEntry<EstrogenPatchesItem> ESTROGEN_PATCHES = ITEMS.entry("estrogen_patches", EstrogenPatchesItem::new)
         .properties(p -> p.stacksTo(1))

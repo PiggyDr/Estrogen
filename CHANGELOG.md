@@ -3,3 +3,5 @@
 - Catalogue Compat
 - Wall bouncing (TheRobbie73)
 - Rosy Maple Elytra now renders with Armor Stands and Humanoid Mobs
+- Small bug fixes
+- Made effect durations configurable
