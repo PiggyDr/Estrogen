@@ -22,6 +22,7 @@ public class EstrogenTags {
         public static final TagKey<Item> CHEST_FEATURE_DISABLED = TagKey.create(BuiltInRegistries.ITEM.key(), Estrogen.id("chest_feature_disabled"));
         public static final TagKey<Item> LEATHER_ITEMS = TagKey.create(BuiltInRegistries.ITEM.key(), commonId("leather_items"));
         public static final TagKey<Item> LIGHT_EMITTERS = TagKey.create(BuiltInRegistries.ITEM.key(),  commonId("light_emitters"));
+        public static final TagKey<Item> MALUM_GROSS_FOODS = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("malum", "gross_foods"));
     }
 
     public static class Blocks {
