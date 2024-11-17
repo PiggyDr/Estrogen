@@ -12,6 +12,7 @@ import dev.mayaqq.estrogen.client.entity.player.features.boobs.PlayerEntityModel
 import dev.mayaqq.estrogen.client.entity.player.features.boobs.TextureData;
 import dev.mayaqq.estrogen.integrations.figura.FiguraCompat;
 import dev.mayaqq.estrogen.registry.EstrogenEffects;
+import dev.mayaqq.estrogen.registry.EstrogenTags;
 import dev.mayaqq.estrogen.resources.BreastArmorData;
 import dev.mayaqq.estrogen.resources.BreastArmorDataLoader;
 import net.minecraft.Optionull;
@@ -101,7 +102,8 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
     public void estrogen$renderBoobs(PoseStack matrices, VertexConsumer vertices, int light, int overlay, AbstractClientPlayer player, float size, float yOffset) {
         if (ModInfoUtils.isModLoaded("figura") && !FiguraCompat.renderBoobs(player)) return;
         if (this.estrogen$boobs == null) return;
-        if (!player.getItemBySlot(EquipmentSlot.CHEST).isEmpty()) {
+        ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
+        if (!chest.isEmpty() && !chest.is(EstrogenTags.Items.CHEST_ARMOR_IGNORE)) {
             if (estrogen$getArmorTexture(player, false).isEmpty()) return;
         }
 

@@ -65,5 +65,8 @@ public class ModItemTagsProvider extends BaseTagProvider.ItemProvider {
                 .add(EstrogenItems.GENDER_CHANGE_POTION.get());
         getOrCreateTagBuilder(EstrogenTags.Items.MALUM_GROSS_FOODS)
                 .add(EstrogenItems.HORSE_URINE_BOTTLE.get());
+        getOrCreateTagBuilder(EstrogenTags.Items.CHEST_FEATURE_DISABLED)
+                .add(Items.ELYTRA)
+                .add(EstrogenItems.MOTH_ELYTRA.get());
     }
 }
