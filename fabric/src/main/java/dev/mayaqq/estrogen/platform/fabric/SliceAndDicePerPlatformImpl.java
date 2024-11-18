@@ -1,4 +1,4 @@
-package dev.mayaqq.estrogen.platform.forge;
+package dev.mayaqq.estrogen.platform.fabric;
 
 import com.possible_triangle.sliceanddice.block.sprinkler.SprinkleBehaviour;
 import dev.mayaqq.estrogen.registry.EstrogenEffects;
@@ -13,7 +13,7 @@ public class SliceAndDicePerPlatformImpl {
     public static void registerPotionSprinkleBehavior(TagKey<Fluid> tag) {
         SprinkleBehaviour.Companion.register(tag, (range, level, fluidStack, random) -> {
             range.getEntities(LivingEntity.class, e -> true).forEach(entity ->
-                entity.addEffect(new MobEffectInstance(EstrogenEffects.ESTROGEN_EFFECT.get(), 119, 0, false, false, true))
+                    entity.addEffect(new MobEffectInstance(EstrogenEffects.ESTROGEN_EFFECT.get(), 119, 0, false, false, true))
             );
         }, new Vec3i(5, 7, 5));
     }

@@ -104,6 +104,8 @@ public class EstrogenTagsGen {
             getOrCreateTagBuilder(EstrogenTags.Fluids.URINE)
                     .add(EstrogenFluids.HORSE_URINE.get())
                     .add(EstrogenFluids.FILTRATED_HORSE_URINE.get());
+            getOrCreateTagBuilder(EstrogenTags.Fluids.FEMINIZING)
+                    .add(EstrogenFluids.LIQUID_ESTROGEN.get());
             getOrCreateTagBuilder(AllTags.AllFluidTags.FAN_PROCESSING_CATALYSTS_BLASTING.tag)
                     .add(EstrogenFluids.MOLTEN_SLIME.get());
 
