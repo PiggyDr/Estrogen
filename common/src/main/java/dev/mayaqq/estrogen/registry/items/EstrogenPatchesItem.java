@@ -43,7 +43,7 @@ public class EstrogenPatchesItem extends Item implements Bauble, BotariumFluidIt
     public void tick(ItemStack stack, SlotInfo slot) {
         ItemFluidContainer itemFluidManager = getFluidContainer(stack);
         Level level = slot.wearer().level();
-        if (!level.isClientSide && slot.wearer() instanceof Player player) {
+        if (!level.isClientSide && slot.wearer() instanceof Player player && itemFluidManager.getFluids().get(0).getFluidAmount() > 0) {
             if (level.getGameTime() % TRIGGER_EVERY_X_TICKS == 0) {
                 addEffect(player, level);
             }
@@ -81,7 +81,8 @@ public class EstrogenPatchesItem extends Item implements Bauble, BotariumFluidIt
     @Override
     public void onEquip(ItemStack stack, SlotInfo slot) {
         Level level = slot.wearer().level();
-        if (!level.isClientSide && slot.wearer() instanceof Player player) {
+        ItemFluidContainer itemFluidManager = getFluidContainer(stack);
+        if (!level.isClientSide && slot.wearer() instanceof Player player && itemFluidManager.getFluids().get(0).getFluidAmount() > 0) {
             addEffect(player, level);
         }
     }

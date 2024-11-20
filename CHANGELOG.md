@@ -7,3 +7,4 @@
 - Made effect durations configurable
 - Added Horse urine bottles to malum:gross_foods
 - Refresh dash on climbable blocks
+- Fixed patches being infinite (again)
