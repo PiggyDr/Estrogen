@@ -169,7 +169,7 @@ public class ClientDash {
     }
 
     private static boolean canRefresh(Player player) {
-        return player.onGround() || player.level().getBlockState(player.blockPosition()).getBlock() instanceof LiquidBlock;
+        return player.onGround() || player.level().getBlockState(player.blockPosition()).getBlock() instanceof LiquidBlock || player.onClimbable();
     }
 
     public static boolean isOnCooldown() {
