@@ -14,6 +14,7 @@
     "client.ClientPacketListenerMixin",
     "client.ClientPlayNetworkHandlerMixin",
     "client.GameOptionsMixin",
+    "client.HumanoidMobRendererMixin",
     "client.MinecraftClientMixin",
     "client.PlayerEntityModelMixin",
     "client.PlayerEntityRendererMixin",
@@ -21,7 +22,8 @@
     "client.SplashManagerMixin",
     "client.SplashRendererAccessor",
     "client.TextRendererMixin",
-    "client.HumanoidMobRendererMixin"
+    "mixincompat.figura.ViewerAPIMixin",
+    "mixincompat.figura.HostAPIMixin"
   ],
   "plugin": "dev.mayaqq.estrogen.utils.EstrogenMixinPlugin",
   "injectors": {
