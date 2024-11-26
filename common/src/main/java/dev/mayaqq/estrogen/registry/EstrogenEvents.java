@@ -10,6 +10,7 @@ import dev.mayaqq.estrogen.registry.items.GenderChangePotionItem;
 import dev.mayaqq.estrogen.registry.items.ThighHighsItem;
 import dev.mayaqq.estrogen.registry.recipes.inventory.EntityInteractionInventory;
 import dev.mayaqq.estrogen.utils.Boob;
+import dev.mayaqq.estrogen.utils.BoobHttp;
 import dev.mayaqq.estrogen.utils.Time;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,6 +29,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.WorldOptions;
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;
+import org.apache.http.HttpClientConnection;
+import org.apache.http.client.HttpClient;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -40,24 +43,9 @@ import static dev.mayaqq.estrogen.registry.EstrogenEffects.ESTROGEN_EFFECT;
 import static dev.mayaqq.estrogen.utils.Boob.boobSize;
 
 public class EstrogenEvents {
-
-    private static final long[] BOOB_PEOPLE = new long[] {
-            0xa1732122e22e4edfL, 0x883c09673eb55de8L, // Mayaqq
-            0x7989d35390de4ad8L, 0x8f8cf97a15a97feaL, // serenitiee
-            0x89dacf816af7486aL, 0x91f0d93ba2718c4cL, // puppydogcitrus
-            0x3b2e65332fb04b26L, 0xbe31498cd86e1717L, // TheRobbie72
-    };
-
     private static boolean isBoobPerson(UUID uuid) {
         if (uuid == null) return false;
-
-        final long msb = uuid.getMostSignificantBits();
-        final long lsb = uuid.getLeastSignificantBits();
-        for (int i = 0; i < BOOB_PEOPLE.length; i += 2)
-            if (msb == BOOB_PEOPLE[i] && lsb == BOOB_PEOPLE[i + 1])
-                return true;
-
-	    return false;
+        return BoobHttp.getBoobPeople().contains(uuid);
     }
 
     // Entity Interaction Recipe
@@ -95,10 +83,10 @@ public class EstrogenEvents {
 
 	    Set<String> tags = player.getTags();
 
-	    if (!tags.contains("estrogen:firstJoin")) {
-	        if (isBoobPerson(player.getUUID()))
-                GenderChangePotionItem.changeGender(player.level(), player, 1);
-	        entity.addTag("estrogen:firstJoin");
+	    if (!tags.contains("estrogen_first_join")) {
+	        if (isBoobPerson(player.getUUID())) GenderChangePotionItem.changeGender(level, player, 1);
+
+	        entity.addTag("estrogen_first_join");
 	    }
 
 	    if (Boob.shouldShow(player))
