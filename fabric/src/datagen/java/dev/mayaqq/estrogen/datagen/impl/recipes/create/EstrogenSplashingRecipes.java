@@ -18,7 +18,6 @@ public class EstrogenSplashingRecipes extends BaseRecipeProvider {
     protected void init() {
         create(Estrogen.id("thigh_high_washing"), builder -> builder
                 .require(EstrogenItems.THIGH_HIGHS)
-                .duration(800)
                 .output(EstrogenItems.THIGH_HIGHS)
         );
     }
