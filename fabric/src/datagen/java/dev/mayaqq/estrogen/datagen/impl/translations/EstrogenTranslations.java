@@ -187,6 +187,7 @@ public class EstrogenTranslations extends FabricLanguageProvider {
         tb.add("tag.item.c.cookies", "Cookies");
         tb.add("tag.item.c.leather_items", "Leather Items");
         tb.add("tag.item.c.light_emitters", "Light Emitters");
+        tb.add("tag.item.estrogen.chest_armor_ignore", "Chest Armor Ignore");
         // Fluids
         tb.add("tag.fluid.estrogen.urine", "Urine");
 
