@@ -24,6 +24,7 @@ public class EstrogenTags {
         public static final TagKey<Item> LIGHT_EMITTERS = TagKey.create(BuiltInRegistries.ITEM.key(),  commonId("light_emitters"));
         public static final TagKey<Item> MALUM_GROSS_FOODS = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("malum", "gross_foods"));
         public static final TagKey<Item> CHEST_ARMOR_IGNORE = TagKey.create(BuiltInRegistries.ITEM.key(), Estrogen.id("chest_armor_ignore"));
+        public static final TagKey<Item> NON_RECOLORABLE = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("moonlight", "non_recolorable"));
     }
 
     public static class Blocks {
@@ -32,6 +33,7 @@ public class EstrogenTags {
         public static final TagKey<Block> MAGNET = TagKey.create(BuiltInRegistries.BLOCK.key(), new ResourceLocation("create_new_age", "magnet"));
         public static final TagKey<Block> MAGNET_12_OLD = TagKey.create(BuiltInRegistries.BLOCK.key(), new ResourceLocation("create_new_age", "magnets/strength_12"));
         public static final TagKey<Block> MAGNET_12 = TagKey.create(BuiltInRegistries.BLOCK.key(), new ResourceLocation("create_new_age", "magnets/force_12"));
+        public static final TagKey<Block> NON_RECOLORABLE = TagKey.create(BuiltInRegistries.BLOCK.key(), new ResourceLocation("moonlight", "non_recolorable"));
     }
 
     public static class Fluids {

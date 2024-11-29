@@ -68,5 +68,13 @@ public class ModItemTagsProvider extends BaseTagProvider.ItemProvider {
         getOrCreateTagBuilder(EstrogenTags.Items.CHEST_ARMOR_IGNORE)
                 .add(Items.ELYTRA)
                 .add(EstrogenItems.MOTH_ELYTRA.get());
+        getOrCreateTagBuilder(EstrogenTags.Items.NON_RECOLORABLE)
+                .add(EstrogenBlocks.MOTH_WOOL.getItemEntry().get())
+                .add(EstrogenBlocks.MOTH_WOOL_CARPET.getItemEntry().get())
+                .add(EstrogenBlocks.QUILTED_MOTH_WOOL.getItemEntry().get())
+                .add(EstrogenBlocks.QUILTED_MOTH_WOOL_CARPET.getItemEntry().get())
+                .add(EstrogenBlocks.MOTH_BED.getItemEntry().get())
+                .add(EstrogenBlocks.QUILTED_MOTH_BED.getItemEntry().get())
+                .add(EstrogenBlocks.MOTH_SEAT.getItemEntry().get());
     }
 }

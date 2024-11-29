@@ -48,5 +48,13 @@ public class ModBlockTagsProvider extends BaseTagProvider.BlockProvider {
         getOrCreateTagBuilder(net.minecraft.tags.BlockTags.BEDS)
                 .add(EstrogenBlocks.MOTH_BED.get())
                 .add(EstrogenBlocks.QUILTED_MOTH_BED.get());
+        getOrCreateTagBuilder(EstrogenTags.Blocks.NON_RECOLORABLE)
+                .add(EstrogenBlocks.MOTH_WOOL.get())
+                .add(EstrogenBlocks.MOTH_WOOL_CARPET.get())
+                .add(EstrogenBlocks.QUILTED_MOTH_WOOL.get())
+                .add(EstrogenBlocks.QUILTED_MOTH_WOOL_CARPET.get())
+                .add(EstrogenBlocks.MOTH_BED.get())
+                .add(EstrogenBlocks.QUILTED_MOTH_BED.get())
+                .add(EstrogenBlocks.MOTH_SEAT.get());
     }
 }
