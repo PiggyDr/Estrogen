@@ -2,3 +2,5 @@
 ### Changelog:
 - Made the onCooldown boolean accessible by figura users (Host & Viewer API)
 - Moth textures slightly adjusted (Peglin)
+- Elytra slot compat
+- 3D skin layer compat

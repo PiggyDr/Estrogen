@@ -15,6 +15,7 @@ import dev.mayaqq.estrogen.registry.EstrogenEffects;
 import dev.mayaqq.estrogen.registry.EstrogenTags;
 import dev.mayaqq.estrogen.resources.BreastArmorData;
 import dev.mayaqq.estrogen.resources.BreastArmorDataLoader;
+import earth.terrarium.botarium.util.CommonHooks;
 import net.minecraft.Optionull;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
@@ -117,6 +118,8 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
         this.estrogen$boobs.render(matrices, vertices, light, overlay);
 
         if (this.estrogen$boobJacket == null) return;
+        if (CommonHooks.isModLoaded("3dskinlayers")) {
+        }
         this.estrogen$boobJacket.visible = player.isModelPartShown(PlayerModelPart.JACKET);
         this.estrogen$boobJacket.copyFrom(this.body);
         this.estrogen$boobJacket.xRot = this.estrogen$boobs.xRot;
