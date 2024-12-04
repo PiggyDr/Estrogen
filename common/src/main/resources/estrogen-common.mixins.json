@@ -11,6 +11,7 @@
   ],
   "client": [
     "client.ArmorStandRendererMixin",
+    "client.CapeLayerMixin",
     "client.ClientPacketListenerMixin",
     "client.ClientPlayNetworkHandlerMixin",
     "client.GameOptionsMixin",
@@ -22,8 +23,8 @@
     "client.SplashManagerMixin",
     "client.SplashRendererAccessor",
     "client.TextRendererMixin",
-    "mixincompat.figura.ViewerAPIMixin",
-    "mixincompat.figura.HostAPIMixin"
+    "mixincompat.figura.HostAPIMixin",
+    "mixincompat.figura.ViewerAPIMixin"
   ],
   "plugin": "dev.mayaqq.estrogen.utils.EstrogenMixinPlugin",
   "injectors": {
