@@ -190,7 +190,7 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
             }
             ResourceLocation location;
             return (location = ARMOR_TEXTURE_CACHE.computeIfAbsent(string, ResourceLocation::tryParse)) != null ?
-                    Optional.of(new TextureData(location, 20, 23, 18, 23, 28, 23, 64.0F, 32.0F)) :
+                    Optional.of(new TextureData(location, 20f, 23f, 18f, 23f, 28f, 23f, 64.0F, 32.0F)) :
                     Optional.empty();
         }
     }

@@ -29,22 +29,22 @@ public final class BoobArmorRenderer {
     public boolean visible = true;
     public boolean skipDraw;
     private PartPose initalTransform = PartPose.ZERO;
-    private int u;
-    private int v;
-    private int leftU;
-    private int leftV;
-    private int rightU;
-    private int rightV;
+    private float u;
+    private float v;
+    private float leftU;
+    private float leftV;
+    private float rightU;
+    private float rightV;
     private float textureWidth;
     private float textureHeight;
 
     public BoobArmorRenderer() {
-        this.u = 20;
-        this.v = 23;
-        this.leftU = 18;
-        this.leftV = 23;
-        this.rightU = 28;
-        this.rightV = 23;
+        this.u = 20.0F;
+        this.v = 23.0F;
+        this.leftU = 18.0F;
+        this.leftV = 23.0F;
+        this.rightU = 28.0F;
+        this.rightV = 23.0F;
         this.textureWidth = 64.0F;
         this.textureHeight = 32.0F;
         this.createModel();
@@ -109,7 +109,7 @@ public final class BoobArmorRenderer {
         this.models = Collections.singletonList(new BoobArmorRenderer.BoobArmorModel(this.u, this.v, this.leftU, this.leftV, this.rightU, this.rightV, 8, 2, 2, false, this.textureWidth, this.textureHeight));
     }
 
-    public void render(PoseStack stack, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha, int u, int v, int leftU, int leftV, int rightU, int rightV, float textureWidth, float textureHeight) {
+    public void render(PoseStack stack, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha, float u, float v, float leftU, float leftV, float rightU, float rightV, float textureWidth, float textureHeight) {
         if (!this.visible) {
             return;
         }
@@ -187,7 +187,7 @@ public final class BoobArmorRenderer {
     public static class BoobArmorModel {
         private final ModelPart.Polygon[] sides; //private, add to AW/AT or smth, same deal with modelpart.vertex
 
-        public BoobArmorModel(int u, int v, int leftU, int leftV, int rightU, int rightV, float sizeX, float sizeY, float sizeZ, boolean mirror, float squishU, float squishV) {
+        public BoobArmorModel(float u, float v, float leftU, float leftV, float rightU, float rightV, float sizeX, float sizeY, float sizeZ, boolean mirror, float squishU, float squishV) {
             this.sides = new ModelPart.Polygon[4];
 
             ModelPart.Vertex vertex = new ModelPart.Vertex(-4.0F*1.24F, 0.0F, 0.0F, 0.0F, 0.0F);
