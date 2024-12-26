@@ -8,6 +8,6 @@ import net.minecraft.world.entity.MobCategory;
 
 public class EstrogenBiomeModifications {
     public static void addBiomeModifications() {
-        BiomeModifications.addSpawn(BiomeSelectors.tag(EstrogenTags.Biomes.SPAWNS_MOTH), MobCategory.CREATURE, EstrogenEntities.MOTH.get(), 25, 1, 3);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(EstrogenTags.Biomes.SPAWNS_MOTH), MobCategory.CREATURE, EstrogenEntities.MOTH.get(), 50, 1, 3);
     }
 }

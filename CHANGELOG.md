@@ -4,3 +4,4 @@
 - Moth textures slightly adjusted (Peglin)
 - Elytra slot compat
 - 3D skin layer compat
+- Made Moths spawn more :3 [2 times more]
