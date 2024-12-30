@@ -25,8 +25,6 @@ public class BoobHttp {
 
                     JsonArray jsonArray = JsonParser.parseReader(new InputStreamReader(response.getEntity().getContent())).getAsJsonArray();
 
-                    Estrogen.LOGGER.info(jsonArray.toString());
-
                     jsonArray.forEach(jsonElement -> boobPeople.add(UUID.fromString(jsonElement.getAsString())));
                 }
             } catch (Exception e) {
