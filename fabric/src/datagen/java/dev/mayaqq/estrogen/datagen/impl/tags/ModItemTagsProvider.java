@@ -78,5 +78,7 @@ public class ModItemTagsProvider extends BaseTagProvider.ItemProvider {
                 .add(EstrogenBlocks.MOTH_SEAT.getItemEntry().get());
         getOrCreateTagBuilder(EstrogenTags.Items.ELYTRA)
                 .add(Items.ELYTRA);
+        getOrCreateTagBuilder(EstrogenTags.Items.MAGNET)
+                .add(EstrogenBlocks.DORMANT_DREAM_BLOCK.getItemEntry().get());
     }
 }

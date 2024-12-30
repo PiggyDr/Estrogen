@@ -31,13 +31,7 @@ public class ModBlockTagsProvider extends BaseTagProvider.BlockProvider {
         getOrCreateTagBuilder(AllTags.AllBlockTags.SEATS.tag)
                 .add(EstrogenBlocks.MOTH_SEAT.get());
 
-        getOrCreateTagBuilder(EstrogenTags.Blocks.MAGNET)
-                .add(EstrogenBlocks.DORMANT_DREAM_BLOCK.get());
         getOrCreateTagBuilder(EstrogenTags.Blocks.MAGNET_12)
-                .add(EstrogenBlocks.DORMANT_DREAM_BLOCK.get());
-        getOrCreateTagBuilder(EstrogenTags.Blocks.MAGNET_OLD)
-                .add(EstrogenBlocks.DORMANT_DREAM_BLOCK.get());
-        getOrCreateTagBuilder(EstrogenTags.Blocks.MAGNET_12_OLD)
                 .add(EstrogenBlocks.DORMANT_DREAM_BLOCK.get());
         getOrCreateTagBuilder(net.minecraft.tags.BlockTags.WOOL)
                 .add(EstrogenBlocks.MOTH_WOOL.get())

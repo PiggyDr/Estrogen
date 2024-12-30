@@ -26,13 +26,11 @@ public class EstrogenTags {
         public static final TagKey<Item> CHEST_ARMOR_IGNORE = TagKey.create(BuiltInRegistries.ITEM.key(), Estrogen.id("chest_armor_ignore"));
         public static final TagKey<Item> NON_RECOLORABLE = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("moonlight", "non_recolorable"));
         public static final TagKey<Item> ELYTRA = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("elytraslot", "elytra"));
+        public static final TagKey<Item> MAGNET = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("create_new_age", "magnet"));
     }
 
     public static class Blocks {
         public static final TagKey<Block> PICKAXE_MINABLE = TagKey.create(BuiltInRegistries.BLOCK.key(), mcId("mineable/pickaxe"));
-        public static final TagKey<Block> MAGNET_OLD = TagKey.create(BuiltInRegistries.BLOCK.key(), new ResourceLocation("create_new_age", "custom_magnet"));
-        public static final TagKey<Block> MAGNET = TagKey.create(BuiltInRegistries.BLOCK.key(), new ResourceLocation("create_new_age", "magnet"));
-        public static final TagKey<Block> MAGNET_12_OLD = TagKey.create(BuiltInRegistries.BLOCK.key(), new ResourceLocation("create_new_age", "magnets/strength_12"));
         public static final TagKey<Block> MAGNET_12 = TagKey.create(BuiltInRegistries.BLOCK.key(), new ResourceLocation("create_new_age", "magnets/force_12"));
         public static final TagKey<Block> NON_RECOLORABLE = TagKey.create(BuiltInRegistries.BLOCK.key(), new ResourceLocation("moonlight", "non_recolorable"));
     }
