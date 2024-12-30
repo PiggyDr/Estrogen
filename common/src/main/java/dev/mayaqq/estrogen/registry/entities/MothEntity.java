@@ -250,6 +250,7 @@ public class MothEntity extends Animal implements FlyingAnimal, Shearable {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_FUZZY, false);
+        this.entityData.define(ANIMATION_STATES, State.IDLE);
     }
 
     public boolean isFuzzy() {
