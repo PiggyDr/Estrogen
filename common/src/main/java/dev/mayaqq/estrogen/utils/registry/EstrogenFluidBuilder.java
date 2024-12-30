@@ -1,8 +1,10 @@
 package dev.mayaqq.estrogen.utils.registry;
 
 import dev.mayaqq.estrogen.platform.ClientPlatform;
+import dev.mayaqq.estrogen.registry.EstrogenBlocks;
 import earth.terrarium.botarium.common.registry.fluid.*;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BucketItem;
@@ -70,7 +72,7 @@ public class EstrogenFluidBuilder<F extends BotariumSourceFluid, F2 extends Bota
     }
 
     public <B extends BotariumLiquidBlock> BlockBuilder<B, EstrogenFluidBuilder<F, F2, P>> block(BiFunction<FluidData, BlockBehaviour.Properties, B> blockFactory) {
-        BlockRegistrar blocks = owner.<Block, BlockRegistrar>child("liquidBlock", Registries.BLOCK, BlockRegistrar::new);
+        BlockRegistrar blocks = owner.<Block, BlockRegistrar>child(Registries.BLOCK, BlockRegistrar.class, BlockRegistrar::new);
         return new BlockBuilder<>(this.name, blocks, this,
             (key1, builder, factory, entryFactory) -> {
                 var blockEntry = (BlockEntry<B>) blocks.<B>getDefaultCallback().accept(key1, builder, factory, entryFactory);
@@ -82,7 +84,7 @@ public class EstrogenFluidBuilder<F extends BotariumSourceFluid, F2 extends Bota
     }
 
     public <I extends FluidBucketItem> ItemBuilder<I, EstrogenFluidBuilder<F, F2, P>> bucket(BiFunction<FluidData, Item.Properties, I> bucketFactory) {
-        ItemRegistrar buckets = owner.<Item, ItemRegistrar>child("buckets", Registries.ITEM, ItemRegistrar::new);
+        ItemRegistrar buckets = owner.<Item, ItemRegistrar>child(Registries.ITEM, ItemRegistrar.class, ItemRegistrar::new);
         return new ItemBuilder<>(this.name + "_bucket", buckets, this,
             (key1, builder, factory, entryFatory) -> {
                 var itemEntry = (ItemEntry<I>) buckets.<I>getDefaultCallback().accept(key1, builder, factory, entryFatory);
