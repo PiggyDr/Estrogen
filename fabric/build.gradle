@@ -83,6 +83,10 @@ dependencies {
         modRuntimeOnly("dev.isxander:yet-another-config-lib:${rootProject.yacl_version}")
     }
 
+    if (rootProject.skinlayer_enabled == "true") {
+        modRuntimeOnly("maven.modrinth:3dskinlayers:${rootProject.skinlayers_version}")
+    }
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
