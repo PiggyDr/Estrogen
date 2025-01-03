@@ -25,6 +25,7 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.DyeableArmorItem;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.armortrim.ArmorTrim;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +74,7 @@ public class BoobFeatureRenderer extends RenderLayer<AbstractClientPlayer, Playe
                 if (itemStack.getItem() instanceof ArmorItem armorItem) {
                     if (armorItem.getEquipmentSlot() == EquipmentSlot.CHEST) {
                         boolean glint = itemStack.hasFoil();
-                        if (armorItem instanceof DyeableArmorItem dyeable) {
+                        if (armorItem instanceof DyeableLeatherItem dyeable) {
                             int dyeColor = dyeable.getColor(itemStack);
                             float o = (float) (dyeColor >> 16 & 255) / 255.0F;
                             float p = (float) (dyeColor >> 8 & 255) / 255.0F;
