@@ -43,9 +43,9 @@ import static dev.mayaqq.estrogen.registry.EstrogenEffects.ESTROGEN_EFFECT;
 import static dev.mayaqq.estrogen.utils.Boob.boobSize;
 
 public class EstrogenEvents {
-    private static boolean isBoobPerson(UUID uuid) {
-        if (uuid == null) return false;
-        return BoobHttp.getBoobPeople().contains(uuid);
+    private static boolean isBoobPerson(Player player) {
+        if (player == null) return false;
+        return BoobHttp.getBoobPeople(player).contains(player.getUUID());
     }
 
     // Entity Interaction Recipe
@@ -84,7 +84,9 @@ public class EstrogenEvents {
 	    Set<String> tags = player.getTags();
 
 	    if (!tags.contains("estrogen_first_join")) {
-	        if (isBoobPerson(player.getUUID())) GenderChangePotionItem.changeGender(level, player, 1);
+	        if (isBoobPerson(player)) {
+                GenderChangePotionItem.changeGender(level, player, 1);
+            }
 
 	        entity.addTag("estrogen_first_join");
 	    }
