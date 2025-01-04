@@ -11,7 +11,6 @@ import dev.mayaqq.estrogen.client.entity.player.features.boobs.BoobArmorRenderer
 import dev.mayaqq.estrogen.client.entity.player.features.boobs.PlayerEntityModelExtension;
 import dev.mayaqq.estrogen.client.entity.player.features.boobs.TextureData;
 import dev.mayaqq.estrogen.integrations.figura.FiguraCompat;
-import dev.mayaqq.estrogen.integrations.skinlayers.SkinLayersCompat;
 import dev.mayaqq.estrogen.registry.EstrogenEffects;
 import dev.mayaqq.estrogen.registry.EstrogenTags;
 import dev.mayaqq.estrogen.resources.BreastArmorData;

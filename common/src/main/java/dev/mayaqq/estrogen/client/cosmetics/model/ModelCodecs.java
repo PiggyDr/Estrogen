@@ -11,8 +11,6 @@ import net.minecraft.client.renderer.block.model.BlockElementRotation;
 import net.minecraft.client.renderer.block.model.BlockFaceUV;
 import net.minecraft.core.Direction;
 
-import java.util.function.Function;
-
 import static com.mojang.serialization.Codec.*;
 import static net.minecraft.util.ExtraCodecs.VECTOR3F;
 

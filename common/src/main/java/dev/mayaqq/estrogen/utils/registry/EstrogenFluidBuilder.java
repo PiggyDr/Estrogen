@@ -1,10 +1,8 @@
 package dev.mayaqq.estrogen.utils.registry;
 
 import dev.mayaqq.estrogen.platform.ClientPlatform;
-import dev.mayaqq.estrogen.registry.EstrogenBlocks;
 import earth.terrarium.botarium.common.registry.fluid.*;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BucketItem;

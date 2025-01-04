@@ -29,12 +29,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.WorldOptions;
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;
-import org.apache.http.HttpClientConnection;
-import org.apache.http.client.HttpClient;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static dev.mayaqq.estrogen.registry.EstrogenAttributes.BOOB_GROWING_START_TIME;

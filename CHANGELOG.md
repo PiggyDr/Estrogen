@@ -4,4 +4,5 @@
 - Moth textures slightly adjusted (Peglin)
 - Elytra slot compat
 - Made Moths spawn more :3 [2 times more]
+- added moths to autumnity:maple_forest
 - Fixed multiple bugs
