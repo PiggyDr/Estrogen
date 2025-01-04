@@ -120,7 +120,7 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
 
         if (this.estrogen$boobJacket == null) return;
         if (CommonHooks.isModLoaded("3dskinlayers")) {
-            SkinLayersCompat.getBoob(player, matrices, this.estrogen$boobJacket);
+            //SkinLayersCompat.getBoob(player, matrices, this.estrogen$boobJacket);
         }
         this.estrogen$boobJacket.visible = player.isModelPartShown(PlayerModelPart.JACKET);
         this.estrogen$boobJacket.copyFrom(this.body);
