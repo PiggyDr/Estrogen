@@ -39,6 +39,7 @@ public class GenderChangePotionItem extends Item {
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
         } else if (livingEntity instanceof Player player && !player.getAbilities().instabuild) {
+            stack.shrink(1);
             ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
             if (!player.getInventory().add(itemStack)) {
                 player.drop(itemStack, false);
