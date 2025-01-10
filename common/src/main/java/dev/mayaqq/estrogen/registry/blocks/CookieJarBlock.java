@@ -74,21 +74,18 @@ public class CookieJarBlock extends BaseEntityBlock implements BEBlock<CookieJar
         ItemStack handItem = player.getItemInHand(hand);
 
         if (!handItem.isEmpty()) {
-            // if crouching add entire stack, else add only 1
-            ItemStack itemToBeAdded = player.isShiftKeyDown() ? handItem : handItem.copyWithCount(1);
-
-            ItemStack remainder = cookieJarBlockEntity.addItemStack(itemToBeAdded);
+            ItemStack remainder = cookieJarBlockEntity.addItemStack(handItem);
             if (!player.isCreative()) handItem.setCount(remainder.getCount());
             if (ItemStack.matches(handItem, remainder)) {
                 // jar was full, couldn't add item to jar
                 level.playSound(null, pos, EstrogenSounds.JAR_FULL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            }
-
-            player.awardStat(Stats.ITEM_USED.get(handItem.getItem()));
-            level.playSound(null, pos, EstrogenSounds.JAR_INSERT.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * ((float) cookieJarBlockEntity.getCount() / 512));
-            if (level instanceof ServerLevel serverLevel) {
-                EstrogenAdvancementCriteria.INSERT_JAR.trigger((ServerPlayer) player);
-                serverLevel.sendParticles(ParticleTypes.CRIT, (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, 7, 0.0, 0.0, 0.0, 0.0);
+            } else {
+                player.awardStat(Stats.ITEM_USED.get(handItem.getItem()));
+                level.playSound(null, pos, EstrogenSounds.JAR_INSERT.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * ((float) cookieJarBlockEntity.getCount() / 512));
+                if (level instanceof ServerLevel serverLevel) {
+                    EstrogenAdvancementCriteria.INSERT_JAR.trigger((ServerPlayer) player);
+                    serverLevel.sendParticles(ParticleTypes.CRIT, (double) pos.getX() + 0.5, (double) pos.getY() + 1.2, (double) pos.getZ() + 0.5, 7, 0.0, 0.0, 0.0, 0.0);
+                }
             }
         } else {
             ItemStack itemStack = cookieJarBlockEntity.remove1Item();

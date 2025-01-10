@@ -52,17 +52,17 @@ public class CookieJarBlockEntity extends SyncedBlockEntity implements Container
         ItemStack itemStackCopy = itemStack.copy();
         int i = 0;
         for (ItemStack jarItemStack : items) {
-            if (!ItemStack.isSameItemSameTags(jarItemStack, itemStackCopy)) continue;
+            if (!jarItemStack.isEmpty() && !ItemStack.isSameItemSameTags(jarItemStack, itemStackCopy)) continue;
 
             ItemStack addToJar = itemStackCopy.split(itemStackCopy.getMaxStackSize() - jarItemStack.getCount());
             addToJar.grow(jarItemStack.getCount());
             items.set(i, addToJar);
-            notifyUpdate();
 
-            if (itemStackCopy.isEmpty()) return ItemStack.EMPTY;
+            if (itemStackCopy.isEmpty()) break;
 
             i++;
         }
+        notifyUpdate();
         return itemStackCopy;
     }
 
