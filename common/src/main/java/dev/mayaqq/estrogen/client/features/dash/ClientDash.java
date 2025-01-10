@@ -42,6 +42,7 @@ public class ClientDash {
     private static boolean willSuper = false;
     private static boolean willBounce = false;
     private static Direction bounceDirection = null;
+    private static boolean doReverse = false;
 
     private static BlockPos lastPos = null;
 
@@ -70,6 +71,10 @@ public class ClientDash {
                     HYPER_V_SPEED,
                     player.getLookAngle().z * HYPER_H_SPEED
             );
+            if (doReverse) {
+                doReverse = false;
+                hyperMotion = hyperMotion.multiply(-1, 1, -1);
+            }
             player.setDeltaMovement(hyperMotion);
             dashCooldown = 0;
         }
@@ -81,6 +86,10 @@ public class ClientDash {
                     SUPER_V_SPEED,
                     player.getLookAngle().z * SUPER_H_SPEED
             );
+            if (doReverse) {
+                doReverse = false;
+                superMotion = superMotion.multiply(-1, 1, -1);
+            }
             player.setDeltaMovement(superMotion);
             dashCooldown = 0;
         }
@@ -114,6 +123,9 @@ public class ClientDash {
             // Hyper and Super Detection
             Detect:
             if (Minecraft.getInstance().options.keyJump.isDown()) {
+                if (Minecraft.getInstance().options.keyDown.isDown()) {
+                    doReverse = true;
+                }
                 if (player.onGround()) {
                     if (dashXRot > 15 && dashXRot < 60) willHyper = true;
                     else if (dashXRot > 0 && dashXRot < 15) willSuper = true;
