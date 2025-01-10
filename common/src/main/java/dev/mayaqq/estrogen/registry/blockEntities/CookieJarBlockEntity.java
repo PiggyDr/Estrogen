@@ -67,6 +67,31 @@ public class CookieJarBlockEntity extends SyncedBlockEntity implements Container
     }
 
     /**
+     * Removes and returns a stack of items from the jar.
+     * @return The stack taken from the jar.
+     */
+    public ItemStack removeItemStack() {
+        ItemStack result = ItemStack.EMPTY;
+        for (int i = items.size() - 1; i >= 0; i--) {
+            ItemStack jarItemStack = items.get(i);
+            if (jarItemStack.isEmpty()) {
+                continue;
+            }
+            if (result.isEmpty()) {
+                result = jarItemStack.split(jarItemStack.getMaxStackSize());
+                continue;
+            }
+
+            if (!ItemStack.isSameItemSameTags(jarItemStack, result)) break;
+            ItemStack fromJarStack = jarItemStack.split(result.getMaxStackSize() - result.getCount());
+            result.grow(fromJarStack.getCount());
+            if (result.getCount() == result.getMaxStackSize()) break;
+        }
+        notifyUpdate();
+        return result;
+    }
+
+    /**
      * Returns number of items.
      */
     public int getCount() {

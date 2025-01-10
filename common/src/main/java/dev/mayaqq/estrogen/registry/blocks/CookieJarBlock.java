@@ -75,11 +75,12 @@ public class CookieJarBlock extends BaseEntityBlock implements BEBlock<CookieJar
 
         if (!handItem.isEmpty()) {
             ItemStack remainder = cookieJarBlockEntity.addItemStack(handItem);
-            if (!player.isCreative()) handItem.setCount(remainder.getCount());
             if (ItemStack.matches(handItem, remainder)) {
                 // jar was full, couldn't add item to jar
                 level.playSound(null, pos, EstrogenSounds.JAR_FULL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             } else {
+                if (!player.isCreative()) handItem.setCount(remainder.getCount());
+
                 player.awardStat(Stats.ITEM_USED.get(handItem.getItem()));
                 level.playSound(null, pos, EstrogenSounds.JAR_INSERT.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * ((float) cookieJarBlockEntity.getCount() / 512));
                 if (level instanceof ServerLevel serverLevel) {
@@ -88,12 +89,14 @@ public class CookieJarBlock extends BaseEntityBlock implements BEBlock<CookieJar
                 }
             }
         } else {
-            ItemStack itemStack = cookieJarBlockEntity.remove1Item();
-            if (!itemStack.isEmpty()) {
+            // take whole stack if crouching
+            ItemStack jarItemStack = player.isShiftKeyDown() ? cookieJarBlockEntity.removeItemStack() : cookieJarBlockEntity.remove1Item();
+
+            if (!jarItemStack.isEmpty()) {
                 // removing item from jar
                 level.playSound(null, pos, EstrogenSounds.JAR_INSERT.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * ((float) cookieJarBlockEntity.getCount() / 512));
                 if (level instanceof ServerLevel) {
-                    player.getInventory().placeItemBackInInventory(itemStack);
+                    player.getInventory().placeItemBackInInventory(jarItemStack);
                 }
             } else {
                 // jar was empty, couldn't remove item from jar
