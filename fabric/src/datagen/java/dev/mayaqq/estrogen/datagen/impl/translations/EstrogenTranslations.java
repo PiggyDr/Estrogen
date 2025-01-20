@@ -40,6 +40,7 @@ public class EstrogenTranslations extends FabricLanguageProvider {
         tb.add(EstrogenItems.MOTH_FUZZ.get(), "Moth Fuzz");
         tb.add(EstrogenEntities.MOTH.getSpawnEgg().get(), "Rosy Maple Moth Spawn Egg");
         tb.add(EstrogenItems.THIGH_HIGHS.get(), "Thigh Highs");
+        tb.add("item.estrogen.thigh_highs.desc", "§7§oDyeable");
         tb.add(EstrogenItems.MOTH_ELYTRA.get(), "Rosy Maple Elytra");
         tb.add(EstrogenItems.GENDER_CHANGE_POTION.get(), "Gender Change Potion");
         // Potion
