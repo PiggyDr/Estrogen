@@ -46,7 +46,7 @@ public class MothEntity extends Animal implements FlyingAnimal, Shearable {
 
     public static final int TICKS_PER_FLAP = 2;
     private static final EntityDataAccessor<Boolean> DATA_FUZZY = SynchedEntityData.defineId(MothEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<State> ANIMATION_STATES = SynchedEntityData.defineId(MothEntity.class, EstrogenDataSerializers.MothAnimationStateSerializer);
+    private static final EntityDataAccessor<Byte> ANIMATION_STATES = SynchedEntityData.defineId(MothEntity.class, EntityDataSerializers.BYTE);
     public final AnimationState flyingAnimationState = new AnimationState();
     public final AnimationState idleAnimationState = new AnimationState();
     public final AnimationState fuzzUpFlyingAnimationState = new AnimationState();
@@ -60,7 +60,7 @@ public class MothEntity extends Animal implements FlyingAnimal, Shearable {
 
     public MothEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
-        this.entityData.define(ANIMATION_STATES, State.IDLE);
+        this.entityData.define(ANIMATION_STATES, (byte) 1);
         this.moveControl = new FlyingMoveControl(this, 20, true);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, -1.0f);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0f);
@@ -152,11 +152,11 @@ public class MothEntity extends Animal implements FlyingAnimal, Shearable {
     }
 
     public State getState() {
-        return this.entityData.get(ANIMATION_STATES);
+        return State.values()[this.entityData.get(ANIMATION_STATES)];
     }
 
     private void setState(State state) {
-        this.entityData.set(ANIMATION_STATES, state);
+        this.entityData.set(ANIMATION_STATES, (byte) state.ordinal());
     }
 
     @Override

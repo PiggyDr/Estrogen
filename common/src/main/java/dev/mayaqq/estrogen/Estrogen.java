@@ -35,7 +35,6 @@ public class Estrogen {
         }
         // Init all the different classes
         EstrogenAttributes.init();
-        EstrogenDataSerializers.DATA_SERIALIZERS.init();
         EstrogenEntities.ENTITIES.register();
         EstrogenFluids.FLUIDS.register();
         EstrogenSounds.SOUNDS.register();
