@@ -3,3 +3,4 @@
 - Cookie Jar QOL Actions (TheRobbie73)
 - Celeste Reverse Hyper + Super (TheRobbie73)
 - Fixed moths sometimes rendering the game unplayable [lol] (ThatGravyBoat)
+- Made thigh highs spawn less often
