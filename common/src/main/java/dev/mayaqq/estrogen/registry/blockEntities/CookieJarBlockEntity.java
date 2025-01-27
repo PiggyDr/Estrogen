@@ -25,27 +25,6 @@ public class CookieJarBlockEntity extends SyncedBlockEntity implements Container
     }
 
     /**
-     * Add 1 count of the item to the jar.
-     * Does not decrement the input itemStack.
-     */
-    public void add1Item(ItemStack itemStack) {
-        int i = 0;
-        for (ItemStack jarItemStack : items) {
-            if (jarItemStack.isEmpty()) {
-                items.set(i, itemStack.copyWithCount(1));
-                notifyUpdate();
-                return;
-            }
-            if (ItemStack.isSameItemSameTags(jarItemStack, itemStack) && jarItemStack.getCount() < jarItemStack.getMaxStackSize()) {
-                jarItemStack.grow(1);
-                notifyUpdate();
-                return;
-            }
-            i++;
-        }
-    }
-
-    /**
      * Remove and returns 1 count of the last-most item from the jar.
      * returns ItemStack.EMPTY if jar was empty
      */
@@ -63,30 +42,53 @@ public class CookieJarBlockEntity extends SyncedBlockEntity implements Container
     }
 
     /**
-     * Returns true if 1 of the item can be added to the jar
-     * and that item is a cookie
-     * and that cookie matches the cookie already in the jar.
+     * Adds the item stack to the jar, and returns the item stack not added to the jar.
+     * @param itemStack The stack to be added to the jar.
+     * @return The stack not added to the jar.
      */
-    public boolean canAddItem(ItemStack itemStack) {
-        // cookie condition
-        if (!canPlaceItem(0, itemStack)) {
-            return false;
-        }
+    public ItemStack addItemStack(ItemStack itemStack) {
+        if (!canPlaceItem(0, itemStack)) return itemStack;
 
-        // if the top condition is removed, then the jar can work for any item
+        ItemStack itemStackCopy = itemStack.copy();
+        int i = 0;
         for (ItemStack jarItemStack : items) {
-            if (jarItemStack.isEmpty()) {
-                return true;
-            }
-            if (!ItemStack.isSameItemSameTags(jarItemStack, itemStack)) {
-                continue;
-            }
-            if (jarItemStack.getCount() >= jarItemStack.getMaxStackSize()) {
-                continue;
-            }
-            return true;
+            if (!jarItemStack.isEmpty() && !ItemStack.isSameItemSameTags(jarItemStack, itemStackCopy)) continue;
+
+            ItemStack addToJar = itemStackCopy.split(itemStackCopy.getMaxStackSize() - jarItemStack.getCount());
+            addToJar.grow(jarItemStack.getCount());
+            items.set(i, addToJar);
+
+            if (itemStackCopy.isEmpty()) break;
+
+            i++;
         }
-        return false;
+        notifyUpdate();
+        return itemStackCopy;
+    }
+
+    /**
+     * Removes and returns a stack of items from the jar.
+     * @return The stack taken from the jar.
+     */
+    public ItemStack removeItemStack() {
+        ItemStack result = ItemStack.EMPTY;
+        for (int i = items.size() - 1; i >= 0; i--) {
+            ItemStack jarItemStack = items.get(i);
+            if (jarItemStack.isEmpty()) {
+                continue;
+            }
+            if (result.isEmpty()) {
+                result = jarItemStack.split(jarItemStack.getMaxStackSize());
+                continue;
+            }
+
+            if (!ItemStack.isSameItemSameTags(jarItemStack, result)) break;
+            ItemStack fromJarStack = jarItemStack.split(result.getMaxStackSize() - result.getCount());
+            result.grow(fromJarStack.getCount());
+            if (result.getCount() == result.getMaxStackSize()) break;
+        }
+        notifyUpdate();
+        return result;
     }
 
     /**
@@ -121,11 +123,7 @@ public class CookieJarBlockEntity extends SyncedBlockEntity implements Container
             if (jarItemStack.isEmpty()) {
                 continue;
             }
-            if (!ItemStack.isSameItemSameTags(jarItemStack, itemStack)) {
-                return false;
-            } else {
-                return true;
-            }
+            return ItemStack.isSameItemSameTags(jarItemStack, itemStack);
         }
         return true;
     }
@@ -205,10 +203,7 @@ public class CookieJarBlockEntity extends SyncedBlockEntity implements Container
         if (!itemStack.is(EstrogenTags.Items.COOKIES)) {
             return false;
         }
-        if (!matchesFirstItem(itemStack)) {
-            return false;
-        }
-        return true;
+        return matchesFirstItem(itemStack);
     }
 
     @Override

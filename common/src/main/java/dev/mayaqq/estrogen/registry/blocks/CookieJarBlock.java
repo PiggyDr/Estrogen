@@ -74,28 +74,29 @@ public class CookieJarBlock extends BaseEntityBlock implements BEBlock<CookieJar
         ItemStack handItem = player.getItemInHand(hand);
 
         if (!handItem.isEmpty()) {
-            if (cookieJarBlockEntity.canAddItem(handItem)) {
-                // adding item to jar
-                cookieJarBlockEntity.add1Item(handItem);
-                if (!player.isCreative()) handItem.shrink(1);
+            ItemStack remainder = cookieJarBlockEntity.addItemStack(handItem);
+            if (ItemStack.matches(handItem, remainder)) {
+                // jar was full, couldn't add item to jar
+                level.playSound(null, pos, EstrogenSounds.JAR_FULL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            } else {
+                if (!player.isCreative()) handItem.setCount(remainder.getCount());
 
                 player.awardStat(Stats.ITEM_USED.get(handItem.getItem()));
                 level.playSound(null, pos, EstrogenSounds.JAR_INSERT.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * ((float) cookieJarBlockEntity.getCount() / 512));
                 if (level instanceof ServerLevel serverLevel) {
                     EstrogenAdvancementCriteria.INSERT_JAR.trigger((ServerPlayer) player);
-                    serverLevel.sendParticles(ParticleTypes.CRIT, (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, 7, 0.0, 0.0, 0.0, 0.0);
+                    serverLevel.sendParticles(ParticleTypes.CRIT, (double) pos.getX() + 0.5, (double) pos.getY() + 1.2, (double) pos.getZ() + 0.5, 7, 0.0, 0.0, 0.0, 0.0);
                 }
-            } else {
-                // jar was full, couldn't add item to jar
-                level.playSound(null, pos, EstrogenSounds.JAR_FULL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             }
         } else {
-            ItemStack itemStack = cookieJarBlockEntity.remove1Item();
-            if (!itemStack.isEmpty()) {
+            // take whole stack if crouching
+            ItemStack jarItemStack = player.isShiftKeyDown() ? cookieJarBlockEntity.removeItemStack() : cookieJarBlockEntity.remove1Item();
+
+            if (!jarItemStack.isEmpty()) {
                 // removing item from jar
                 level.playSound(null, pos, EstrogenSounds.JAR_INSERT.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * ((float) cookieJarBlockEntity.getCount() / 512));
                 if (level instanceof ServerLevel) {
-                    player.getInventory().placeItemBackInInventory(itemStack);
+                    player.getInventory().placeItemBackInInventory(jarItemStack);
                 }
             } else {
                 // jar was empty, couldn't remove item from jar
