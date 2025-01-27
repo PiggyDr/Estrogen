@@ -30,7 +30,7 @@ public class EstrogenFabricLoot {
         if(LOOT_LOCATIONS.contains(id)) {
             LootPool pool = LootPool.lootPool()
                 .setRolls(ConstantValue.exactly(1))
-                .conditionally(LootItemRandomChanceCondition.randomChance(0.3f).build())
+                .conditionally(LootItemRandomChanceCondition.randomChance(0.1f).build())
                 .with(LootItem.lootTableItem(EstrogenItems.THIGH_HIGHS.get())
                     .apply(ThighHighStyleLootFunction.apply())
                     .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
