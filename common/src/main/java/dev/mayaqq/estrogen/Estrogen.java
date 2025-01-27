@@ -19,13 +19,19 @@ public class Estrogen {
         return new ResourceLocation(MOD_ID, path);
     }
 
+    public static final String mcCapesMessage = """
+            ----------------------------------------------------------------------------
+            Minecraft Capes is detected! This mod currently causes some features
+            of Estrogen to not work properly, before making an issue, please make sure
+            to first update and disable Minecraft Capes and see if the issue persists.
+            ----------------------------------------------------------------------------
+            """;
+
     public static void init() {
-        if (CommonHooks.isModLoaded("minecraftcapes")) {
-            LOGGER.error("[ESTROGEN] ----------------------------------------------------------------------------");
-            LOGGER.error("[ESTROGEN] Minecraft Capes is detected! This mod currently causes some features");
-            LOGGER.error("[ESTROGEN] of Estrogen to not work properly, before making an issue, please make sure");
-            LOGGER.error("[ESTROGEN] to first update and disable Minecraft Capes and see if the issue persists.");
-            LOGGER.error("[ESTROGEN] ----------------------------------------------------------------------------");
+        if (CommonHooks.isModLoaded("estrogen")) {
+            for (String line : mcCapesMessage.split("\n")) {
+                LOGGER.error("[ESTROGEN] {}", line);
+            }
         }
         // Init all the different classes
         EstrogenAttributes.init();
