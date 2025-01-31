@@ -8,7 +8,9 @@ import dev.mayaqq.estrogen.client.command.EstrogenClientCommands;
 import dev.mayaqq.estrogen.client.config.ConfigSync;
 import dev.mayaqq.estrogen.client.features.dash.DashOverlay;
 import dev.mayaqq.estrogen.client.registry.EstrogenClientEvents;
+import dev.mayaqq.estrogen.client.registry.particles.DashPlayerParticle;
 import dev.mayaqq.estrogen.fabric.client.menu.OpenEstrogenMenuFabric;
+import dev.mayaqq.estrogen.registry.EstrogenParticles;
 import fuzs.forgeconfigapiport.api.config.v2.ModConfigEvents;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -30,7 +32,10 @@ public class EstrogenFabricClientEvents {
         ModConfigEvents.loading(Estrogen.MOD_ID).register(ConfigSync::onLoad);
         ModConfigEvents.reloading(Estrogen.MOD_ID).register(ConfigSync::onReload);
 
-        EstrogenClientEvents.onRegisterParticles((particle, provider) -> ParticleFactoryRegistry.getInstance().register(particle, provider::create));
+        EstrogenClientEvents.onRegisterParticles((particle, provider) -> {
+            ParticleFactoryRegistry.getInstance().register(particle, provider::create);
+            ParticleFactoryRegistry.getInstance().register(EstrogenParticles.DASH_PLAYER.get(), DashPlayerParticle::new);
+        });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             EstrogenClientEvents.onDisconnect();
