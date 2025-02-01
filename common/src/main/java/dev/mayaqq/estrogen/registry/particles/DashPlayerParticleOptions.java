@@ -19,29 +19,24 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public record DashPlayerParticleOptions(double x, double y, double z, LivingEntity entity) implements ParticleOptions {
+import javax.annotation.Nullable;
 
-    public static final Codec<DashPlayerParticleOptions> CODEC = Vec3.CODEC.xmap(
-        vec3 -> new DashPlayerParticleOptions(vec3.x, vec3.y, vec3.z, null),
-        particle -> new Vec3(particle.x(), particle.y, particle.z)
-    );
+public record DashPlayerParticleOptions(@Nullable LivingEntity entity) implements ParticleOptions {
 
+    public static final Codec<DashPlayerParticleOptions> CODEC = Codec.unit(() -> new DashPlayerParticleOptions(null));
+
+    @SuppressWarnings("Deprecation")
     public static final Deserializer<DashPlayerParticleOptions> DESERIALIZER = new Deserializer<>() {
         @Override
         public DashPlayerParticleOptions fromCommand(ParticleType<DashPlayerParticleOptions> particleType, StringReader reader) throws CommandSyntaxException {
-            reader.expect(' ');
-            float x = reader.readFloat();
-            reader.expect(' ');
-            float y = reader.readFloat();
-            reader.expect(' ');
-            float z = reader.readFloat();
-            return new DashPlayerParticleOptions(x, y, z, null);
+            return new DashPlayerParticleOptions(null);
         }
 
         @Override
         public DashPlayerParticleOptions fromNetwork(ParticleType<DashPlayerParticleOptions> particleType, FriendlyByteBuf buffer) {
             Level level = Minecraft.getInstance().level;
-            return new DashPlayerParticleOptions(buffer.readDouble(), buffer.readDouble(), buffer.readDouble(), null);
+            int entityId = buffer.readInt();
+            return new DashPlayerParticleOptions((entityId == 0) ? null : (LivingEntity) level.getEntity(entityId));
         }
     };
 
@@ -52,13 +47,11 @@ public record DashPlayerParticleOptions(double x, double y, double z, LivingEnti
 
     @Override
     public void writeToNetwork(FriendlyByteBuf buffer) {
-        buffer.writeDouble(x);
-        buffer.writeDouble(y);
-        buffer.writeDouble(z);
+        buffer.writeInt((entity != null) ? entity.getId() : 0);
     }
 
     @Override
     public String writeToString() {
-        return "DashPlayerParticleOptions at [%f, %f, %f] with entity".formatted(x, y, z);
+        return "DashPlayerParticleOptions";
     }
 }

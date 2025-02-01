@@ -2,12 +2,14 @@ package dev.mayaqq.estrogen.registry;
 
 import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.config.EstrogenConfig;
+import dev.mayaqq.estrogen.features.dash.CommonDash;
 import dev.mayaqq.estrogen.networking.EstrogenNetworkManager;
 import dev.mayaqq.estrogen.networking.messages.c2s.SpawnHeartsPacket;
 import dev.mayaqq.estrogen.networking.messages.s2c.DreamBlockSeedPacket;
 import dev.mayaqq.estrogen.registry.effects.EstrogenEffect;
 import dev.mayaqq.estrogen.registry.items.GenderChangePotionItem;
 import dev.mayaqq.estrogen.registry.items.ThighHighsItem;
+import dev.mayaqq.estrogen.registry.particles.DashPlayerParticleOptions;
 import dev.mayaqq.estrogen.registry.recipes.inventory.EntityInteractionInventory;
 import dev.mayaqq.estrogen.utils.Boob;
 import dev.mayaqq.estrogen.utils.BoobHttp;
@@ -124,6 +126,10 @@ public class EstrogenEvents {
     public static void playerTickEnd(Player player) {
         if (EstrogenConfig.common().minigameEnabled.get() && EstrogenConfig.common().permaDash.get())
 			player.addEffect(new MobEffectInstance(ESTROGEN_EFFECT.get(), 20, EstrogenConfig.common().girlPowerLevel.get(), false, false, false));
+
+        if (CommonDash.isPlayerDashing(player.getUUID())) {
+            player.level().addParticle(new DashPlayerParticleOptions(player), player.xOld, player.yOld, player.zOld, 0, 0, 0);
+        }
     }
 
     public static void playerTracking(Entity trackedEntity, Player player) {
