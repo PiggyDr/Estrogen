@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import dev.mayaqq.estrogen.Estrogen;
+import dev.mayaqq.estrogen.registry.EstrogenAttributes;
 import dev.mayaqq.estrogen.registry.EstrogenEvents;
 import dev.mayaqq.estrogen.registry.particles.DashPlayerParticleOptions;
 import net.minecraft.client.Camera;
@@ -19,6 +20,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -29,15 +31,15 @@ import org.joml.Vector3f;
 
 public class DashPlayerParticle extends Particle {
 
+    private static final ResourceLocation WHITE_TEXTURE = Estrogen.id("textures/misc/pixel.png");
     private static final ParticleRenderType DASH_PLAYER = new ParticleRenderType() {
         @Override
         public void begin(BufferBuilder builder, TextureManager textureManager) {
             RenderSystem.depthMask(true);
-            RenderSystem.setShader(GameRenderer::getPositionColorLightmapShader);
-            RenderSystem.setShaderColor(1.0f,1.0f, 1.0f, 1.0f);
+            RenderSystem.setShaderTexture(0, WHITE_TEXTURE);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_LIGHTMAP);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
 
         @Override
@@ -105,12 +107,22 @@ public class DashPlayerParticle extends Particle {
         for(int i = 0; i < vertexCount; i++) {
             int v = i * ModelConsumer.STRIDE;
             buffer.vertex(matrices.last().pose(), vertices[v], vertices[v + 1], vertices[v + 2])
+                    .uv(uForVertex(i), vForVertex(i))
                     .color(r, g, b, alpha)
                     .uv2(LightTexture.FULL_BRIGHT)
                     .endVertex();
         }
 
         matrices.popPose();
+    }
+
+    private static float uForVertex(int v) {
+        int i = v % 4;
+        return (i == 2 || i == 3) ? 1f : 0;
+    }
+
+    private static float vForVertex(int v) {
+        return (v % 2) == 0 ? 1f : 0;
     }
 
     @Override
