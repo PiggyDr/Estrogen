@@ -7,16 +7,11 @@ import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.client.command.EstrogenClientCommands;
 import dev.mayaqq.estrogen.client.features.dash.DashOverlay;
 import dev.mayaqq.estrogen.client.registry.EstrogenClientEvents;
-import dev.mayaqq.estrogen.utils.EstrogenParticleRegistrator;
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,21 +28,6 @@ public class EstrogenForgeClientEvents {
     @SubscribeEvent
     public static void onPlayerLoggedOutEvent(PlayerEvent.PlayerLoggedOutEvent event) {
         EstrogenClientEvents.onDisconnect();
-    }
-
-    @SubscribeEvent
-    public static void onRegisterParticles(RegisterParticleProvidersEvent event) {
-        EstrogenClientEvents.onRegisterParticles(new EstrogenParticleRegistrator() {
-            @Override
-            public <T extends ParticleOptions> void register(ParticleType<T> type, PendingFactory<T> factory) {
-                event.registerSpriteSet(type, factory::create);
-            }
-
-            @Override
-            public <T extends ParticleOptions> void register(ParticleType<T> type, ParticleProvider<T> factory) {
-                event.registerSpecial(type, factory);
-            }
-        });
     }
 
     @SubscribeEvent
