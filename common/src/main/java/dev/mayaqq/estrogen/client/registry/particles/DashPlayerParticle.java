@@ -90,8 +90,7 @@ public class DashPlayerParticle extends Particle {
         float z = (float)(this.z - pos.z());
 
         matrices.pushPose();
-        matrices.translate(x, y, z);
-        matrices.translate(0.0f, 1.5f, 0.0f);
+        matrices.translate(x, y + 1.5f, z);
         matrices.scale(1.0f, -1.0f, 1.0f);
         matrices.mulPose(Axis.YN.rotationDegrees(yRot));
 
@@ -110,9 +109,6 @@ public class DashPlayerParticle extends Particle {
 
     @Override
     public void tick() {
-//        this.xo = this.x;
-//        this.yo = this.y;
-//        this.zo = this.z;
         if (this.age++ >= this.lifetime) {
             this.remove();
         }
