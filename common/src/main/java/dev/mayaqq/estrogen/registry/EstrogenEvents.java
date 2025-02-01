@@ -2,6 +2,7 @@ package dev.mayaqq.estrogen.registry;
 
 import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.config.EstrogenConfig;
+import dev.mayaqq.estrogen.config.PlayerEntityExtension;
 import dev.mayaqq.estrogen.features.dash.CommonDash;
 import dev.mayaqq.estrogen.networking.EstrogenNetworkManager;
 import dev.mayaqq.estrogen.networking.messages.c2s.SpawnHeartsPacket;
@@ -128,7 +129,8 @@ public class EstrogenEvents {
 			player.addEffect(new MobEffectInstance(ESTROGEN_EFFECT.get(), 20, EstrogenConfig.common().girlPowerLevel.get(), false, false, false));
 
         if (CommonDash.isPlayerDashing(player.getUUID())) {
-            player.level().addParticle(new DashPlayerParticleOptions(player), player.xOld, player.yOld, player.zOld, 0, 0, 0);
+            double dash = player.getAttributeValue(EstrogenAttributes.DASH_LEVEL.get());
+            player.level().addParticle(new DashPlayerParticleOptions(player, 0.5F, 0.7F, 1.0F), player.getX(), player.getY(), player.getZ(), 0, 0, 0);
         }
     }
 

@@ -58,12 +58,15 @@ public class DashPlayerParticle extends Particle {
     private final int vertexCount;
     private int alphaTick = 20;
     private int oAlphaTick = 20;
+    private float r;
+    private float g;
+    private float b;
 
     public DashPlayerParticle(DashPlayerParticleOptions options, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        this(level, x, y, z, (options.entity() != null) ? options.entity() : Minecraft.getInstance().player);
+        this(level, x, y, z, (options.entity() != null) ? options.entity() : Minecraft.getInstance().player, options.r(), options.g(), options.b());
     }
 
-    protected DashPlayerParticle(ClientLevel level, double x, double y, double z, LivingEntity entity) {
+    protected DashPlayerParticle(ClientLevel level, double x, double y, double z, LivingEntity entity, float r, float g, float b) {
         super(level, x, y, z);
         this.hasPhysics = false;
         this.setBoundingBox(entity.getBoundingBox());
@@ -99,7 +102,7 @@ public class DashPlayerParticle extends Particle {
         for(int i = 0; i < vertexCount; i++) {
             int v = i * ModelConsumer.STRIDE;
             buffer.vertex(matrices.last().pose(), vertices[v], vertices[v + 1], vertices[v + 2])
-                    .color(0.5F, 0.7F, 1.0F, alpha)
+                    .color(r, g, b, alpha)
                     .uv2(LightTexture.FULL_BRIGHT)
                     .endVertex();
         }
