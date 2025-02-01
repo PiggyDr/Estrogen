@@ -5,6 +5,7 @@ import dev.mayaqq.estrogen.client.registry.blockRenderers.dreamBlock.texture.adv
 import dev.mayaqq.estrogen.client.registry.entityRenderers.moth.MothModel;
 import dev.mayaqq.estrogen.client.registry.entityRenderers.mothElytra.MothElytraModel;
 import dev.mayaqq.estrogen.client.registry.particles.DashParticle;
+import dev.mayaqq.estrogen.client.registry.particles.DashPlayerParticle;
 import dev.mayaqq.estrogen.client.registry.particles.MothFuzzParticle;
 import dev.mayaqq.estrogen.registry.EstrogenParticles;
 import dev.mayaqq.estrogen.utils.EstrogenParticleRegistrator;
@@ -23,9 +24,10 @@ public class EstrogenClientEvents {
         DynamicDreamTexture.resetActive();
     }
 
-    public static void onRegisterParticles(BiConsumer<ParticleType<SimpleParticleType>, EstrogenParticleRegistrator<SimpleParticleType>> consumer) {
-        consumer.accept(EstrogenParticles.DASH.get(), DashParticle.Provider::new);
-        consumer.accept(EstrogenParticles.MOTH_FUZZ.get(), (SpriteSet spriteSet) -> (simpleParticleType, clientLevel, d, e, f, g, h, i) -> new MothFuzzParticle(clientLevel, d, e, f, spriteSet));
+    public static void onRegisterParticles(EstrogenParticleRegistrator consumer) {
+        consumer.register(EstrogenParticles.DASH.get(), DashParticle.Provider::new);
+        consumer.register(EstrogenParticles.MOTH_FUZZ.get(), (SpriteSet spriteSet) -> (simpleParticleType, clientLevel, d, e, f, g, h, i) -> new MothFuzzParticle(clientLevel, d, e, f, spriteSet));
+        consumer.register(EstrogenParticles.DASH_PLAYER.get(), DashPlayerParticle::new);
     }
 
     public static void registerModelLayer(LayerDefinitionRegistry consumer) {
