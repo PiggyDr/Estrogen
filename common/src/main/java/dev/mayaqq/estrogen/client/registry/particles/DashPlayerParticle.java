@@ -58,9 +58,9 @@ public class DashPlayerParticle extends Particle {
     private final int vertexCount;
     private int alphaTick = 20;
     private int oAlphaTick = 20;
-    private float r;
-    private float g;
-    private float b;
+    private final float r;
+    private final float g;
+    private final float b;
 
     public DashPlayerParticle(DashPlayerParticleOptions options, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         this(level, x, y, z, (options.entity() != null) ? options.entity() : Minecraft.getInstance().player, options.r(), options.g(), options.b());
@@ -68,6 +68,9 @@ public class DashPlayerParticle extends Particle {
 
     protected DashPlayerParticle(ClientLevel level, double x, double y, double z, LivingEntity entity, float r, float g, float b) {
         super(level, x, y, z);
+        this.r = r;
+        this.g = g;
+        this.b = b;
         this.hasPhysics = false;
         this.setBoundingBox(entity.getBoundingBox());
         this.setLifetime(20);

@@ -129,8 +129,8 @@ public class EstrogenEvents {
 			player.addEffect(new MobEffectInstance(ESTROGEN_EFFECT.get(), 20, EstrogenConfig.common().girlPowerLevel.get(), false, false, false));
 
         if (CommonDash.isPlayerDashing(player.getUUID())) {
-            double dash = player.getAttributeValue(EstrogenAttributes.DASH_LEVEL.get());
-            player.level().addParticle(new DashPlayerParticleOptions(player, 0.5F, 0.7F, 1.0F), player.getX(), player.getY(), player.getZ(), 0, 0, 0);
+            // TODO: @MAYAAA Possibly make different colors for dash levels?
+            player.level().addParticle(new DashPlayerParticleOptions(player, 0.5F, 0.7F, 1.0F), player.xOld, player.yOld, player.zOld, 0, 0, 0);
         }
     }
 
