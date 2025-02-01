@@ -15,6 +15,7 @@ import dev.mayaqq.estrogen.registry.recipes.inventory.EntityInteractionInventory
 import dev.mayaqq.estrogen.utils.Boob;
 import dev.mayaqq.estrogen.utils.BoobHttp;
 import dev.mayaqq.estrogen.utils.Time;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -130,7 +131,10 @@ public class EstrogenEvents {
 
         if (CommonDash.isPlayerDashing(player.getUUID())) {
             // TODO: @MAYAAA Possibly make different colors for dash levels?
-            player.level().addParticle(new DashPlayerParticleOptions(player, 0.5F, 0.7F, 1.0F), player.xOld, player.yOld, player.zOld, 0, 0, 0);
+            Level level = player.level();
+            if(!level.isClientSide) {
+                ((ServerLevel) level).sendParticles(new DashPlayerParticleOptions(player, 0.5F, 0.7F, 1.0F), player.xOld, player.yOld, player.zOld, 0, 0, 0, 0, 0);
+            }
         }
     }
 
