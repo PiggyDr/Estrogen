@@ -4,3 +4,5 @@
 - Celeste Reverse Hyper + Super (TheRobbie73)
 - Fixed moths sometimes rendering the game unplayable [lol] (ThatGravyBoat)
 - Made thigh highs spawn less often
+- Celeste-like dash particle (serenity)
+- Fixed forge particle registration (sery cutie)
