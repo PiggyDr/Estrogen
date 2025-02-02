@@ -3,21 +3,27 @@ package dev.mayaqq.estrogen.registry.particles;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamresourceful.resourcefullib.common.color.Color;
 import dev.mayaqq.estrogen.registry.EstrogenParticles;
+import dev.mayaqq.estrogen.utils.EstrogenCodecs;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.FastColor;
+import net.minecraft.world.entity.animal.Cod;
 
 import java.util.UUID;
 
 public record DashTrailParticleOptions(UUID playerUUID, float r, float g, float b) implements ParticleOptions {
 
-    public static final Codec<DashTrailParticleOptions> CODEC = Color.CODEC.xmap(
-            color -> new DashTrailParticleOptions(null, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue()),
-            data -> new Color((int) (data.r * 255), (int) (data.g * 255), (int) (data.b * 255), 0)
-    );
+    public static final Codec<DashTrailParticleOptions> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.STRING.xmap(UUID::fromString, UUID::toString).fieldOf("uuid").forGetter(DashTrailParticleOptions::playerUUID),
+            EstrogenCodecs.NORMALIZED_FLOAT.fieldOf("red").forGetter(DashTrailParticleOptions::r),
+            EstrogenCodecs.NORMALIZED_FLOAT.fieldOf("green").forGetter(DashTrailParticleOptions::g),
+            EstrogenCodecs.NORMALIZED_FLOAT.fieldOf("blue").forGetter(DashTrailParticleOptions::b)
+    ).apply(instance, DashTrailParticleOptions::new));
 
     @SuppressWarnings("Deprecation")
     public static final Deserializer<DashTrailParticleOptions> DESERIALIZER = new Deserializer<>() {
