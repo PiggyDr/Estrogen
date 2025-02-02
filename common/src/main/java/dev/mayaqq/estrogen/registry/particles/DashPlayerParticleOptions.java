@@ -3,26 +3,13 @@ package dev.mayaqq.estrogen.registry.particles;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
-import com.simibubi.create.foundation.particle.AirParticleData;
 import com.teamresourceful.resourcefullib.common.color.Color;
-import dev.mayaqq.estrogen.client.registry.particles.DashPlayerParticle;
 import dev.mayaqq.estrogen.registry.EstrogenParticles;
-import net.minecraft.client.Minecraft;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.FastColor;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 public record DashPlayerParticleOptions(UUID playerUUID, float r, float g, float b) implements ParticleOptions {
