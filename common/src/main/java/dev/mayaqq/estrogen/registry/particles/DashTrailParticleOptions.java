@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamresourceful.resourcefullib.common.color.Color;
 import dev.mayaqq.estrogen.registry.EstrogenParticles;
 import dev.mayaqq.estrogen.utils.EstrogenCodecs;
+import dev.mayaqq.estrogen.utils.PlayerLookup;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -30,8 +31,10 @@ public record DashTrailParticleOptions(UUID playerUUID, float r, float g, float 
         @Override
         public DashTrailParticleOptions fromCommand(ParticleType<DashTrailParticleOptions> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
+            UUID player = UUID.fromString(reader.readString());
+            reader.expect(' ');
             Color color = Color.parse(reader.readString());
-            return new DashTrailParticleOptions(null, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue());
+            return new DashTrailParticleOptions(player, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue());
         }
 
         @Override
