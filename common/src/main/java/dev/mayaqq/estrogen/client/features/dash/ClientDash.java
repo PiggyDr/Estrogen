@@ -33,6 +33,8 @@ public class ClientDash {
     private static int groundCooldown = 0;
     private static int dashCooldown = 0;
     private static int dashes = 0;
+    private static int dashLevel = 0;
+    private static int extraParticleTicks = 0;
 
     private static Vec3 dashDirection = null;
     private static double dashXRot = 0.0;
@@ -77,6 +79,7 @@ public class ClientDash {
             }
             player.setDeltaMovement(hyperMotion);
             dashCooldown = 0;
+            extraParticleTicks = 2;
         }
         // Super
         if (willSuper) {
@@ -92,6 +95,7 @@ public class ClientDash {
             }
             player.setDeltaMovement(superMotion);
             dashCooldown = 0;
+            extraParticleTicks = 1;
         }
         // Wall Bounce
         if (willBounce) {
@@ -102,12 +106,14 @@ public class ClientDash {
                 player.setDeltaMovement(0, BOUNCE_V_SPEED, 0);
             }
             dashCooldown = 0;
+            extraParticleTicks = 1;
         }
 
         // During Dash
         Dash:
         if (dashCooldown > 0) {
             dashCooldown--;
+            extraParticleTicks = 0;
 
             // End Dash
             if (dashCooldown == 0) {
@@ -146,23 +152,32 @@ public class ClientDash {
 
             // Dash particles
             if (player.blockPosition() != lastPos) {
-                EstrogenNetworkManager.CHANNEL.sendToServer(new DashPacket(false));
+                EstrogenNetworkManager.CHANNEL.sendToServer(new DashPacket(false, dashLevel));
             }
             lastPos = player.blockPosition();
         }
 
         isOnCooldown = dashCooldown > 0 || dashes == 0;
 
+        if(extraParticleTicks > 0) {
+            EstrogenNetworkManager.CHANNEL.sendToServer(new DashPacket(false, dashLevel));
+            extraParticleTicks--;
+        }
+
         // Here is when the dash happens
         if (EstrogenKeybinds.DASH_KEY.consumeClick() && !isOnCooldown()) {
             DreamBlock.lookAngle = null;
-            EstrogenNetworkManager.CHANNEL.sendToServer(new DashPacket(true));
             CommonDash.setDashing(player.getUUID());
 
             // Set counter to duration of dash
             dashCooldown = 5;
+            // Dash level of current dash (number of dashes at the beginning)
+            dashLevel = dashes;
             // Decrement the dash counter
             dashes--;
+
+
+            EstrogenNetworkManager.CHANNEL.sendToServer(new DashPacket(true, dashLevel));
 
             dashDirection = player.getLookAngle();
             dashXRot = player.getXRot();
@@ -172,6 +187,7 @@ public class ClientDash {
 
     public static void reset() {
         dashes = 0;
+        dashLevel = 0;
         isOnCooldown = false;
         dashCooldown = 0;
     }
@@ -186,5 +202,9 @@ public class ClientDash {
 
     public static boolean isOnCooldown() {
         return isOnCooldown;
+    }
+
+    public static int getDashLevel() {
+        return dashLevel;
     }
 }

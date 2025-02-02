@@ -1,6 +1,8 @@
 package dev.mayaqq.estrogen.networking.messages.c2s;
 
+import com.simibubi.create.foundation.utility.Color;
 import com.teamresourceful.bytecodecs.base.ByteCodec;
+import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
 import com.teamresourceful.resourcefullib.common.network.Packet;
 import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import com.teamresourceful.resourcefullib.common.network.base.ServerboundPacketType;
@@ -9,6 +11,8 @@ import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.features.dash.CommonDash;
 import dev.mayaqq.estrogen.registry.EstrogenEffects;
 import dev.mayaqq.estrogen.registry.EstrogenSounds;
+import dev.mayaqq.estrogen.registry.particles.DashTrailParticleOptions;
+import dev.mayaqq.estrogen.utils.EstrogenColors;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -16,7 +20,7 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.function.Consumer;
 
-public record DashPacket(boolean sound) implements Packet<DashPacket> {
+public record DashPacket(boolean sound, int dashLevel) implements Packet<DashPacket> {
 
     public static final ServerboundPacketType<DashPacket> TYPE = new Type();
 
@@ -31,7 +35,11 @@ public record DashPacket(boolean sound) implements Packet<DashPacket> {
             super(
                     DashPacket.class,
                     Estrogen.id("dash"),
-                    ByteCodec.BOOLEAN.map(DashPacket::new, DashPacket::sound)
+                    ObjectByteCodec.create(
+                            ByteCodec.BOOLEAN.fieldOf(DashPacket::sound),
+                            ByteCodec.INT.fieldOf(DashPacket::dashLevel),
+                            DashPacket::new
+                    )
             );
         }
 
@@ -44,6 +52,13 @@ public record DashPacket(boolean sound) implements Packet<DashPacket> {
                     if (message.sound) CommonDash.setDashing(player.getUUID());
                     // summon particles around player
                     serverLevel.sendParticles(ParticleTypes.CLOUD, player.getX(), player.getY(), player.getZ(), 10, 0.5, 0.5, 0.5, 0.5);
+
+                    Color dashColor = EstrogenColors.getDashColor(message.dashLevel, true);
+                    serverLevel.sendParticles(
+                            new DashTrailParticleOptions(player.getUUID(), dashColor.getRedAsFloat(), dashColor.getGreenAsFloat(), dashColor.getBlueAsFloat()),
+                            player.xOld, player.yOld, player.zOld,
+                            0, 0, 0, 0, 0
+                    );
                 }
             };
         }

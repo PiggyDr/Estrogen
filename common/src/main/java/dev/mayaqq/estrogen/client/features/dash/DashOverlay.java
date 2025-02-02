@@ -2,9 +2,11 @@ package dev.mayaqq.estrogen.client.features.dash;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.simibubi.create.foundation.utility.Color;
 import com.teamresourceful.resourcefullib.client.CloseablePoseStack;
 import dev.mayaqq.estrogen.config.EstrogenConfig;
 import dev.mayaqq.estrogen.registry.EstrogenEffects;
+import dev.mayaqq.estrogen.utils.EstrogenColors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -18,7 +20,8 @@ public class DashOverlay {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return;
         if (player.hasEffect(EstrogenEffects.ESTROGEN_EFFECT.get()) && ClientDash.isOnCooldown() && EstrogenConfig.client().dashOverlay.get()) {
-            renderOverlay(guiGraphics, 0.3F, 0.5F, 0.8F);
+            Color dc = EstrogenColors.getDashColor(ClientDash.getDashLevel(), false);
+            renderOverlay(guiGraphics, dc.getRedAsFloat(), dc.getGreenAsFloat(), dc.getBlueAsFloat());
         }
         if (DreamBlockEffect.isInDreamBlock()) {
             renderOverlay(guiGraphics, 0.2F, 0.0F, 0.2F);

@@ -4,33 +4,22 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import dev.mayaqq.estrogen.Estrogen;
-import dev.mayaqq.estrogen.registry.EstrogenAttributes;
-import dev.mayaqq.estrogen.registry.EstrogenEvents;
-import dev.mayaqq.estrogen.registry.particles.DashPlayerParticleOptions;
+import dev.mayaqq.estrogen.registry.particles.DashTrailParticleOptions;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
 
-public class DashPlayerParticle extends Particle {
+public class DashTrailParticle extends Particle {
 
     private static final ResourceLocation WHITE_TEXTURE = Estrogen.id("textures/misc/pixel.png");
     private static final ParticleRenderType DASH_PLAYER = new ParticleRenderType() {
@@ -63,11 +52,11 @@ public class DashPlayerParticle extends Particle {
     private final float g;
     private final float b;
 
-    public DashPlayerParticle(DashPlayerParticleOptions options, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    public DashTrailParticle(DashTrailParticleOptions options, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         this(level, x, y, z, level.getPlayerByUUID(options.playerUUID()), options.r(), options.g(), options.b());
     }
 
-    protected DashPlayerParticle(ClientLevel level, double x, double y, double z, LivingEntity entity, float r, float g, float b) {
+    protected DashTrailParticle(ClientLevel level, double x, double y, double z, LivingEntity entity, float r, float g, float b) {
         super(level, x, y, z);
         this.r = r;
         this.g = g;
@@ -81,6 +70,7 @@ public class DashPlayerParticle extends Particle {
         LivingEntityRenderer<?, ?> renderer = (LivingEntityRenderer<?, ?>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity);
         ModelConsumer consumer = new ModelConsumer();
         matrices.pushPose();
+        renderer.getModel().young = entity.isBaby(); // Unbaby the player model
         renderer.getModel().renderToBuffer(matrices, consumer, 0, OverlayTexture.NO_OVERLAY, 255, 255, 255, 255);
         matrices.popPose();
         vertices = consumer.data;
@@ -98,8 +88,8 @@ public class DashPlayerParticle extends Particle {
 
         matrices.pushPose();
         matrices.translate(x, y + 1.5f, z);
-        matrices.scale(1.0f, -1.0f, 1.0f);
-        matrices.mulPose(Axis.YN.rotationDegrees(yRot));
+        matrices.scale(-1.0f, -1.0f, 1.0f);
+        matrices.mulPose(Axis.YP.rotationDegrees(yRot));
 
         float alpha = 1f - Mth.lerp(partialTicks, Math.max(age - 1, 0), age) / lifetime;
         for(int i = 0; i < vertexCount; i++) {

@@ -2,20 +2,16 @@ package dev.mayaqq.estrogen.registry;
 
 import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.config.EstrogenConfig;
-import dev.mayaqq.estrogen.config.PlayerEntityExtension;
-import dev.mayaqq.estrogen.features.dash.CommonDash;
 import dev.mayaqq.estrogen.networking.EstrogenNetworkManager;
 import dev.mayaqq.estrogen.networking.messages.c2s.SpawnHeartsPacket;
 import dev.mayaqq.estrogen.networking.messages.s2c.DreamBlockSeedPacket;
 import dev.mayaqq.estrogen.registry.effects.EstrogenEffect;
 import dev.mayaqq.estrogen.registry.items.GenderChangePotionItem;
 import dev.mayaqq.estrogen.registry.items.ThighHighsItem;
-import dev.mayaqq.estrogen.registry.particles.DashPlayerParticleOptions;
 import dev.mayaqq.estrogen.registry.recipes.inventory.EntityInteractionInventory;
 import dev.mayaqq.estrogen.utils.Boob;
 import dev.mayaqq.estrogen.utils.BoobHttp;
 import dev.mayaqq.estrogen.utils.Time;
-import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -128,14 +124,6 @@ public class EstrogenEvents {
     public static void playerTickEnd(Player player) {
         if (EstrogenConfig.common().minigameEnabled.get() && EstrogenConfig.common().permaDash.get())
 			player.addEffect(new MobEffectInstance(ESTROGEN_EFFECT.get(), 20, EstrogenConfig.common().girlPowerLevel.get(), false, false, false));
-
-        if (CommonDash.isPlayerDashing(player.getUUID())) {
-            // TODO: @MAYAAA Possibly make different colors for dash levels?
-            Level level = player.level();
-            if(!level.isClientSide) {
-                ((ServerLevel) level).sendParticles(new DashPlayerParticleOptions(player.getUUID(), 0.5F, 0.7F, 1.0F), player.xOld, player.yOld, player.zOld, 0, 0, 0, 0, 0);
-            }
-        }
     }
 
     public static void playerTracking(Entity trackedEntity, Player player) {
