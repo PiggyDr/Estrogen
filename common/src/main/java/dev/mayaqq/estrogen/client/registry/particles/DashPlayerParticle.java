@@ -103,12 +103,12 @@ public class DashPlayerParticle extends Particle {
         matrices.popPose();
     }
 
-    private static float uForVertex(int v) {
+    private static float vForVertex(int v) {
         int i = v % 4;
-        return (i == 2 || i == 3) ? 1f : 0;
+        return (i == 0 || i == 1) ? 1f : 0;
     }
 
-    private static float vForVertex(int v) {
+    private static float uForVertex(int v) {
         return (v % 2) == 0 ? 1f : 0;
     }
 
