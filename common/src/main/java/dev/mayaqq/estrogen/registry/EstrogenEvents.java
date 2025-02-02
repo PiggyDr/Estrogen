@@ -133,7 +133,7 @@ public class EstrogenEvents {
             // TODO: @MAYAAA Possibly make different colors for dash levels?
             Level level = player.level();
             if(!level.isClientSide) {
-                ((ServerLevel) level).sendParticles(new DashPlayerParticleOptions(player, 0.5F, 0.7F, 1.0F), player.xOld, player.yOld, player.zOld, 0, 0, 0, 0, 0);
+                ((ServerLevel) level).sendParticles(new DashPlayerParticleOptions(player.getUUID(), 0.5F, 0.7F, 1.0F), player.xOld, player.yOld, player.zOld, 0, 0, 0, 0, 0);
             }
         }
     }

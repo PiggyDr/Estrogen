@@ -16,6 +16,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -58,14 +59,12 @@ public class DashPlayerParticle extends Particle {
     private final boolean isLocalPlayer;
     private final float yRot;
     private final int vertexCount;
-    private int alphaTick = 20;
-    private int oAlphaTick = 20;
     private final float r;
     private final float g;
     private final float b;
 
     public DashPlayerParticle(DashPlayerParticleOptions options, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        this(level, x, y, z, (options.entity() != null) ? options.entity() : Minecraft.getInstance().player, options.r(), options.g(), options.b());
+        this(level, x, y, z, level.getPlayerByUUID(options.playerUUID()), options.r(), options.g(), options.b());
     }
 
     protected DashPlayerParticle(ClientLevel level, double x, double y, double z, LivingEntity entity, float r, float g, float b) {
@@ -75,7 +74,7 @@ public class DashPlayerParticle extends Particle {
         this.b = b;
         this.hasPhysics = false;
         this.setBoundingBox(entity.getBoundingBox());
-        this.setLifetime(20);
+        this.setLifetime(15);
         this.yRot = entity.yBodyRot + 180.0f;
         this.isLocalPlayer = entity == Minecraft.getInstance().getCameraEntity();
 
@@ -102,8 +101,7 @@ public class DashPlayerParticle extends Particle {
         matrices.scale(1.0f, -1.0f, 1.0f);
         matrices.mulPose(Axis.YN.rotationDegrees(yRot));
 
-        float alpha = Mth.lerp(partialTicks, oAlphaTick, alphaTick) / 20f;
-
+        float alpha = 1f - Mth.lerp(partialTicks, Math.max(age - 1, 0), age) / lifetime;
         for(int i = 0; i < vertexCount; i++) {
             int v = i * ModelConsumer.STRIDE;
             buffer.vertex(matrices.last().pose(), vertices[v], vertices[v + 1], vertices[v + 2])
@@ -123,15 +121,6 @@ public class DashPlayerParticle extends Particle {
 
     private static float vForVertex(int v) {
         return (v % 2) == 0 ? 1f : 0;
-    }
-
-    @Override
-    public void tick() {
-        if (this.age++ >= this.lifetime) {
-            this.remove();
-        }
-        oAlphaTick = alphaTick;
-        alphaTick--;
     }
 
     @Override

@@ -23,8 +23,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
-public record DashPlayerParticleOptions(@Nullable LivingEntity entity, float r, float g, float b) implements ParticleOptions {
+public record DashPlayerParticleOptions(UUID playerUUID, float r, float g, float b) implements ParticleOptions {
 
     public static final Codec<DashPlayerParticleOptions> CODEC = Color.CODEC.xmap(
             color -> new DashPlayerParticleOptions(null, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue()),
@@ -42,11 +43,9 @@ public record DashPlayerParticleOptions(@Nullable LivingEntity entity, float r, 
 
         @Override
         public DashPlayerParticleOptions fromNetwork(ParticleType<DashPlayerParticleOptions> particleType, FriendlyByteBuf buffer) {
-            Level level = Minecraft.getInstance().level;
-            int entityId = buffer.readInt();
             int color = buffer.readInt();
             return new DashPlayerParticleOptions(
-                    (entityId == 0) ? null : (LivingEntity) level.getEntity(entityId),
+                    buffer.readUUID(),
                     FastColor.ARGB32.red(color) / 255f,
                     FastColor.ARGB32.green(color) / 255f,
                     FastColor.ARGB32.blue(color) / 255f
@@ -61,8 +60,8 @@ public record DashPlayerParticleOptions(@Nullable LivingEntity entity, float r, 
 
     @Override
     public void writeToNetwork(FriendlyByteBuf buffer) {
-        buffer.writeInt((entity != null) ? entity.getId() : 0);
         buffer.writeInt(FastColor.ARGB32.color(0, (int) (r * 255), (int) (g * 255), (int) (b * 255)));
+        buffer.writeUUID(playerUUID);
     }
 
     @Override
