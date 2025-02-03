@@ -20,7 +20,7 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.function.Consumer;
 
-public record DashPacket(boolean sound, int dashLevel) implements Packet<DashPacket> {
+public record DashPacket(boolean isInitial, int dashLevel) implements Packet<DashPacket> {
 
     public static final ServerboundPacketType<DashPacket> TYPE = new Type();
 
@@ -36,7 +36,7 @@ public record DashPacket(boolean sound, int dashLevel) implements Packet<DashPac
                     DashPacket.class,
                     Estrogen.id("dash"),
                     ObjectByteCodec.create(
-                            ByteCodec.BOOLEAN.fieldOf(DashPacket::sound),
+                            ByteCodec.BOOLEAN.fieldOf(DashPacket::isInitial),
                             ByteCodec.INT.fieldOf(DashPacket::dashLevel),
                             DashPacket::new
                     )
@@ -47,12 +47,14 @@ public record DashPacket(boolean sound, int dashLevel) implements Packet<DashPac
         public Consumer<Player> handle(DashPacket message) {
             return (player) -> {
                 if (player.hasEffect(EstrogenEffects.ESTROGEN_EFFECT.get()) && player.level() instanceof ServerLevel serverLevel) {
-                    if (message.sound) serverLevel.playSound(null, player.blockPosition(), EstrogenSounds.DASH.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    if (message.isInitial) serverLevel.playSound(null, player.blockPosition(), EstrogenSounds.DASH.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                     // dash cooldown
-                    if (message.sound) CommonDash.setDashing(player.getUUID());
+                    if (message.isInitial) CommonDash.setDashing(player.getUUID());
                     // summon particles around player
                     serverLevel.sendParticles(ParticleTypes.CLOUD, player.getX(), player.getY(), player.getZ(), 10, 0.5, 0.5, 0.5, 0.5);
 
+                    // Don't spawn movement particles if its the initial packet
+                    if(message.isInitial) return;
                     Color dashColor = EstrogenColors.getDashColor(message.dashLevel, true);
                     serverLevel.sendParticles(
                             new DashTrailParticleOptions(player.getUUID(), dashColor.getRedAsFloat(), dashColor.getGreenAsFloat(), dashColor.getBlueAsFloat()),
