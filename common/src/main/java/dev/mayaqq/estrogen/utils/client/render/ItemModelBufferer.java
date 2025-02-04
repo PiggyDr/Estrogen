@@ -52,7 +52,7 @@ public class ItemModelBufferer {
 
             // Item models are always shaded, but using the always-shaded overload breaks Iris FLW Compat
             BlockModel model = new BlockModel(buffer.vertexBuffer(), buffer.indexBuffer(),
-                buffer.drawState(), buffer.drawState().vertexCount(), name);
+                buffer.drawState(), Integer.MAX_VALUE, name);
 
             buffer.release();
             poseStack.popPose();

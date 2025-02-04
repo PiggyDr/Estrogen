@@ -17,6 +17,11 @@ import java.util.function.UnaryOperator;
 
 public final class EstrogenCodecs {
 
+    public static final Codec<Float> NORMALIZED_FLOAT = Codec.BYTE.xmap(
+            b -> Byte.toUnsignedInt(b) / 255f,
+            f -> (byte) (f * 255)
+    );
+
     private EstrogenCodecs() throws UtilityClassException {
         throw new UtilityClassException();
     }

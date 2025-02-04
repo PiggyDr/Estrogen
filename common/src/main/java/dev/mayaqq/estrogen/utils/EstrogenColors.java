@@ -1,6 +1,9 @@
 package dev.mayaqq.estrogen.utils;
 
-import java.awt.*;
+import com.simibubi.create.foundation.utility.Color;
+
+import java.util.List;
+import java.util.Map;
 
 public enum EstrogenColors {
     MOLTEN_SLIME(144, 238, 144),
@@ -11,11 +14,22 @@ public enum EstrogenColors {
     
     ESTROGEN_PATCHES_BAR(0, 179, 255);
 
+    private static final Color[] DASH_OVERLAY = new Color[] {
+            new Color(77, 128, 204).setImmutable(),
+            new Color(253, 126, 247).darker().setImmutable()
+    };
+
+    public static Color getDashColor(int level, boolean particle) {
+        if(level < 1) level = 1;
+        if(level > DASH_OVERLAY.length) level = DASH_OVERLAY.length;
+        return particle ? DASH_OVERLAY[level - 1].brighter() : DASH_OVERLAY[level - 1];
+    }
+
     private final Color color;
     public final int value;
 
     EstrogenColors(int r, int g, int b) {
-        this.color = new Color(r, g, b);
+        this.color = new Color(r, g, b).setImmutable();
         this.value = color.getRGB();
     }
 

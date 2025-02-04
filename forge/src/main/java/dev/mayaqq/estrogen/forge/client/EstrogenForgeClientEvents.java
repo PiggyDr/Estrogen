@@ -12,7 +12,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,11 +28,6 @@ public class EstrogenForgeClientEvents {
     @SubscribeEvent
     public static void onPlayerLoggedOutEvent(PlayerEvent.PlayerLoggedOutEvent event) {
         EstrogenClientEvents.onDisconnect();
-    }
-
-    @SubscribeEvent
-    public static void onRegisterParticles(RegisterParticleProvidersEvent event) {
-        EstrogenClientEvents.onRegisterParticles((particle, provider) -> event.registerSpriteSet(particle, provider::create));
     }
 
     @SubscribeEvent

@@ -9,6 +9,7 @@ import dev.mayaqq.estrogen.client.config.ConfigSync;
 import dev.mayaqq.estrogen.client.features.dash.DashOverlay;
 import dev.mayaqq.estrogen.client.registry.EstrogenClientEvents;
 import dev.mayaqq.estrogen.fabric.client.menu.OpenEstrogenMenuFabric;
+import dev.mayaqq.estrogen.utils.EstrogenParticleRegistrator;
 import fuzs.forgeconfigapiport.api.config.v2.ModConfigEvents;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -19,6 +20,9 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.Event;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -30,7 +34,17 @@ public class EstrogenFabricClientEvents {
         ModConfigEvents.loading(Estrogen.MOD_ID).register(ConfigSync::onLoad);
         ModConfigEvents.reloading(Estrogen.MOD_ID).register(ConfigSync::onReload);
 
-        EstrogenClientEvents.onRegisterParticles((particle, provider) -> ParticleFactoryRegistry.getInstance().register(particle, provider::create));
+        EstrogenClientEvents.onRegisterParticles(new EstrogenParticleRegistrator() {
+            @Override
+            public <T extends ParticleOptions> void register(ParticleType<T> type, PendingFactory<T> factory) {
+                ParticleFactoryRegistry.getInstance().register(type, factory::create);
+            }
+
+            @Override
+            public <T extends ParticleOptions> void register(ParticleType<T> type, ParticleProvider<T> factory) {
+                ParticleFactoryRegistry.getInstance().register(type, factory);
+            }
+        });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             EstrogenClientEvents.onDisconnect();
