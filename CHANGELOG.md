@@ -6,3 +6,5 @@
 - Made thigh highs spawn less often
 - Celeste-like dash particle (serenity)
 - Fixed forge particle registration (sery cutie)
+- Fixed issue when thigh high style list is empty (ThorTuwy)
+- Fixed Armor Trims not working on boobs (Doreena)
