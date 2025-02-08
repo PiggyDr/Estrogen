@@ -109,6 +109,9 @@ public class ThighHighsItem extends Item implements Bauble {
     }
 
     public Stream<ItemStack> streamStyleItems() {
+        if (styles == null || styles.isEmpty()) {
+            return Stream.empty();
+        }
         return styles.stream().map(s -> {
             ItemStack stack = getDefaultInstance();
             setStyle(stack, s);
