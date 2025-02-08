@@ -28,7 +28,7 @@ public class Estrogen {
             """;
 
     public static void init() {
-        if (CommonHooks.isModLoaded("estrogen")) {
+        if (CommonHooks.isModLoaded("minecraftcapes")) {
             for (String line : mcCapesMessage.split("\n")) {
                 LOGGER.error("[ESTROGEN] {}", line);
             }
