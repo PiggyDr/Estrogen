@@ -90,6 +90,18 @@ public final class BoobArmorRenderer {
         this.pivotZ = part.z;
     }
 
+    public void copyTransform(BoobArmorRenderer part) {
+        this.scaleX = part.scaleX;
+        this.scaleY = part.scaleY;
+        this.scaleZ = part.scaleZ;
+        this.pitch = part.pitch;
+        this.yaw = part.yaw;
+        this.roll = part.roll;
+        this.pivotX = part.pivotX;
+        this.pivotY = part.pivotY;
+        this.pivotZ = part.pivotZ;
+    }
+
     public void setPivot(float x, float y, float z) {
         this.pivotX = x;
         this.pivotY = y;

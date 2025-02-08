@@ -159,6 +159,7 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
 
         TextureAtlasSprite textureAtlasSprite = armorTrimAtlas.getSprite(bl ? armorTrim.innerTexture(armorMaterial) : armorTrim.outerTexture(armorMaterial));
         VertexConsumer vertexConsumer = textureAtlasSprite.wrap(vertexConsumers.getBuffer(Sheets.armorTrimsSheet()));
+        this.estrogen$boobArmorTrim.copyTransform(this.estrogen$boobArmor);
         this.estrogen$boobArmorTrim.render(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F, 20, 23, 18, 23, 28, 23, 64.0F, 32.0F);
     }
 
