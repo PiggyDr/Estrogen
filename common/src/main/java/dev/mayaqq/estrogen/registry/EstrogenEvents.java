@@ -2,6 +2,7 @@ package dev.mayaqq.estrogen.registry;
 
 import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.config.EstrogenConfig;
+import dev.mayaqq.estrogen.integrations.cobblemon.CobblemonCompat;
 import dev.mayaqq.estrogen.networking.EstrogenNetworkManager;
 import dev.mayaqq.estrogen.networking.messages.c2s.SpawnHeartsPacket;
 import dev.mayaqq.estrogen.networking.messages.s2c.DreamBlockSeedPacket;
@@ -12,6 +13,7 @@ import dev.mayaqq.estrogen.registry.recipes.inventory.EntityInteractionInventory
 import dev.mayaqq.estrogen.utils.Boob;
 import dev.mayaqq.estrogen.utils.BoobHttp;
 import dev.mayaqq.estrogen.utils.Time;
+import earth.terrarium.botarium.util.CommonHooks;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +28,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.WorldOptions;
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;
@@ -71,6 +74,22 @@ public class EstrogenEvents {
             EstrogenNetworkManager.CHANNEL.sendToServer(new SpawnHeartsPacket(entity.position(), sound));
             LocalPlayer localPlayer = (LocalPlayer) player;
             localPlayer.swing(player.getUsedItemHand());
+        }
+
+        if (CommonHooks.isModLoaded("cobblemon")) {
+            if (entity.getClass().getPackageName().contains("cobblemon")) {
+                if (stack.is(EstrogenItems.GENDER_CHANGE_POTION.get())) {
+                    if (CobblemonCompat.changeGender(entity)) {
+                        stack.shrink(1);
+                        ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
+                        if (!player.getInventory().add(itemStack)) {
+                            player.drop(itemStack, false);
+                        }
+                        GenderChangePotionItem.playParticles(level, (LivingEntity) entity);
+                        result.set(InteractionResult.SUCCESS);
+                    }
+                }
+            }
         }
 
         return result.get();

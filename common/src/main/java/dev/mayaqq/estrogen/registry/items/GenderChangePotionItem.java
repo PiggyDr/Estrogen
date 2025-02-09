@@ -46,6 +46,12 @@ public class GenderChangePotionItem extends Item {
             }
         }
 
+        playParticles(level, livingEntity);
+
+        return stack;
+    }
+
+    public static void playParticles(Level level, LivingEntity livingEntity) {
         if (level.isClientSide()) {
             Vec3 playerPos = livingEntity.position();
             double heightIncrement = livingEntity.getBoundingBox().getYsize() / 50;
@@ -75,8 +81,6 @@ public class GenderChangePotionItem extends Item {
                 );
             }
         }
-
-        return stack;
     }
 
     public static void changeGender(Level level, LivingEntity livingEntity) {

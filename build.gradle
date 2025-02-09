@@ -115,6 +115,7 @@ allprojects {
         maven { name = "Sappho Company"; description = "Critter"; url = "https://maven.is-immensely.gay/nightly"}
         maven { name = "DevAuth maven"; description = "DevAuth"; url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
         maven { name = "Xander maven"; description = "YACL"; url = "https://maven.isxander.dev/releases" }
+        maven { name = "ImpactDev Maven"; description = "Cobblemon"; url =  "https://maven.impactdev.net/repository/development/" }
         maven { name = "Jitpack maven"; description = "Mixin Extras & Fabric ASM"; url = "https://jitpack.io/" } //NOTE: LEAVE THIS AS LAST
     }
 

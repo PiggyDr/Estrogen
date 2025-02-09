@@ -3,10 +3,12 @@ package dev.mayaqq.estrogen.registry.effects;
 import dev.mayaqq.estrogen.client.features.dash.ClientDash;
 import dev.mayaqq.estrogen.config.EstrogenConfig;
 import dev.mayaqq.estrogen.features.dash.CommonDash;
+import dev.mayaqq.estrogen.integrations.cobblemon.CobblemonCompat;
 import dev.mayaqq.estrogen.registry.EstrogenAttributes;
 import dev.mayaqq.estrogen.utils.Boob;
 import dev.mayaqq.estrogen.utils.PlayerLookup;
 import dev.mayaqq.estrogen.utils.Time;
+import earth.terrarium.botarium.util.CommonHooks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.player.LocalPlayer;
@@ -43,6 +45,11 @@ public class EstrogenEffect extends MobEffect {
     @Override
     @Environment(EnvType.CLIENT)
     public void applyEffectTick(@NotNull LivingEntity entity, int amplifier) {
+        if (CommonHooks.isModLoaded("cobblemon")) {
+            if (entity.getClass().getPackageName().contains("cobblemon")) {
+                CobblemonCompat.toFemale(entity);
+            }
+        }
         // Check if Dash is enabled on the server
         if (!EstrogenConfig.server().dashEnabled.get()) return;
         // Only tick on the client and if the entity is a player
