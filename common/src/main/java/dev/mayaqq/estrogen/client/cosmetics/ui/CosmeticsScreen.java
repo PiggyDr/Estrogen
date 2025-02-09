@@ -1,6 +1,9 @@
 package dev.mayaqq.estrogen.client.cosmetics.ui;
 
 import com.simibubi.create.foundation.gui.AllIcons;
+import com.simibubi.create.foundation.gui.element.TextStencilElement;
+import com.simibubi.create.foundation.gui.widget.BoxWidget;
+import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.client.cosmetics.Cosmetic;
 import dev.mayaqq.estrogen.client.cosmetics.service.CosmeticsApi;
 import dev.mayaqq.estrogen.client.cosmetics.ui.widgets.CosmeticIconWidget;
@@ -11,10 +14,14 @@ import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+import java.awt.*;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CosmeticsScreen extends BaseCosmeticsScreen {
+
+    public static final URI PATREON_URI = URI.create("https://www.patreon.com/mayaqq");
 
     public CosmeticsScreen(Screen parent) {
         super(parent);
@@ -33,6 +40,21 @@ public class CosmeticsScreen extends BaseCosmeticsScreen {
         var layout = new GridLayout(x, y)
                 .spacing(PADDING)
                 .createRowHelper(width / 52);
+
+        if (cosmetics.size() == 1) {
+            int buttonWidth = 200;
+            int buttonHeight = 32;
+            int centerX = x + (width / 2) - (buttonWidth / 2);
+            int centerY = y + (height / 2) - (buttonHeight / 2);
+
+            UIComponents.textButton(CosmeticUI.NO_COSMETICS)
+                    .withSize(buttonWidth, buttonHeight)
+                    .withPosition(centerX, centerY)
+                    .withTooltip(CosmeticUI.PATREON_LINK)
+                    .withBounds(buttonWidth, buttonHeight)
+                    .withCallback(this::openPatreon)
+                    .visitWidgets(this::addRenderableWidget);
+        }
 
         for (Cosmetic cosmetic : cosmetics) {
             var group = new LayoutGroup(32, 32);
@@ -64,5 +86,17 @@ public class CosmeticsScreen extends BaseCosmeticsScreen {
 
         layout.getGrid().arrangeElements();
         layout.getGrid().visitWidgets(this::addRenderableWidget);
+    }
+
+    public void openPatreon() {
+        try {
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(PATREON_URI);
+            } else {
+                Estrogen.LOGGER.error("Desktop is not supported. Please open the link manually: {}", PATREON_URI);
+            }
+        } catch (Exception e) {
+            Estrogen.LOGGER.error("Failed to open Patreon link", e);
+        }
     }
 }
