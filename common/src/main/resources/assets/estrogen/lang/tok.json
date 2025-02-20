@@ -103,7 +103,7 @@
 	"gui.estrogen.cosmetics.login.init": "mi kute e sina...",
 	"gui.estrogen.cosmetics.login.server_error": "mi alasa toki la, jan kute li pakala.",
 	"gui.estrogen.cosmetics.login.unauthorized": "mi ken ala toki e sina. o lon e ni: kulupu Mojen li sona e nimi sina.",
-	"gui.estrogen.cosmetics.no_cosmetics": "sina jo ala e pona lukin",
+	"gui.estrogen.cosmetics.no_cosmetics": "sina jo ala e pona lukin pi ante Estrogen",
 	"gui.estrogen.cosmetics.no_preview": "musi taso la sina ken lukin e ni",
 	"gui.estrogen.cosmetics.none": "ala",
 	"gui.estrogen.cosmetics.patreon_link": "https://patreon.com/mayaqq",
@@ -195,5 +195,5 @@
 	"tooltip.thigh_highs.estrogen.pride": "§ck§6u§e§al§5e",
 	"tooltip.thigh_highs.estrogen.trans": "§bt§do§fn§ds§bi",
 	"tooltip.thigh_highs.estrogen.vincian": "§3mij§ae pi §foli§bn mi§9je",
-	"trinkets.slot.legs.thighs": "noka sewi",
+	"trinkets.slot.legs.thighs": "noka sewi"
 }
